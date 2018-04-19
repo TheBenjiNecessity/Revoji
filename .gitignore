@@ -3,6 +3,7 @@
 *.sln
 .vscode/
 .vs/
+*.DS_Store
 bin/
 obj/
 Debug/
