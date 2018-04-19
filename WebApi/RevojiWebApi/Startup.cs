@@ -18,6 +18,8 @@ namespace RevojiWebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            AppSettings.Configuration = configuration; //this feels wrong
         }
 
         public IConfiguration Configuration { get; }
@@ -26,7 +28,6 @@ namespace RevojiWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddEntityFrameworkNpgsql().AddDbContext<RevojiDBContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("DBConnectionString")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

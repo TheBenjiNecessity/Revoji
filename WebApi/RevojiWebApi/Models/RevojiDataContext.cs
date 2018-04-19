@@ -24,7 +24,7 @@ namespace RevojiWebApi.Models
         public RevojiDataContext()
         {
             var optionsBuilder = new DbContextOptionsBuilder<RevojiDBContext>();
-            optionsBuilder.UseNpgsql("User ID = rev;Password=pleasechange;Server=localhost;Port=5432;Database=rev;Integrated Security=true;Pooling=true;");
+            optionsBuilder.UseNpgsql(AppSettings.ConnectionString);
             context = new RevojiDBContext(optionsBuilder.Options);
         }
 
