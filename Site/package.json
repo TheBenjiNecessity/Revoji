@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "version": "",
+  "devDependencies": {
+    "angular": "^1.6.9",
+    "http-server": "^0.11.1",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.8.1",
+    "webpack": "^4.3.0",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --config src/config/webpack.config.js"
+  },
+  "dependencies": {
+    "@types/angular": "^1.6.43"
+  }
+}

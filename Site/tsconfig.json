@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.proxy"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "src/",
+    "outDir": "dist/"
+  },
+  "files": [
+    "src/global.d.ts"
+  ]
+}

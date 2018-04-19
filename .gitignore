@@ -1,0 +1,9 @@
+*.userprefs
+*.user
+*.sln
+.vscode/
+.vs/
+bin/
+obj/
+Debug/
+node_modules/
