@@ -3,7 +3,7 @@
 namespace RevojiWebApi.DBTables
 {
     [Table("like")]
-    public class Like : Table
+    public class DBLike : DBTable
     {
         [Column("type")]
         public string Type { get; set; }
@@ -12,12 +12,12 @@ namespace RevojiWebApi.DBTables
         public int AppUserId { get; set; }
 
         [ForeignKey("AppUserId")]
-        public virtual AppUser AppUser { get; set; }
+        public virtual DBAppUser AppUser { get; set; }
 
         [Column("review_id")]
         public int ReviewId { get; set; }
 
         [ForeignKey("ReviewId")]
-        public virtual Review Review { get; set; }
+        public virtual DBReview Review { get; set; }
     }
 }

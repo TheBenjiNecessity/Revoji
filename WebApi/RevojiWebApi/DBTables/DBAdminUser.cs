@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RevojiWebApi.DBTables
 {
     [Table("admin_user")]
-    public class AdminUser : User
+    public class DBAdminUser : DBUser
     {
         [Required]
         [Column("name")]

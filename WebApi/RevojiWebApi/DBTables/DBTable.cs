@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RevojiWebApi.DBTables
 {
-    public class Table
+    public class DBTable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
