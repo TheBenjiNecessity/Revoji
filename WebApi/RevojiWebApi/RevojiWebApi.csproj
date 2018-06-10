@@ -8,6 +8,9 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Models\" />
     <Folder Include="DBTables\" />
+    <Folder Include="DBTables\JSONObjects\" />
+    <Folder Include="DBTables\DBContexts\" />
+    <Folder Include="Attributes\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +18,11 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="BCrypt-Core" Version="2.0.0" />
+    <PackageReference Include="IdentityServer4" Version="2.2.0" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,5 +32,11 @@
 
   <ItemGroup>
     <Compile Remove="Models\EmptyClass.cs" />
+    <Compile Remove="DBTables\ReviewableBusiness.cs" />
+    <Compile Remove="Models\ModelObject.cs" />
+    <Compile Remove="Attributes\AppUserAuthAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".DS_Store" />
   </ItemGroup>
 </Project>

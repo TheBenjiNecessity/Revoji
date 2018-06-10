@@ -18,6 +18,7 @@ CREATE TABLE app_user (
 
 	handle text NOT NULL,
 	password text NOT NULL, --is this safe?
+	salt text NOT NULL,
 
 	content json, --stores media like profile picture urls
 	settings json,
