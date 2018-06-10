@@ -1,5 +1,5 @@
-import * as ng from 'angular';
+import * as jQuery from 'jquery';
 
-const app = ng.module('revoji', []);
+import './app/app.module';
 
-import './app/main';
+window['$'] = jQuery;

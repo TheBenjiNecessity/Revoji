@@ -1,7 +1,11 @@
-import * as ng from 'angular';
+import * as angular from 'angular';
 
-const app = ng.module('revoji', []);
+import 'angular-route';
+
+const app = angular.module('revoji', ['ngRoute']);
 
 export default app;
 
-import './app/main';
+import './components/main';
+import './components/login';
+
