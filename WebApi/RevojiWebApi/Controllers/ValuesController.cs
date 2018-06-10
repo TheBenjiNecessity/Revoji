@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.Models;
@@ -12,23 +10,18 @@ namespace RevojiWebApi.Controllers
     public class ValuesController : Controller
     {
         // GET api/values
+        [Authorize]
         [HttpGet]
         public IEnumerable<string> Get()
-        {
-            
-
+        {         
             return new string[] { "value1", "value2" };
         }
-
+        
         // GET api/values/5
         [HttpGet("{id}")]
-        public AppUser Get(int id)
+        public string Get(int id)
         {
-            using (var ctx = new RevojiDataContext())
-            {
-                AppUser appUser = ctx.Get<AppUser>(id);
-                return appUser;
-            }
+            return "1";
         }
 
         // POST api/values
