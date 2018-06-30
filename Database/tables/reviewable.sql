@@ -5,7 +5,7 @@ CREATE TABLE reviewable (
 
     title text NOT NULL,
     type text NOT NULL,
-    description text NOT NULL,
+    description text,
 
     content json,
     info json,
