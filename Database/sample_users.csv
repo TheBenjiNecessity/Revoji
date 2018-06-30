@@ -1,0 +1,5 @@
+id,firstname,lastname,email,dob,gender,religion,politics,education,profession,interests,city,administrative_area,country,handle,password,content,settings,salt
+1,Ben,Wishart,email@email.com,1987-12-02,Male,Protestant,None,Masters,None,Jogging,Saint John,New Brunswick,CA,Benji,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,null,null,$2b$10$InGuymmSQhNObJbmo0lx/u
+2,John,Doe,email2@email.com,1987-12-02,Male,None,None,High School,Developer,Reading,Montreal,Quebec,CA,Johnny,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,null,null,$2b$10$InGuymmSQhNObJbmo0lx/u
+3,Jane,Doe,email3@email.com,1987-12-02,Female,Jewish,Republican,High School,Engineer,Music,New York,New York,US,Jane123,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,null,null,$2b$10$InGuymmSQhNObJbmo0lx/u
+4,anna,bonanza,anna@anna.com,1987-12-02,Female,Catholic,Democrat,Bachelors,Teacher,Snow boarding,Toronto,Ontario,CA,annab,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,null,null,$2b$10$InGuymmSQhNObJbmo0lx/u
