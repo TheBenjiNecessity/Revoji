@@ -3,12 +3,14 @@ using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RevojiWebApi.Controllers
 {
     [Route("api/[controller]")]
     public class AppUserController : Controller
     {
+        [Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -23,6 +25,7 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
 		[HttpGet("handle/{handle}")]
         public IActionResult Get(string handle)
         {
@@ -37,7 +40,7 @@ namespace RevojiWebApi.Controllers
             }
         }
        
-
+        [Authorize]
         [HttpPost]
         public IActionResult Create(AppUser appUser)
         {
@@ -53,6 +56,7 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("{id}")]
         public IActionResult Update(int id, [FromBody]AppUser appUser)
         {
@@ -71,6 +75,7 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -89,9 +94,13 @@ namespace RevojiWebApi.Controllers
             }
         }
 
-        //public IActionResult ChangePassword(string newPassword, string oldPassword)
-        //{
-            
-        //}
+        [Authorize]
+        [HttpPost("changepassword/{id}")]
+        public IActionResult ChangePassword(string newPassword, string oldPassword)
+        {
+
+
+            return Ok();
+        }
     }
 }
