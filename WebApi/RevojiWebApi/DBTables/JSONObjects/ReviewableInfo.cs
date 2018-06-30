@@ -1,7 +1,7 @@
 ﻿namespace RevojiWebApi.DBTables.JSONObjects
 {
-    public class ReviewableInfo : JSONWrapper
+    public class ReviewableInfo
     {
-        public ReviewableInfo(string JSON) : base(JSON) { }
+       
     }
 }
