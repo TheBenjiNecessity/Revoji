@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using RevojiWebApi.DBTables.JSONObjects;
 
 namespace RevojiWebApi.DBTables
 {
     public class DBReviewable : DBTable
     {
+        [Required]
         [Column("title")]
         public string Title { get; set; }
 
@@ -17,50 +19,23 @@ namespace RevojiWebApi.DBTables
         public string Description { get; set; }
 
         [Column("content")]
-        private string ReviewableContentJSON { get; set; }
+        public string ReviewableContentJSON { get; set; }
 
         [Column("info")]
-        private string ReviewableInfoJSON { get; set; }
-
-        private ReviewableContent _content;
-        private ReviewableInfo _info;
+        public string ReviewableInfoJSON { get; set; }
 
         [NotMapped]
         public ReviewableContent Content
         {
-            get
-            {
-                if (_content == null)
-                {
-                    _content = new ReviewableContent(ReviewableContentJSON);
-                }
-
-                return _content;
-            }
-            set
-            {
-                _content = value;
-                ReviewableContentJSON = value.ToString();
-            }
+            get { return JsonConvert.DeserializeObject<ReviewableContent>(ReviewableContentJSON); }
+            set { ReviewableContentJSON = JsonConvert.SerializeObject(value); }
         }
 
         [NotMapped]
-        public ReviewableInfo Info
+        public ReviewableContent Info
         {
-            get
-            {
-                if (_info == null)
-                {
-                    _info = new ReviewableInfo(ReviewableInfoJSON);
-                }
-
-                return _info;
-            }
-            set
-            {
-                _info = value;
-                ReviewableInfoJSON = value.ToString();
-            }
+            get { return JsonConvert.DeserializeObject<ReviewableContent>(ReviewableInfoJSON); }
+            set { ReviewableInfoJSON = JsonConvert.SerializeObject(value); }
         }
     }
 }

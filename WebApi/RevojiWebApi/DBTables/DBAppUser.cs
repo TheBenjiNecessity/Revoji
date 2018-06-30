@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using RevojiWebApi.DBTables.JSONObjects;
 
 namespace RevojiWebApi.DBTables
@@ -8,6 +10,12 @@ namespace RevojiWebApi.DBTables
     [Table("app_user")]
     public class DBAppUser : DBUser
     {
+        public DBAppUser()
+        {
+            Followers = new List<DBFollowing>();
+            Followings = new List<DBFollowing>();
+        }
+
         [Required]
         [Column("firstname")]
         public string FirstName { get; set; }
@@ -52,45 +60,21 @@ namespace RevojiWebApi.DBTables
         [Column("settings")]
         private string AppUserSettingsJSON { get; set; }
 
-        private AppUserContent _content;
-        private AppUserSettings _settings;
-
         [NotMapped]
-        public AppUserContent Content
+        public ReviewableContent Content
         {
-            get 
-            { 
-                if (_content == null)
-                {
-                    _content = new AppUserContent(AppUserContentJSON);
-                }
-
-                return _content;
-            }
-            set 
-            {
-                _content = value;
-                AppUserContentJSON = value.ToString();
-            }
+            get { return JsonConvert.DeserializeObject<ReviewableContent>(AppUserContentJSON); }
+            set { AppUserContentJSON = JsonConvert.SerializeObject(value); }
         }
 
         [NotMapped]
-        public AppUserSettings Settings
+        public ReviewableContent Settings
         {
-            get
-            {
-                if (_settings == null)
-                {
-                    _settings = new AppUserSettings(AppUserSettingsJSON);
-                }
-
-                return _settings;
-            }
-            set
-            {
-                _settings = value;
-                AppUserSettingsJSON = value.ToString();
-            }
+            get { return JsonConvert.DeserializeObject<ReviewableContent>(AppUserSettingsJSON); }
+            set { AppUserSettingsJSON = JsonConvert.SerializeObject(value); }
         }
+         
+        public virtual ICollection<DBFollowing> Followings { get; set; }
+        public virtual ICollection<DBFollowing> Followers { get; set; }
     }
 }
