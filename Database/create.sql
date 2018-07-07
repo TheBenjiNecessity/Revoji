@@ -1,7 +1,10 @@
 \i tables/admin_user.sql
 \i tables/app_user.sql
+\i tables/reviewable.sql
 
+\i tables/review.sql
 \i tables/following.sql
+
 \i tables/like.sql
 
 \i tables/review.sql
