@@ -6,7 +6,6 @@ namespace RevojiWebApi.Models
 {
     public class Review : Model
     {
-        [Required(ErrorMessage = "review_title_required")]
         public string Title { get; set; }
 
         public string Comment { get; set; }

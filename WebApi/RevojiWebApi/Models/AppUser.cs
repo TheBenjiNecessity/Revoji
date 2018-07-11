@@ -22,9 +22,6 @@ namespace RevojiWebApi.Models
         public AppUser(DBAppUser dBAppUser) : base(dBAppUser) {
             FirstName = dBAppUser.FirstName;
             LastName = dBAppUser.LastName;
-            Handle = dBAppUser.Handle;
-            Password = dBAppUser.Password;
-            Email = dBAppUser.Email;
             City = dBAppUser.City;
             AdministrativeArea = dBAppUser.AdministrativeArea;
             Country = dBAppUser.Country;
@@ -37,16 +34,9 @@ namespace RevojiWebApi.Models
             DBAppUser dBAppUser = dbModel as DBAppUser;
             dBAppUser.FirstName = FirstName;
             dBAppUser.LastName = LastName;
-            dBAppUser.Handle = Handle;
-            dBAppUser.Email = Email;
             dBAppUser.City = City;
             dBAppUser.AdministrativeArea = AdministrativeArea;
             dBAppUser.Country = Country;
-
-            if (!string.IsNullOrEmpty(Password))//should this be here? should be set oe
-            {
-                dBAppUser.SetPassword(Password);
-            }
         }
     }
 }
