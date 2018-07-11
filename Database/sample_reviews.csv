@@ -1,0 +1,4 @@
+id,title,comment,emojis,created,app_user_id,reviewable_id
+1,It's good,I think it's good,U+1F600,20180707,1,1
+2,It's great,I think it's great,U+1F601,20180707,2,2
+3,It's good,I think it's not great,U+1F62A,20180707,3,3
