@@ -4,11 +4,12 @@ using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace RevojiWebApi.Controllers
 {
-    [Route("api/[controller]")]
-    public class AppUserController : Controller
+    [Route("service-api/[controller]")]
+    public partial class AppUserController : Controller
     {
         [Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]
@@ -21,28 +22,28 @@ namespace RevojiWebApi.Controllers
                 {
                     return new NotFoundResult();
                 }
-                return Ok(new AppUser(dbAppUser));
+                return Ok(new AppUserDetail(dbAppUser));
             }
         }
 
         [Authorize]
-		[HttpGet("handle/{handle}")]
+        [HttpGet("handle/{handle}")]
         public IActionResult Get(string handle)
         {
             using (var context = new RevojiDataContext())
             {
-				DBAppUser dbAppUser = context.AppUsers.FirstOrDefault(user => user.Handle == handle);
+                DBAppUser dbAppUser = context.AppUsers.FirstOrDefault(user => user.Handle == handle);
                 if (dbAppUser == null)
                 {
                     return new NotFoundResult();
                 }
-                return Ok(new AppUser(dbAppUser));
+                return Ok(new AppUserDetail(dbAppUser));
             }
         }
        
         [Authorize]
         [HttpPost]
-        public IActionResult Create(AppUser appUser)
+        public IActionResult Create(AppUserDetail appUser)
         {
             using (var context = new RevojiDataContext()) 
             {
@@ -58,7 +59,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update(int id, [FromBody]AppUser appUser)
+        public IActionResult Update(int id, AppUserDetail appUser)
         {
             using (var context = new RevojiDataContext())
             {
@@ -101,6 +102,16 @@ namespace RevojiWebApi.Controllers
 
 
             return Ok();
+        }
+        
+
+        protected bool appUserExists(int id) 
+        {
+            using (var context = new RevojiDataContext())
+            {
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
+                return dbAppUser != null;
+            }
         }
     }
 }
