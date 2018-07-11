@@ -12,21 +12,13 @@ namespace RevojiWebApi.Models
         [Required(ErrorMessage = "reviewable_type_required")]
         public string Type { get; set; }
 
-        public string Description { get; set; }
-
-        public Review[] Reviews { get; set; }
-
-        dynamic Content;
-
-        dynamic Info;
+        public string TitleImageUrl { get; set; }
 
         public Reviewable(DBReviewable dBReviewable) : base(dBReviewable.Id)
         {
             Title = dBReviewable.Title;
             Type = dBReviewable.Type;
-            Description = dBReviewable.Description;
-            Content = dBReviewable.Content;
-            Info = dBReviewable.Info;
+            TitleImageUrl = dBReviewable.TitleImageUrl;
         }
 
         public override void UpdateDB(DBTable dbModel)
@@ -37,9 +29,7 @@ namespace RevojiWebApi.Models
 
             dBReviewable.Title = Title;
             dBReviewable.Type = Type;
-            dBReviewable.Description = Description;
-            dBReviewable.Content = Content;
-            dBReviewable.Info = Info;
+            dBReviewable.TitleImageUrl = TitleImageUrl;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using RevojiWebApi.DBTables;
 
 namespace RevojiWebApi.Models
 {
-    public class AppUserDetail : Model
+    public class AppUserDetail : AppUser
     {
         public DateTime? DOB { get; set; }
 
@@ -19,15 +20,13 @@ namespace RevojiWebApi.Models
 
         public string Interests { get; set; }
 
-        public AppUser[] Followers { get; set; }
-
-        public AppUser[] Following { get; set; }
-
+        public Review[] Reviews { get; set; }//TODO: move to own object
+        
         dynamic Content;
 
         dynamic Settings;
 
-        public AppUserDetail(DBAppUser dbAppUser) : base (dbAppUser.Id)
+        public AppUserDetail(DBAppUser dbAppUser) : base (dbAppUser)
         {
             DOB = dbAppUser.DOB;
             Gender = dbAppUser.Gender;
@@ -36,6 +35,8 @@ namespace RevojiWebApi.Models
             Education = dbAppUser.Education;
             Profession = dbAppUser.Profession;
             Interests = dbAppUser.Interests;
+
+            Reviews = dbAppUser.Reviews.Select(r => new Review(r)).ToArray();
         }
 
         public override void UpdateDB(DBTable dbModel)

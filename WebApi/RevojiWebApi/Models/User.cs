@@ -27,9 +27,14 @@ namespace RevojiWebApi.Models
 
             DBUser dbUser = dbModel as DBUser;
 
-            Handle = dbUser.Handle;
-            Password = dbUser.Password;
-            Email = dbUser.Email;
+            dbUser.Handle = Handle;
+            dbUser.Password = Password;
+            dbUser.Email = Email;
+
+            if (!string.IsNullOrEmpty(Password))//should this be here? should be set once
+            {
+                dbUser.SetPassword(Password);
+            }
         }
     }
 }
