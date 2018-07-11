@@ -11,6 +11,7 @@
     <Folder Include="DBTables\JSONObjects\" />
     <Folder Include="DBTables\DBContexts\" />
     <Folder Include="Attributes\" />
+    <Folder Include="Stored Procedures\" />
   </ItemGroup>
 
   <ItemGroup>
