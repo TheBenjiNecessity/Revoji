@@ -37,6 +37,7 @@
     <Compile Remove="Attributes\AppUserAuthAttribute.cs" />
     <Compile Remove="Controllers\ValuesController.cs" />
     <Compile Remove="DBTables\JSONObjects\ContentObject.cs" />
+    <Compile Remove="Controllers\LikeController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".DS_Store" />
