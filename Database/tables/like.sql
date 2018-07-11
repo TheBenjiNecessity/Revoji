@@ -6,6 +6,7 @@ CREATE TABLE review_like (
 	id serial,
 
     type text NOT NULL,
+    created timestamp NOT NULL,
     review_id int NOT NULL,
     app_user_id int NOT NULL,
 
