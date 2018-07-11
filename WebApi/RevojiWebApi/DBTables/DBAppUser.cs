@@ -14,6 +14,7 @@ namespace RevojiWebApi.DBTables
         {
             Followers = new List<DBFollowing>();
             Followings = new List<DBFollowing>();
+            Reviews = new List<DBReview>();
         }
 
         [Required]
@@ -76,5 +77,7 @@ namespace RevojiWebApi.DBTables
          
         public virtual ICollection<DBFollowing> Followings { get; set; }
         public virtual ICollection<DBFollowing> Followers { get; set; }
+
+        public virtual ICollection<DBReview> Reviews { get; set; }
     }
 }
