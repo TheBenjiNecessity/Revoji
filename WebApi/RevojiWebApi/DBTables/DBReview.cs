@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RevojiWebApi.DBTables
 {
@@ -7,6 +8,9 @@ namespace RevojiWebApi.DBTables
     {
         [Column("title")]
         public string Title { get; set; }
+
+        [Column("created")]
+        public DateTime Created { get; set; }
 
         [Column("comment")]
         public string Comment { get; set; }

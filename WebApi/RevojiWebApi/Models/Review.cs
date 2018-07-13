@@ -8,6 +8,8 @@ namespace RevojiWebApi.Models
     {
         public string Title { get; set; }
 
+        public DateTime Created { get; set; }
+
         public string Comment { get; set; }
 
         public string Emojis { get; set; }
