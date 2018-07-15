@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
@@ -109,16 +110,38 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                ReviewableDetail reviewable = new ReviewableDetail(dbReviewable);
+                ReviewableDetail reviewable = new ReviewableDetail(dbReviewable); //TODO: I shouldn't need to create a '...detail' object to get reviews
                 return Ok(reviewable.Reviews);
             }
         }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public IActionResult ListByFollowings(int id)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
+                if (dbAppUser == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                AppUserDetail appUser = new AppUserDetail(dbAppUser);
+                var appUserFollowings = appUser.Followings
+                                               .Select(f => context.Get<DBAppUser>(f.FollowingId))
+                                               .Select(a => new AppUserDetail(a));
+                var reviews = appUserFollowings.SelectMany(a => a.Reviews);
+
+                return Ok(reviews);
+            }
+        }
+
 
         /**
          * list (add ability to filter by (demographics/category):
          *    trending reviews (latest/highest rated/most rated/...)
          *    reviews by user interest
-         *    reviews by followings
          */
     }
 }
