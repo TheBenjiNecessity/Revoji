@@ -82,11 +82,11 @@ namespace RevojiWebApi.Controllers
       
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult ListByUser(int appUserId)
+        public IActionResult ListByUser(int id)
         {
             using (var context = new RevojiDataContext())
             {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(appUserId);
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
                 if (dbAppUser == null)
                 {
                     return new NotFoundResult();
@@ -99,11 +99,11 @@ namespace RevojiWebApi.Controllers
         
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult ListByReviewable(int reviewableId)
+        public IActionResult ListByReviewable(int id)
         {
             using (var context = new RevojiDataContext())
             {
-                DBReviewable dbReviewable = context.Get<DBReviewable>(reviewableId);
+                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
                 if (dbReviewable == null)
                 {
                     return new NotFoundResult();

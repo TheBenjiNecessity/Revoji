@@ -15,13 +15,13 @@ namespace RevojiWebApi.Controllers
         /// Lists users that follow a given user and applies sorting and paging.
         /// </summary>
         /// <returns>The followers for a given user.</returns>
-        /// <param name="appUserId">App user identifier.</param>
+        /// <param name="id">App user identifier.</param>
         /// <param name="order">Order direction.</param>
         /// <param name="pageStart">Page start.</param>
         /// <param name="pageLimit">Page limit.</param>
         [Authorize]
         [HttpGet("followers/{id}")]
-        public IActionResult ListFollowers(int appUserId,
+        public IActionResult ListFollowers(int id,
                                            string order = "DESC",
                                            int pageStart = 0,
                                            int pageLimit = 20)
@@ -29,7 +29,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 // Grab the app user from the database
-                DBAppUser dbAppUser = context.Get<DBAppUser>(appUserId);
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
                 if (dbAppUser == null)
                 {
                     return new NotFoundResult();
@@ -69,12 +69,12 @@ namespace RevojiWebApi.Controllers
         /// Lists users that are being followed by a given user and applies sorting and paging.
         /// </summary>
         /// <returns>The followings for a given user.</returns>
-        /// <param name="appUserId">App user identifier.</param>
+        /// <param name="id">App user identifier.</param>
         /// <param name="order">Order direction.</param>
         /// <param name="pageStart">Page start.</param>
         /// <param name="pageLimit">Page limit.</param>
         [HttpGet("followings/{id}")]
-        public IActionResult ListFollowings(int appUserId,
+        public IActionResult ListFollowings(int id,
                                            string order = "DESC",
                                            int pageStart = 0,
                                            int pageLimit = 20)
@@ -82,7 +82,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 // Grab the app user from the database
-                DBAppUser dbAppUser = context.Get<DBAppUser>(appUserId);
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
                 if (dbAppUser == null)
                 {
                     return new NotFoundResult();
