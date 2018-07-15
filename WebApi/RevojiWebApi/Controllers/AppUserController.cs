@@ -103,15 +103,5 @@ namespace RevojiWebApi.Controllers
 
             return Ok();
         }
-        
-
-        protected bool appUserExists(int id) 
-        {
-            using (var context = new RevojiDataContext())
-            {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                return dbAppUser != null;
-            }
-        }
     }
 }

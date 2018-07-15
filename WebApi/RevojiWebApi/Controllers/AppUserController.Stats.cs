@@ -14,12 +14,18 @@ namespace RevojiWebApi.Controllers
         [HttpGet("counts/{id}")]
         public IActionResult GetCounts(int id)
         {
-			if (!appUserExists(id))
-				return new NotFoundResult();
+            using (var context = new RevojiDataContext())
+            {
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
+                if (dbAppUser == null)
+                {
+                    return new NotFoundResult();
+                }
 
-			AppUserStats stats = new AppUserStats(id);
+                AppUserStats stats = new AppUserStats(id);
 
-			return Ok(stats);
+                return Ok(stats);
+            }
         }
     }
 }
