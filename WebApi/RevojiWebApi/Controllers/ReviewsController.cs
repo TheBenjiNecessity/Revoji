@@ -85,7 +85,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult ListByUser(int id)
+        public IActionResult ListByUser(int id, [FromBody]ListFilter filter)
         {
             using (var context = new RevojiDataContext())
             {
@@ -96,13 +96,24 @@ namespace RevojiWebApi.Controllers
                 }
 
                 AppUserDetail appUser = new AppUserDetail(dbAppUser);
-                return Ok(appUser.Reviews);
+                var orderedReviews = appUser.Reviews.OrderByDescending(r => r.Created).Skip(pageStart).Take(pageLimit);
+
+                if (order == "ASC")
+                {
+                    orderedReviews = appUser.Reviews.OrderBy(r => r.Created).Skip(pageStart).Take(pageLimit);
+                }
+                else
+                {
+                    return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
+                }
+
+                return Ok(orderedReviews);
             }
         }
         
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult ListByReviewable(int id)
+        public IActionResult ListByReviewable(int id, [FromBody]ListFilter filter)
         {
             using (var context = new RevojiDataContext())
             {
@@ -113,13 +124,24 @@ namespace RevojiWebApi.Controllers
                 }
 
                 ReviewableDetail reviewable = new ReviewableDetail(dbReviewable); //TODO: I shouldn't need to create a '...detail' object to get reviews
+                var orderedReviews = reviewable.Reviews.OrderByDescending(r => r.Created).Skip(pageStart).Take(pageLimit);
+
+                if (order == "ASC")
+                {
+                    orderedReviews = reviewable.Reviews.OrderBy(r => r.Created).Skip(pageStart).Take(pageLimit);
+                }
+                else
+                {
+                    return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
+                }
+
                 return Ok(reviewable.Reviews);
             }
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public IActionResult ListByFollowings(int id)
+        public IActionResult ListByFollowings(int id, [FromBody]ListFilter filter)
         {
             using (var context = new RevojiDataContext())
             {
@@ -134,6 +156,18 @@ namespace RevojiWebApi.Controllers
                                                .Select(f => context.Get<DBAppUser>(f.FollowingId))
                                                .Select(a => new AppUserDetail(a));
                 var reviews = appUserFollowings.SelectMany(a => a.Reviews);
+
+                var orderedReviews = reviews.OrderByDescending(r => r.Created).Skip(pageStart).Take(pageLimit);
+
+                if (order == "ASC")
+                {
+                    orderedReviews = reviews.OrderBy(r => r.Created).Skip(pageStart).Take(pageLimit);
+                }
+                else
+                {
+                    return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
+                }
+
 
                 return Ok(reviews);
             }

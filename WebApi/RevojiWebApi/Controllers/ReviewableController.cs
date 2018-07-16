@@ -28,10 +28,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("list/type/{type}")]
-        public IActionResult ListByType(string type,
-                                        string order = "DESC",//what would you order?
-                                        int pageStart = 0,
-                                        int pageLimit = 20)
+        public IActionResult ListByType(string type, [FromBody]ListFilter filter)
         {
             //what would you order?
             // title (alphabetically), company name (alphabetically), 
@@ -62,9 +59,4 @@ namespace RevojiWebApi.Controllers
             }
         }
     }
-
-    /**
-     * List Reviewables by User interest
-     * List Reviewables by trending
-     */
 }
