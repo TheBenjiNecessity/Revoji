@@ -97,11 +97,26 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("changepassword/{id}")]
-        public IActionResult ChangePassword(string newPassword, string oldPassword)
+        public IActionResult ChangePassword(int id, string newPassword, string oldPassword)
         {
+            using (var context = new RevojiDataContext())
+            {
+                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
+                if (dbAppUser == null)
+                {
+                    return new NotFoundResult();
+                }
 
+                if (!dbAppUser.isPasswordCorrect(oldPassword)) 
+                {
+                    return new BadRequestResult();
+                }
 
-            return Ok();
+                dbAppUser.SetPassword(newPassword);
+                context.Save();
+
+                return Ok();
+            }
         }
     }
 }
