@@ -7,12 +7,14 @@ namespace RevojiWebApi.Models
     {
         public int ID { get; set; }
 
-        public Model(int ID) 
+        public Model() {}
+
+        public Model(int ID)
         {
             this.ID = ID;   
         }
 
-        public virtual void UpdateDB(DBTable dbModel) 
+        public virtual void UpdateDB(DBTable dbModel)
         {
             ID = dbModel.Id;
         }

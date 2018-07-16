@@ -14,6 +14,8 @@ namespace RevojiWebApi.Models
         [Required]
         public int ReviewId { get; set; }
 
+        public Like() { }
+
         public Like(DBLike dbLike) : base(dbLike.Id){
             Type = dbLike.Type;
             AppUserId = dbLike.AppUserId;

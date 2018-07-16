@@ -14,6 +14,8 @@ namespace RevojiWebApi.Models
 
         public string TitleImageUrl { get; set; }
 
+        public Reviewable() { }
+
         public Reviewable(DBReviewable dBReviewable) : base(dBReviewable.Id)
         {
             Title = dBReviewable.Title;

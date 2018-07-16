@@ -30,6 +30,8 @@ namespace RevojiWebApi.Models
 
         dynamic Settings;
 
+        public AppUserDetail() { }
+
         public AppUserDetail(DBAppUser dbAppUser) : base (dbAppUser)
         {
             DOB = dbAppUser.DOB;

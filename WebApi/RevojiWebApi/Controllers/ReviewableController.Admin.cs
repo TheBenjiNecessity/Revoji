@@ -11,7 +11,7 @@ namespace RevojiWebApi.Controllers
     {
         [Authorize]
         [HttpPost]
-        public IActionResult Create(ReviewableDetail reviewable)
+        public IActionResult Create([FromBody]ReviewableDetail reviewable)
         {
             using (var context = new RevojiDataContext())
             {
@@ -27,7 +27,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update(int id, ReviewableDetail reviewable)
+        public IActionResult Update(int id, [FromBody]ReviewableDetail reviewable)
         {
             using (var context = new RevojiDataContext())
             {

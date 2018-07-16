@@ -9,8 +9,9 @@ using RevojiWebApi.Models;
 namespace RevojiWebApi.Controllers
 {
     [Route("service-api/[controller]")]
-    public class ReviewsController : Controller
+    public partial class ReviewsController : Controller
     {
+#region CRUD
         [Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -29,7 +30,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create(Review review)
+        public IActionResult Create([FromBody]Review review)
         {
             using (var context = new RevojiDataContext())
             {
@@ -45,7 +46,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update(int id, Review review)
+        public IActionResult Update(int id, [FromBody]Review review)
         {
             using (var context = new RevojiDataContext())
             {
@@ -80,7 +81,8 @@ namespace RevojiWebApi.Controllers
                 return Ok();
             }
         }
-      
+#endregion
+
         [Authorize]
         [HttpGet("{id}")]
         public IActionResult ListByUser(int id)
@@ -136,7 +138,6 @@ namespace RevojiWebApi.Controllers
                 return Ok(reviews);
             }
         }
-
 
         /**
          * list (add ability to filter by (demographics/category):

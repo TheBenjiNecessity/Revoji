@@ -15,6 +15,8 @@ namespace RevojiWebApi.Models
         [Required(ErrorMessage = "email_required")]
         public string Email { get; set; }
 
+        public User() { }
+
         public User (DBUser dbUser) : base(dbUser.Id){
             Handle = dbUser.Handle;
             Password = dbUser.Password;

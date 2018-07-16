@@ -11,6 +11,8 @@ namespace RevojiWebApi.Models
         
         public int FollowingId { get; set; }
 
+        public AppUserFollowing() { }
+
         public AppUserFollowing(DBFollowing dbFollowing) : base(dbFollowing.Id)
         {
             Created = dbFollowing.Created;

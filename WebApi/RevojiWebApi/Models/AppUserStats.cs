@@ -16,6 +16,8 @@ namespace RevojiWebApi.Models
 
 		public int ReviewCount { get; set; }
 
+		public AppUserStats() { }
+
 		public AppUserStats(int appUserId)
 		{
 			FollowerCount = FollowerCountSproc.GetAppUserFollowerCount(appUserId);

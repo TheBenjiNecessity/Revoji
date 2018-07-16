@@ -16,6 +16,8 @@ namespace RevojiWebApi.Models
 
         public Reviewable Reviewable { get; set; }
 
+        public Review() { }
+
         public Review(DBReview dbReview) : base(dbReview.Id)
         {
             Title = dbReview.Title;

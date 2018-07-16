@@ -43,7 +43,7 @@ namespace RevojiWebApi.Controllers
        
         [Authorize]
         [HttpPost]
-        public IActionResult Create(AppUserDetail appUser)
+        public IActionResult Create([FromBody]AppUserDetail appUser)
         {
             using (var context = new RevojiDataContext()) 
             {
@@ -59,7 +59,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update(int id, AppUserDetail appUser)
+        public IActionResult Update(int id, [FromBody]AppUserDetail appUser)
         {
             using (var context = new RevojiDataContext())
             {

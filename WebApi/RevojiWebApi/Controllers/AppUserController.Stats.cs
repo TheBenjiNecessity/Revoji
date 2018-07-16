@@ -10,7 +10,7 @@ namespace RevojiWebApi.Controllers
 {
     public partial class AppUserController
 	{
-		//[Authorize]//what about one user being able to access another users stuff? claims?
+		[Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("counts/{id}")]
         public IActionResult GetCounts(int id)
         {

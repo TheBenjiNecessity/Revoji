@@ -19,6 +19,8 @@ namespace RevojiWebApi.Models
 
         public string Country { get; set; }
 
+        public AppUser() { }
+
         public AppUser(DBAppUser dBAppUser) : base(dBAppUser) {
             FirstName = dBAppUser.FirstName;
             LastName = dBAppUser.LastName;

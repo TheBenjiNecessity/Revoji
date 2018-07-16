@@ -14,6 +14,8 @@ namespace RevojiWebApi.Models
 
 		dynamic Info;
 
+		public ReviewableDetail() { }
+
 		public ReviewableDetail(DBReviewable dBReviewable) : base(dBReviewable)
 		{
 			Description = dBReviewable.Description;
