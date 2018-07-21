@@ -13,7 +13,7 @@ namespace RevojiWebApi.DBTables.DBContexts
         public IQueryable<DBAppUser> AppUsers { get { return context.AppUsers; } }
         public IQueryable<DBAdminUser> AdminUsers { get { return context.AdminUsers; } }
         public IQueryable<DBReview> Reviews { get { return context.Reviews; } }
-        public IQueryable<DBReviewable> Reviewables { get { return context.Reviewable; } }
+        public IQueryable<DBReviewable> Reviewables { get { return context.Reviewables; } }
         public IQueryable<DBFollowing> Followings { get { return context.Followings; } }
         public IQueryable<DBLike> Likes { get { return context.Likes; } }
 
