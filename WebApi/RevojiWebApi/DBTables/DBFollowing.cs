@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RevojiWebApi.DBTables
 {
+    [Table("follower")]
     public class DBFollowing : DBTable
     {
         [Column("created")]
