@@ -9,11 +9,10 @@ namespace RevojiWebApi.Models
         [Required(ErrorMessage = "handle_required")]
         public string Handle { get; set; }
 
-        [Required(ErrorMessage = "password_required")]
-        public string Password { get; set; }
-
         [Required(ErrorMessage = "email_required")]
         public string Email { get; set; }
+
+        public string Password { get; set; }
 
         public User() { }
 
