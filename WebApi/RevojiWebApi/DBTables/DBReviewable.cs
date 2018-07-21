@@ -6,6 +6,7 @@ using RevojiWebApi.DBTables.JSONObjects;
 
 namespace RevojiWebApi.DBTables
 {
+    [Table("reviewable")]
     public class DBReviewable : DBTable
     {
         public DBReviewable()

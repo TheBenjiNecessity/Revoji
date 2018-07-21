@@ -8,6 +8,9 @@ namespace RevojiWebApi.DBTables
         [Column("type")]
         public string Type { get; set; }
 
+        [Column("created")]
+        public DateTime Created { get; set; }
+
         [Column("app_user_id")]
         public int AppUserId { get; set; }
 
