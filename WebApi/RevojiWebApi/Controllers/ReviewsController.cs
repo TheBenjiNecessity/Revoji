@@ -85,7 +85,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("list/user/{id}")]
-        public IActionResult ListByUser(int id, [FromBody]ListFilter filter)
+        public IActionResult ListByUser(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
@@ -113,7 +113,7 @@ namespace RevojiWebApi.Controllers
         
         [Authorize]
         [HttpGet("list/reviewable/{id}")]
-        public IActionResult ListByReviewable(int id, [FromBody]ListFilter filter)
+        public IActionResult ListByReviewable(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
@@ -141,7 +141,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("list/followings/{id}")]
-        public IActionResult ListByFollowings(int id, [FromBody]ListFilter filter)
+        public IActionResult ListByFollowings(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {

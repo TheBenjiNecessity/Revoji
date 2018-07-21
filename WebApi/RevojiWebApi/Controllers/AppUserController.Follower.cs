@@ -21,7 +21,7 @@ namespace RevojiWebApi.Controllers
         /// <param name="pageLimit">Page limit.</param>
         [Authorize]
         [HttpGet("followers/{id}")]
-        public IActionResult ListFollowers(int id, [FromBody]ListFilter filter)
+        public IActionResult ListFollowers(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
@@ -32,18 +32,20 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
+                AppUserDetail appUser = new AppUserDetail(dbAppUser);
+
                 // Get an ordered list of followings from the given user by appUserId
                 // where the 'following' is the user given and the follower is the other users
-                IOrderedEnumerable<DBFollowing> orderedAppUserFollowers;
-                if (filter.order == "DESC")
+                IOrderedEnumerable<AppUserFollowing> orderedAppUserFollowers;
+                if (order == "DESC")
                 {
-                    orderedAppUserFollowers = dbAppUser.Followers
+                    orderedAppUserFollowers = appUser.Followers
                                                        .OrderByDescending(f => f.Created);
                 }
-                else if (filter.order == "ASC")
+                else if (order == "ASC")
                 {
-                    orderedAppUserFollowers = dbAppUser.Followers
-                                                       .OrderBy(f => f.Created);
+                    orderedAppUserFollowers = appUser.Followers
+                                                     .OrderBy(f => f.Created);
                 }
                 else
                 {
@@ -51,11 +53,11 @@ namespace RevojiWebApi.Controllers
                 }
                 
                 // Get a list of followings offset by pageStart and limited by pageLimit
-                IEnumerable<DBFollowing> pagedFollowers = orderedAppUserFollowers.Skip(filter.pageStart)
-                                                                                 .Take(filter.pageLimit);
+                IEnumerable<AppUserFollowing> pagedFollowers = orderedAppUserFollowers.Skip(pageStart)
+                                                                                      .Take(pageLimit);
 
                 // Map this list of followings to a list of AppUser models
-                IEnumerable<AppUser> appUserFollowers = pagedFollowers.Select(f => context.Get<DBAppUser>(f.FollowerAppUserId))
+                IEnumerable<AppUser> appUserFollowers = pagedFollowers.Select(f => context.Get<DBAppUser>(f.FollowerId))
                                                                       .Select(a => new AppUser(a));
                                                                       
                 return Ok(appUserFollowers);
@@ -72,7 +74,7 @@ namespace RevojiWebApi.Controllers
         /// <param name="pageLimit">Page limit.</param>
         [Authorize]
         [HttpGet("followings/{id}")]
-        public IActionResult ListFollowings(int id, [FromBody]ListFilter filter)
+        public IActionResult ListFollowings(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
@@ -83,18 +85,20 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
+                AppUserDetail appUser = new AppUserDetail(dbAppUser);
+
                 // Get an ordered list of followings from the given user by appUserId
                 // where the 'follower' is the user given and the following is the other users
-                IOrderedEnumerable<DBFollowing> orderedAppUserFollowings;
-                if (filter.order == "DESC")
+                IOrderedEnumerable<AppUserFollowing> orderedAppUserFollowings;
+                if (order == "DESC")
                 {
-                    orderedAppUserFollowings = dbAppUser.Followings
-                                                        .OrderByDescending(f => f.Created);
+                    orderedAppUserFollowings = appUser.Followings
+                                                      .OrderByDescending(f => f.Created);
                 }
-                else if (filter.order == "ASC")
+                else if (order == "ASC")
                 {
-                    orderedAppUserFollowings = dbAppUser.Followings
-                                                        .OrderBy(f => f.Created);
+                    orderedAppUserFollowings = appUser.Followings
+                                                      .OrderBy(f => f.Created);
                 }
                 else
                 {
@@ -102,11 +106,11 @@ namespace RevojiWebApi.Controllers
                 }
 
                 // Get a list of followings offset by pageStart and limited by pageLimit
-                IEnumerable<DBFollowing> pagedFollowings = orderedAppUserFollowings.Skip(filter.pageStart)
-                                                                                   .Take(filter.pageLimit);
+                IEnumerable<AppUserFollowing> pagedFollowings = orderedAppUserFollowings.Skip(pageStart)
+                                                                                   .Take(pageLimit);
 
                 // Map this list of followings to a list of AppUser models
-                IEnumerable<AppUser> appUserFollowings = pagedFollowings.Select(f => context.Get<DBAppUser>(f.FollowingAppUserId))
+                IEnumerable<AppUser> appUserFollowings = pagedFollowings.Select(f => context.Get<DBAppUser>(f.FollowingId))
                                                                         .Select(a => new AppUser(a));
 
                 return Ok(appUserFollowings);
