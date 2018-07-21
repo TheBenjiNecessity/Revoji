@@ -84,7 +84,7 @@ namespace RevojiWebApi.Controllers
 #endregion
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("list/user/{id}")]
         public IActionResult ListByUser(int id, [FromBody]ListFilter filter)
         {
             using (var context = new RevojiDataContext())
@@ -112,7 +112,7 @@ namespace RevojiWebApi.Controllers
         }
         
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("list/reviewable/{id}")]
         public IActionResult ListByReviewable(int id, [FromBody]ListFilter filter)
         {
             using (var context = new RevojiDataContext())
@@ -140,7 +140,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("list/followings/{id}")]
         public IActionResult ListByFollowings(int id, [FromBody]ListFilter filter)
         {
             using (var context = new RevojiDataContext())
