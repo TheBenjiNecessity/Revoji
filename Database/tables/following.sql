@@ -3,13 +3,12 @@
 --  follower_app_user_id: the id of the user doing the following
 -- following_app_user_id: the id of the user being followed
 CREATE TABLE follower (
-	id serial,
     created timestamp NOT NULL,
 
     follower_app_user_id int NOT NULL,
     following_app_user_id int NOT NULL,
 
-	CONSTRAINT following_primary_key PRIMARY KEY (id),
+    CONSTRAINT following_primary_key PRIMARY KEY (follower_app_user_id, following_app_user_id),
     CONSTRAINT follower_app_user_id_foreign_key FOREIGN KEY (follower_app_user_id) REFERENCES app_user (id),
     CONSTRAINT following_app_user_id_foreign_key FOREIGN KEY (following_app_user_id) REFERENCES app_user (id)
 );
