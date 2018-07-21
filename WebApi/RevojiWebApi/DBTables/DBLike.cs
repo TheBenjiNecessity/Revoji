@@ -15,12 +15,12 @@ namespace RevojiWebApi.DBTables
         public int AppUserId { get; set; }
 
         [ForeignKey("AppUserId")]
-        public virtual DBAppUser AppUser { get; set; }
+        public virtual DBAppUser DBAppUser { get; set; }
 
         [Column("review_id")]
         public int ReviewId { get; set; }
 
         [ForeignKey("ReviewId")]
-        public virtual DBReview Review { get; set; }
+        public virtual DBReview DBReview { get; set; }
     }
 }

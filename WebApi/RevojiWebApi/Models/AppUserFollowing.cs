@@ -1,15 +1,23 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using RevojiWebApi.DBTables;
 
 namespace RevojiWebApi.Models
 {
 	public class AppUserFollowing : Model
     {
-        public DateTime Created { get; set; }
-        
+        [Required]
         public int FollowerId { get; set; }
-        
+
+        [Required]
         public int FollowingId { get; set; }
+
+        [Required]
+        public DateTime Created { get; set; }
+
+        public AppUser Follower { get; set; }
+
+        public AppUser Following { get; set; }
 
         public AppUserFollowing() { }
 
@@ -18,6 +26,9 @@ namespace RevojiWebApi.Models
             Created = dbFollowing.Created;
             FollowerId = dbFollowing.FollowerAppUserId;
             FollowingId = dbFollowing.FollowingAppUserId;
+
+            Follower = new AppUser(dbFollowing.Follower);
+            Following = new AppUser(dbFollowing.Following);
         }
 
         public override void UpdateDB(DBTable dbModel)

@@ -11,7 +11,7 @@ namespace RevojiWebApi.DBTables
     {
         public DBReviewable()
         {
-			Reviews = new List<DBReview>();
+			DBReviews = new List<DBReview>();
         }
 
         [Required]
@@ -48,6 +48,6 @@ namespace RevojiWebApi.DBTables
             set { ReviewableInfoJSON = JsonConvert.SerializeObject(value); }
         }
         
-        public virtual ICollection<DBReview> Reviews { get; set; }
+        public virtual ICollection<DBReview> DBReviews { get; set; }
     }
 }

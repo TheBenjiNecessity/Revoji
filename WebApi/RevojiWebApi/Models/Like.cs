@@ -6,20 +6,32 @@ namespace RevojiWebApi.Models
 {
     public class Like : Model
     {
+        [Required]
+        public int AppUserID { get; set; }
+
+        [Required]
+        public int ReviewID { get; set; }
+
+        [Required]
         public string Type { get; set; }
 
         [Required]
-        public int AppUserId { get; set; }
+        public DateTime Created { get; set; }
 
-        [Required]
-        public int ReviewId { get; set; }
+        public AppUser AppUser { get; set; }
+
+        public Review Review { get; set; }
 
         public Like() { }
 
         public Like(DBLike dbLike) : base(dbLike.Id){
             Type = dbLike.Type;
-            AppUserId = dbLike.AppUserId;
-            ReviewId = dbLike.ReviewId;
+            Created = dbLike.Created;
+            AppUserID = dbLike.AppUserId;
+            ReviewID = dbLike.ReviewId;
+
+            AppUser = new AppUser(dbLike.DBAppUser);
+            Review = new Review(dbLike.DBReview);
         }
 
         public override void UpdateDB(DBTable dbModel)
@@ -29,8 +41,9 @@ namespace RevojiWebApi.Models
             DBLike dbLike = dbModel as DBLike;
 
             dbLike.Type = Type;
-            dbLike.AppUserId = AppUserId;
-            dbLike.ReviewId = ReviewId;
+            dbLike.Created = Created;
+            dbLike.AppUserId = AppUserID;
+            dbLike.ReviewId = ReviewID;
         }
     }
 }

@@ -6,11 +6,11 @@ namespace RevojiWebApi.Models
 {
 	public class ReviewableDetail : Reviewable
     {
-		public Review[] Reviews { get; set; }
-
 		dynamic Content;
 
 		dynamic Info;
+
+		public Review[] Reviews { get; set; }
 
 		public ReviewableDetail() { }
 
@@ -18,7 +18,7 @@ namespace RevojiWebApi.Models
 		{
 			Content = dBReviewable.Content;
 			Info = dBReviewable.Info;
-			Reviews = dBReviewable.Reviews.Select(r => new Review(r)).ToArray();
+			Reviews = dBReviewable.DBReviews.Select(r => new Review(r)).ToArray();
 		}
 
 		public override void UpdateDB(DBTable dbModel)
