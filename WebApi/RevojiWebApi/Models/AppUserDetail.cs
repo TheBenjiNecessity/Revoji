@@ -20,12 +20,6 @@ namespace RevojiWebApi.Models
 
         public string Interests { get; set; }
 
-        public Review[] Reviews { get; set; }//TODO: move to own object
-
-        public AppUserFollowing[] Followers { get; set; }
-
-        public AppUserFollowing[] Followings { get; set; }
-        
         dynamic Content;
 
         dynamic Settings;
@@ -41,10 +35,6 @@ namespace RevojiWebApi.Models
             Education = dbAppUser.Education;
             Profession = dbAppUser.Profession;
             Interests = dbAppUser.Interests;
-
-            Reviews = dbAppUser.Reviews.Select(r => new Review(r)).ToArray();
-            Followers = dbAppUser.Followers.Select(f => new AppUserFollowing(f)).ToArray();
-            Followings = dbAppUser.Followings.Select(f => new AppUserFollowing(f)).ToArray();
         }
 
         public override void UpdateDB(DBTable dbModel)
