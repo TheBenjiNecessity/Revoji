@@ -10,15 +10,12 @@ namespace RevojiWebApi.Models
 
 		dynamic Info;
 
-		public Review[] Reviews { get; set; }
-
 		public ReviewableDetail() { }
 
 		public ReviewableDetail(DBReviewable dBReviewable) : base(dBReviewable)
 		{
 			Content = dBReviewable.Content;
 			Info = dBReviewable.Info;
-			Reviews = dBReviewable.DBReviews.Select(r => new Review(r)).ToArray();
 		}
 
 		public override void UpdateDB(DBTable dbModel)
