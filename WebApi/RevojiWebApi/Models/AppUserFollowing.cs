@@ -21,7 +21,7 @@ namespace RevojiWebApi.Models
 
         public AppUserFollowing() { }
 
-        public AppUserFollowing(DBFollowing dbFollowing) : base(dbFollowing.Id)
+        public AppUserFollowing(DBFollowing dbFollowing)
         {
             Created = dbFollowing.Created;
             FollowerId = dbFollowing.FollowerAppUserId;
@@ -31,12 +31,8 @@ namespace RevojiWebApi.Models
             Following = new AppUser(dbFollowing.Following);
         }
 
-        public override void UpdateDB(DBTable dbModel)
+        public void UpdateDB(DBFollowing dbFollowing)
         {
-            base.UpdateDB(dbModel);
-
-            DBFollowing dbFollowing = dbModel as DBFollowing;
-         
             dbFollowing.Created = Created;
             dbFollowing.FollowerAppUserId = FollowerId;
             dbFollowing.FollowingAppUserId = FollowingId;

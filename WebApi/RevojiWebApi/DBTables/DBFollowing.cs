@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RevojiWebApi.DBTables
 {
     [Table("follower")]
-    public class DBFollowing : DBTable
+    public class DBFollowing
     {
         [Column("created")]
         public DateTime Created { get; set; }
