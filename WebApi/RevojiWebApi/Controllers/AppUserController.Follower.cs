@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -25,27 +26,24 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
-                // Grab the app user from the database
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
-                {
+                var followers = context.Followings
+                                       .Where(f => f.FollowingAppUserId == id)
+                                       .Include(f => f.Follower);
+
+                if (followers.Count() == 0) {
                     return new NotFoundResult();
                 }
 
-                AppUserDetail appUser = new AppUserDetail(dbAppUser);
-
                 // Get an ordered list of followings from the given user by appUserId
                 // where the 'following' is the user given and the follower is the other users
-                IOrderedEnumerable<AppUserFollowing> orderedAppUserFollowers;
+                IOrderedQueryable<DBFollowing> orderedAppUserFollowers;
                 if (order == "DESC")
                 {
-                    orderedAppUserFollowers = appUser.Followers
-                                                       .OrderByDescending(f => f.Created);
+                    orderedAppUserFollowers = followers.OrderByDescending(f => f.Created);
                 }
                 else if (order == "ASC")
                 {
-                    orderedAppUserFollowers = appUser.Followers
-                                                     .OrderBy(f => f.Created);
+                    orderedAppUserFollowers = followers.OrderBy(f => f.Created);
                 }
                 else
                 {
@@ -53,14 +51,14 @@ namespace RevojiWebApi.Controllers
                 }
                 
                 // Get a list of followings offset by pageStart and limited by pageLimit
-                IEnumerable<AppUserFollowing> pagedFollowers = orderedAppUserFollowers.Skip(pageStart)
-                                                                                      .Take(pageLimit);
+                IQueryable<DBFollowing> pagedFollowers = orderedAppUserFollowers.Skip(pageStart)
+                                                                                 .Take(pageLimit);
 
                 // Map this list of followings to a list of AppUser models
-                IEnumerable<AppUser> appUserFollowers = pagedFollowers.Select(f => context.Get<DBAppUser>(f.FollowerId))
+                IEnumerable<AppUser> appUserFollowers = pagedFollowers.Select(f => f.Follower)
                                                                       .Select(a => new AppUser(a));
                                                                       
-                return Ok(appUserFollowers);
+                return Ok(appUserFollowers.ToArray());
             }
         }
 
@@ -78,27 +76,27 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
-                // Grab the app user from the database
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
+                var followings = context.Followings
+                                        .Where(f => f.FollowerAppUserId == id)
+                                        .Include(f => f.Following);
+
+
+
+                if (followings.Count() == 0)
                 {
                     return new NotFoundResult();
                 }
 
-                AppUserDetail appUser = new AppUserDetail(dbAppUser);
-
                 // Get an ordered list of followings from the given user by appUserId
-                // where the 'follower' is the user given and the following is the other users
-                IOrderedEnumerable<AppUserFollowing> orderedAppUserFollowings;
+                // where the 'following' is the user given and the follower is the other users
+                IOrderedQueryable<DBFollowing> orderedAppUserFollowers;
                 if (order == "DESC")
                 {
-                    orderedAppUserFollowings = appUser.Followings
-                                                      .OrderByDescending(f => f.Created);
+                    orderedAppUserFollowers = followings.OrderByDescending(f => f.Created);
                 }
                 else if (order == "ASC")
                 {
-                    orderedAppUserFollowings = appUser.Followings
-                                                      .OrderBy(f => f.Created);
+                    orderedAppUserFollowers = followings.OrderBy(f => f.Created);
                 }
                 else
                 {
@@ -106,14 +104,14 @@ namespace RevojiWebApi.Controllers
                 }
 
                 // Get a list of followings offset by pageStart and limited by pageLimit
-                IEnumerable<AppUserFollowing> pagedFollowings = orderedAppUserFollowings.Skip(pageStart)
-                                                                                   .Take(pageLimit);
+                IQueryable<DBFollowing> pagedFollowers = orderedAppUserFollowers.Skip(pageStart)
+                                                                                .Take(pageLimit);
 
                 // Map this list of followings to a list of AppUser models
-                IEnumerable<AppUser> appUserFollowings = pagedFollowings.Select(f => context.Get<DBAppUser>(f.FollowingId))
-                                                                        .Select(a => new AppUser(a));
+                IEnumerable<AppUser> appUserFollowers = pagedFollowers.Select(f => f.Following)
+                                                                      .Select(a => new AppUser(a));
 
-                return Ok(appUserFollowings);
+                return Ok(appUserFollowers.ToArray());
             }
         }
 
@@ -130,17 +128,21 @@ namespace RevojiWebApi.Controllers
                 context.Add(dbFollowing);
                 context.Save();
 
-                return Ok(new AppUserFollowing(dbFollowing));
+                return Ok();
             }
         }
 
         [Authorize]
-        [HttpDelete("follower/{id}")]
-        public IActionResult RemoveFollowing(int id)
-        {        
+        [HttpDelete("follower/{id}")]//id is the id of the follower
+        public IActionResult RemoveFollowing(int id, int followingId)
+        {
             using (var context = new RevojiDataContext())
             {
-                DBFollowing dbFollowing = context.Get<DBFollowing>(id);
+                var dbFollowing = context.Followings
+                                         .Where(f => f.FollowerAppUserId == id && 
+                                                f.FollowingAppUserId == followingId)
+                                         .FirstOrDefault();
+                
                 if (dbFollowing == null)
                 {
                     return new NotFoundResult();
