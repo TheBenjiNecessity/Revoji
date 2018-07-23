@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RevojiWebApi.DBTables
@@ -29,5 +30,7 @@ namespace RevojiWebApi.DBTables
 
         [ForeignKey("ReviewableId")]
         public virtual DBReviewable DBReviewable { get; set; }
+
+        public virtual ICollection<DBLike> DBLikes { get; set; }
     }
 }

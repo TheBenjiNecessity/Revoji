@@ -28,6 +28,19 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .HasOne(f => f.Following)
                         .WithMany(a => a.Followings)
                         .HasForeignKey(f => f.FollowingAppUserId);
+
+            modelBuilder.Entity<DBLike>()
+                        .HasKey(l => new { l.ReviewId, l.AppUserId });
+
+            modelBuilder.Entity<DBLike>()
+                        .HasOne(l => l.DBReview)
+                        .WithMany(r => r.DBLikes)
+                        .HasForeignKey(l => l.ReviewId);
+
+            modelBuilder.Entity<DBLike>()
+                        .HasOne(l => l.DBAppUser)
+                        .WithMany(a => a.DBLikes)
+                        .HasForeignKey(l => l.AppUserId);
         }
     }
 }

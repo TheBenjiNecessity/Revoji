@@ -4,7 +4,7 @@ using RevojiWebApi.DBTables;
 
 namespace RevojiWebApi.Models
 {
-    public class Like : Model
+    public class Like
     {
         [Required]
         public int AppUserID { get; set; }
@@ -24,7 +24,7 @@ namespace RevojiWebApi.Models
 
         public Like() { }
 
-        public Like(DBLike dbLike) : base(dbLike.Id){
+        public Like(DBLike dbLike) {
             Type = dbLike.Type;
             Created = dbLike.Created;
             AppUserID = dbLike.AppUserId;
@@ -34,16 +34,12 @@ namespace RevojiWebApi.Models
             Review = new Review(dbLike.DBReview);
         }
 
-        public override void UpdateDB(DBTable dbModel)
+        public void UpdateDB(DBLike dBLike)
         {
-            base.UpdateDB(dbModel);
-
-            DBLike dbLike = dbModel as DBLike;
-
-            dbLike.Type = Type;
-            dbLike.Created = Created;
-            dbLike.AppUserId = AppUserID;
-            dbLike.ReviewId = ReviewID;
+            dBLike.Type = Type;
+            dBLike.Created = Created;
+            dBLike.AppUserId = AppUserID;
+            dBLike.ReviewId = ReviewID;
         }
     }
 }

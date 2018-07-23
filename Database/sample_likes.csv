@@ -1,5 +1,5 @@
-id,type,created,review_id,app_user_id
-1,great,20180707,3,1
-2,bad,20180707,2,1
-3,bad,20180707,2,2
-4,great,20180707,3,2
+type,created,review_id,app_user_id
+great,20180707,3,1
+bad,20180707,2,1
+bad,20180707,2,2
+great,20180707,3,2

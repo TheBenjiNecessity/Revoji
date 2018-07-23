@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RevojiWebApi.DBTables
 {
-    [Table("like")]
-    public class DBLike : DBTable
+    [Table("review_like")]
+    public class DBLike
     {
         [Column("type")]
         public string Type { get; set; }
