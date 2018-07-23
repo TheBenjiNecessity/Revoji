@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
@@ -10,28 +11,32 @@ namespace RevojiWebApi.Controllers
     public partial class ReviewsController
     {
         [Authorize]
-        [HttpPost("like/{id}")]
+        [HttpPost("like")]
         public IActionResult CreateLike([FromBody]Like like)
         {
             using (var context = new RevojiDataContext())
             {
                 DBLike dBLike = new DBLike();
                 like.UpdateDB(dBLike);
+                dBLike.Created = DateTime.Now;
 
                 context.Add(dBLike);
                 context.Save();
 
-                return Ok(new Like(dBLike));
+                return Ok();
             }
         }
 
         [Authorize]
         [HttpDelete("like/{id}")]
-        public IActionResult DeleteLike(int id)
+        public IActionResult DeleteLike(int id, int appUserId)
         {
             using (var context = new RevojiDataContext())
             {
-                DBLike dBLike = context.Get<DBLike>(id);
+                DBLike dBLike = context.Likes
+                                       .Where(l => l.ReviewId == id && 
+                                              l.AppUserId == appUserId)
+                                       .FirstOrDefault();
                 if (dBLike == null)
                 {
                     return new NotFoundResult();
