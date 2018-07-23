@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -18,7 +19,10 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
-                DBReview dbReview = context.Get<DBReview>(id);
+                DBReview dbReview = context.Reviews.Where(r => r.Id == id)
+                                           .Include(r => r.DBReviewable)
+                                           .Include(r => r.DBAppUser)
+                                           .FirstOrDefault();
                 if (dbReview == null)
                 {
                     return new NotFoundResult();
@@ -85,92 +89,100 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("list/user/{id}")]
-        public IActionResult ListByUser(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        public IActionResult ListByUser(int id,
+                                        string order = "DESC", 
+                                        int pageStart = 0,
+                                        int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
-                {
-                    return new NotFoundResult();
-                }
+                var reviews = context.Reviews
+                                     .Where(r => r.AppUserId == id)
+                                     .Include(r => r.DBAppUser)
+                                     .Include(r => r.DBReviewable);
 
-                AppUserDetail appUser = new AppUserDetail(dbAppUser);
-                var orderedReviews = appUser.Reviews.OrderByDescending(r => r.Created).Skip(pageStart).Take(pageLimit);
-
-                if (order == "ASC")
-                {
-                    orderedReviews = appUser.Reviews.OrderBy(r => r.Created).Skip(pageStart).Take(pageLimit);
-                }
-                else
-                {
-                    return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
-                }
-
-                return Ok(orderedReviews);
+                return applyReviewFilter(reviews, order, pageStart, pageLimit);
             }
         }
         
         [Authorize]
         [HttpGet("list/reviewable/{id}")]
-        public IActionResult ListByReviewable(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        public IActionResult ListByReviewable(int id,
+                                              string order = "DESC",
+                                              int pageStart = 0,
+                                              int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
-                if (dbReviewable == null)
-                {
-                    return new NotFoundResult();
-                }
+                var reviews = context.Reviews
+                                     .Where(r => r.ReviewableId == id)
+                                     .Include(r => r.DBAppUser)
+                                     .Include(r => r.DBReviewable);
 
-                ReviewableDetail reviewable = new ReviewableDetail(dbReviewable); //TODO: I shouldn't need to create a '...detail' object to get reviews
-                var orderedReviews = reviewable.Reviews.OrderByDescending(r => r.Created).Skip(pageStart).Take(pageLimit);
-
-                if (order == "ASC")
-                {
-                    orderedReviews = reviewable.Reviews.OrderBy(r => r.Created).Skip(pageStart).Take(pageLimit);
-                }
-                else
-                {
-                    return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
-                }
-
-                return Ok(reviewable.Reviews);
+                return applyReviewFilter(reviews, order, pageStart, pageLimit);
             }
         }
 
         [Authorize]
         [HttpGet("list/followings/{id}")]
-        public IActionResult ListByFollowings(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        public IActionResult ListByFollowings(int id,
+                                              string order = "DESC",
+                                              int pageStart = 0,
+                                              int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
+                var appUser = context.AppUsers
+                                     .Where(a => a.Id == id)
+                                     .Include(a => a.Followings)
+                                     .FirstOrDefault();
+                var followings = appUser.Followings
+                                        .Select(f => f.FollowingAppUserId)
+                                        .ToList();
+
+                if (appUser == null || followings.Count() == 0)
                 {
                     return new NotFoundResult();
                 }
 
-                AppUserDetail appUser = new AppUserDetail(dbAppUser);
-                var appUserFollowings = appUser.Followings
-                                               .Select(f => context.Get<DBAppUser>(f.FollowingId))
-                                               .Select(a => new AppUserDetail(a));
-                var reviews = appUserFollowings.SelectMany(a => a.Reviews);
+                var reviews = context.Reviews
+                                     .Where(r => followings.Contains(r.AppUserId))
+                                     .Include(r => r.DBAppUser)
+                                     .Include(r => r.DBReviewable);
 
-                var orderedReviews = reviews.OrderByDescending(r => r.Created).Skip(pageStart).Take(pageLimit);
-
-                if (order == "ASC")
-                {
-                    orderedReviews = reviews.OrderBy(r => r.Created).Skip(pageStart).Take(pageLimit);
-                }
-                else
-                {
-                    return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
-                }
-
-
-                return Ok(reviews);
+                return applyReviewFilter(reviews, order, pageStart, pageLimit);
             }
+        }
+
+        private IActionResult applyReviewFilter(IQueryable<DBReview> reviews,
+                                                string order,
+                                                int pageStart,
+                                                int pageLimit) {
+            if (reviews.Count() == 0)
+            {
+                return new NotFoundResult();
+            }
+
+            IOrderedQueryable<DBReview> orderedReviews;
+            if (order == "DESC")
+            {
+                orderedReviews = reviews.OrderByDescending(r => r.Created);
+            }
+            else if (order == "ASC")
+            {
+                orderedReviews = reviews.OrderBy(r => r.Created);
+            }
+            else
+            {
+                return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
+            }
+
+            IQueryable<DBReview> pageReviews = orderedReviews.Skip(pageStart)
+                                                             .Take(pageLimit);
+
+            Review[] reviewModels = pageReviews.Select(r => new Review(r)).ToArray();
+
+            return Ok(reviewModels);
         }
 
         /**
