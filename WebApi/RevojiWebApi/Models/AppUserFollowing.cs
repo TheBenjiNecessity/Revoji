@@ -4,7 +4,7 @@ using RevojiWebApi.DBTables;
 
 namespace RevojiWebApi.Models
 {
-	public class AppUserFollowing : Model
+	public class AppUserFollowing
     {
         [Required]
         public int FollowerId { get; set; }
