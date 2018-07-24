@@ -18,13 +18,12 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
-                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
-                if (dbReviewable == null)
-                {
-                    return new NotFoundResult();
-                }
+                // Could this be gotten from stored procedure?
+                int count = context.Reviews
+                                   .Where(r => r.ReviewableId == id)
+                                   .Count();
 
-                return Ok(new ReviewableDetail(dbReviewable).Reviews.Length);
+                return Ok(count);
             }
         }
 
@@ -36,58 +35,52 @@ namespace RevojiWebApi.Controllers
 
             using (var context = new RevojiDataContext())
             {
-                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
-                if (dbReviewable == null)
+                var reviews = context.Reviews.Where(r => r.ReviewableId == id);
+
+                if (reviews.Count() == 0)
                 {
                     return new NotFoundResult();
                 }
 
-                ReviewableDetail reviewable = new ReviewableDetail(dbReviewable);
-                var emojis = reviewable.Reviews.SelectMany(r => r.Emojis.Split(','));
-                foreach (string emoji in emojis)
-                {
-                    if (emojiCounts.ContainsKey(emoji))
-                    {
-                        emojiCounts[emoji]++;
-                    }
-                    else 
-                    {
-                        emojiCounts.Add(emoji, 1);
-                    }
-                }
-            }
+                string emojis = new string(reviews.SelectMany(r => r.Emojis)
+                                                  .ToArray());
 
-            return Ok(emojiCounts);
-        }
+                emojiCounts = emojis.Split(",")
+                                    .GroupBy(e => e, StringComparer.OrdinalIgnoreCase)
+                                    .ToDictionary(group => group.Key, group => group.Count());
 
-        [Authorize]//what about one user being able to access another users stuff? claims?
-        [HttpGet("stats/wordstats/{id}")]
-        public IActionResult GetWordStats(int id)
-        {
-            using (var context = new RevojiDataContext())
-            {
-                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
-                if (dbReviewable == null)
-                {
-                    return new NotFoundResult();
-                }
-
-                ReviewableDetail reviewable = new ReviewableDetail(dbReviewable);
-
-                Regex rgx = new Regex("[^a-zA-Z]");//TODO: this won't work with other languages
-
-                //var words = reviewable.Reviews.SelectMany(r => r.Comment.Replace() Split());
-
-                // Make a list of every word from every comment in every review (delimited by whitespace)
-
-                // set all words to lowercase and strip out punctuation (period, quote)
-
-                // remove all words that aren't adjectives
-
-                // group words together into a dictionary (key = word, value = count for that word)
-
-                return Ok();
+                return Ok(emojiCounts);
             }
         }
+
+        //[Authorize]//what about one user being able to access another users stuff? claims?
+        //[HttpGet("stats/wordstats/{id}")]
+        //public IActionResult GetWordStats(int id)
+        //{
+        //    using (var context = new RevojiDataContext())
+        //    {
+        //        DBReviewable dbReviewable = context.Get<DBReviewable>(id);
+        //        if (dbReviewable == null)
+        //        {
+        //            return new NotFoundResult();
+        //        }
+
+        //        ReviewableDetail reviewable = new ReviewableDetail(dbReviewable);
+
+        //        Regex rgx = new Regex("[^a-zA-Z]");//TODO: this won't work with other languages
+
+        //        //var words = reviewable.Reviews.SelectMany(r => r.Comment.Replace() Split());
+
+        //        // Make a list of every word from every comment in every review (delimited by whitespace)
+
+        //        // set all words to lowercase and strip out punctuation (period, quote)
+
+        //        // remove all words that aren't adjectives
+
+        //        // group words together into a dictionary (key = word, value = count for that word)
+
+        //        return Ok();
+        //    }
+        //}
     }
 }
