@@ -72,7 +72,7 @@ namespace RevojiWebApi.Controllers
                 appUser.UpdateDB(dbAppUser);
                 context.Save();
 
-                return Ok();
+                return Ok(new AppUser(dbAppUser));
             }
         }
 
