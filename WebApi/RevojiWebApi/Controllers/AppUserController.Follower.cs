@@ -128,7 +128,7 @@ namespace RevojiWebApi.Controllers
                 context.Add(dbFollowing);
                 context.Save();
 
-                return Ok();
+                return Ok(new AppUserFollowing(dbFollowing));
             }
         }
 
