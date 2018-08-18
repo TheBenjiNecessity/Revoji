@@ -15,10 +15,6 @@ namespace RevojiWebApi.Models
         [Required]
         public DateTime Created { get; set; }
 
-        public AppUser Follower { get; set; }
-
-        public AppUser Following { get; set; }
-
         public AppUserFollowing() { }
 
         public AppUserFollowing(DBFollowing dbFollowing)
@@ -26,9 +22,6 @@ namespace RevojiWebApi.Models
             Created = dbFollowing.Created;
             FollowerId = dbFollowing.FollowerAppUserId;
             FollowingId = dbFollowing.FollowingAppUserId;
-
-            Follower = new AppUser(dbFollowing.Follower);
-            Following = new AppUser(dbFollowing.Following);
         }
 
         public void UpdateDB(DBFollowing dbFollowing)
