@@ -20,11 +20,11 @@ namespace RevojiWebApi.Models
 
 		public AppUserStats(int appUserId)
 		{
-			FollowerCount = FollowerCountSproc.GetAppUserFollowerCount(appUserId);
-			FollowingCount = FollowerCountSproc.GetAppUserFollowerCount(appUserId);
-			LikeCount = FollowerCountSproc.GetAppUserFollowerCount(appUserId);
-			RecommendationCount = FollowerCountSproc.GetAppUserFollowerCount(appUserId);
-			ReviewCount = FollowerCountSproc.GetAppUserFollowerCount(appUserId);
+			FollowerCount = AppUserSproc.GetAppUserFollowerCount(appUserId);
+			FollowingCount = AppUserSproc.GetAppUserFollowingCount(appUserId);
+			LikeCount = AppUserSproc.GetAppUserLikeCount(appUserId);
+			RecommendationCount = AppUserSproc.GetAppUserRecommendationCount(appUserId);
+			ReviewCount = AppUserSproc.GetAppUserReviewCount(appUserId);
 		}
     }
 }
