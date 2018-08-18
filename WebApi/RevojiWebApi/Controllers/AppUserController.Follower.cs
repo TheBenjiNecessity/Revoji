@@ -122,8 +122,8 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBFollowing dbFollowing = new DBFollowing();
+                dbFollowing.Created = DateTime.Now;//TODO: 0001/01/01 ?
                 following.UpdateDB(dbFollowing);
-                following.Created = DateTime.Now;
 
                 context.Add(dbFollowing);
                 context.Save();
