@@ -28,9 +28,6 @@ namespace RevojiWebApi.Models
             Created = dbLike.Created;
             AppUserID = dbLike.AppUserId;
             ReviewID = dbLike.ReviewId;
-
-            AppUser = new AppUser(dbLike.DBAppUser);
-            Review = new Review(dbLike.DBReview);
         }
 
         public void UpdateDB(DBLike dBLike)
