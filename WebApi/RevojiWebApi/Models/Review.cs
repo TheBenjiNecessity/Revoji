@@ -34,9 +34,7 @@ namespace RevojiWebApi.Models
             Emojis = dBReview.Emojis;
             AppUserID = dBReview.AppUserId;
             ReviewableID = dBReview.ReviewableId;
-
-            AppUser = new AppUser(dBReview.DBAppUser);
-            Reviewable = new Reviewable(dBReview.DBReviewable);
+            Created = dBReview.Created;
         }
 
         public override void UpdateDB(DBTable dbModel)
@@ -48,9 +46,10 @@ namespace RevojiWebApi.Models
             dBReview.Title = Title;
             dBReview.Comment = Comment;
             dBReview.Emojis = Emojis;
+            dBReview.Created = Created;
 
-            dBReview.AppUserId = AppUser.ID;
-            dBReview.ReviewableId = Reviewable.ID;
+            dBReview.AppUserId = AppUserID;
+            dBReview.ReviewableId = ReviewableID;
         }
     }
 }
