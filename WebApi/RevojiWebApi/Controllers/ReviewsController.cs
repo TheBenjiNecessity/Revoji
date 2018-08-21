@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace RevojiWebApi.Controllers
 #region CRUD
         [Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, int reviewableId)
         {
             using (var context = new RevojiDataContext())
             {
-                DBReview dbReview = context.Reviews.Where(r => r.Id == id)
+                DBReview dbReview = context.Reviews
+                                           .Where(r => r.AppUserId == id && 
+                                                  r.ReviewableId == reviewableId)
                                            .Include(r => r.DBReviewable)
                                            .Include(r => r.DBAppUser)
                                            .FirstOrDefault();
@@ -40,6 +43,7 @@ namespace RevojiWebApi.Controllers
             {
                 DBReview dbReview = new DBReview();
                 review.UpdateDB(dbReview);
+                dbReview.Created = DateTime.Now;
 
                 context.Add(dbReview);
                 context.Save();
@@ -63,7 +67,7 @@ namespace RevojiWebApi.Controllers
                 review.UpdateDB(dbReview);
                 context.Save();
 
-                return Ok();
+                return Ok(new Review(dbReview));
             }
         }
 
