@@ -23,7 +23,7 @@ namespace RevojiWebApi.Controllers
                 context.Add(dBLike);
                 context.Save();
 
-                return Ok();
+                return Ok(new Like(dBLike));
             }
         }
 
