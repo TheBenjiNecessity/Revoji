@@ -15,19 +15,22 @@ module.exports = {
         }]
 	},
 	resolve: {
-		extensions: [ '.ts', '.js', '.po', '.scss' ]
+		extensions: [ '.ts', '.js' ]
 	},
 	devServer: {
-         host: '0.0.0.0',
-         https: true,
-         port: 8000,
-         proxy: {
+        host: '0.0.0.0',
+        https: true,
+        port: 8000,
+        proxy: {
             '/api': {
-               target: 'http://localhost:5001',
-               pathRewrite: { '^/api': '' },
-               changeOrigin: true
+                target: 'http://localhost:5001',
+                changeOrigin: true
+            },
+            '/service-api': {
+                target: 'http://localhost:5001',
+                changeOrigin: true
             }
-         }
+        }
 	}
 };
 //HtmlWebpackPlugin
