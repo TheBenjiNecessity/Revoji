@@ -17,11 +17,10 @@ export class AppUser extends ModelObject {
     profession: string;
     interests: string;
 
+    password: string;
+    handle: string;
+    email: string;
+
     content: AppUserContent;
     settings: AppUserSettings;
-
-    constructor(ID: number)
-    {
-        super(ID);
-    }
 }
