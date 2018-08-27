@@ -8,5 +8,5 @@
 update app_user set password = '$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi';
 update app_user set salt = '$2b$10$InGuymmSQhNObJbmo0lx/u';
 
-
+-- If you want to completely obliterate your database and start from scratch
 --TRUNCATE review_like, follower, review, reviewable, app_user RESTART IDENTITY;

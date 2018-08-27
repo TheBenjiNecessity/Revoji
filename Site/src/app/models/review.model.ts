@@ -13,9 +13,4 @@ export class Review extends ModelObject
 
     appUser: AppUser;
     reviewable: Reviewable;
-
-    constructor(ID: number)
-    {
-        super(ID);
-    }
 }

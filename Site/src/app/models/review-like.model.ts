@@ -5,15 +5,10 @@ import { Review } from "./review.model";
 export class ReviewLike extends ModelObject 
 {
     appUserID: number;
-    ReviewID: number;
+    reviewID: number;
     type: string;
     created: Date;
     
     appUser: AppUser;
     review: Review;
-
-    constructor(ID: number)
-    {
-        super(ID);
-    }
 }

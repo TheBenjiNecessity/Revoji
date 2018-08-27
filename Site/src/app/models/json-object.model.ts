@@ -1,5 +1,3 @@
 export class JSONObject {
-    
-
     constructor() {}
 }

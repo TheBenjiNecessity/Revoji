@@ -10,9 +10,4 @@ export class Reviewable extends ModelObject {
 
     content: ReviewableContent;
     info: ReviewableInfo;
-
-    constructor(ID: number)
-    {
-        super(ID);
-    }
 }

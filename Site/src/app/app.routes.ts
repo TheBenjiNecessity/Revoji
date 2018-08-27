@@ -4,10 +4,7 @@ export class RouteConfig implements ng.IServiceProvider {
     routes: Route[] = [];
 
     static $inject = ['$routeProvider'];
-    constructor(private $routeProvider) {
-
-
-    }
+    constructor(private $routeProvider) {}
 
     public $get() {
         return { routes: this.routes };
