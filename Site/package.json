@@ -17,6 +17,7 @@
     "start": "webpack-dev-server --config src/config/webpack.config.js"
   },
   "dependencies": {
-    "@types/angular": "^1.6.43"
+    "@types/angular": "^1.6.43",
+    "bootstrap": "^4.1.3"
   }
 }
