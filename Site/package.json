@@ -3,8 +3,12 @@
   "version": "",
   "devDependencies": {
     "@types/angular": "^1.6.43",
+    "css-loader": "^1.0.0",
     "html-loader": "^0.5.5",
     "http-server": "^0.11.1",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
     "ts-loader": "^4.1.0",
     "typescript": "^2.8.1",
     "webpack": "^4.3.0",
