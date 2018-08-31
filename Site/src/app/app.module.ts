@@ -10,3 +10,5 @@ import './components/main';
 import './components/login';
 
 import './services';
+
+import './shared/filters';

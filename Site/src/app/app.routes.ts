@@ -49,6 +49,10 @@ export class Route {//TODO: this needs to allow for a tree structure of routes
         this.controller = controller;
         this.controllerAs = '$ctrl';
     }
+
+    toUrl(args: any[]) {
+        return this.routePath;
+    }
 }
 
 angular.module('revoji').provider('RouteConfig', RouteConfig);
