@@ -1,3 +1,3 @@
 export class ModelObject {
-    ID: number;
+    ID?: number;
 }
