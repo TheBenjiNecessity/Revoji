@@ -40,8 +40,7 @@ namespace RevojiWebApi.Controllers
                 return Ok(new AppUserDetail(dbAppUser));
             }
         }
-       
-        [Authorize]
+
         [HttpPost]
         public IActionResult Create([FromBody]AppUserDetail appUser)
         {
