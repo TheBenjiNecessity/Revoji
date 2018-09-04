@@ -29,6 +29,11 @@ module.exports = {
         host: '0.0.0.0',
         https: true,
         port: 8000,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET",
+            "Access-Control-Allow-Headers": "Content-Type"
+        },
         proxy: {
             '/api': {
                 target: 'http://localhost:5001',
