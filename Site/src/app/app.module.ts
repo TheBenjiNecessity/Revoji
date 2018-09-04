@@ -12,3 +12,10 @@ import './components/login';
 import './services';
 
 import './shared/filters';
+
+app.config(configure);
+
+function configure($routeProvider, $locationProvider) {
+    // use the HTML5 History API
+    $locationProvider.html5Mode(true);
+}
