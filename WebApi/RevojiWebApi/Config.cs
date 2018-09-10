@@ -28,7 +28,8 @@ namespace RevojiWebApi
 					},
 					AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
 					AllowAccessTokensViaBrowser = true,
-					AllowedScopes = { "api" }
+					AllowedScopes = { "api" },
+					AllowedCorsOrigins = { "https://127.0.0.1:8000" },//TODO needs to be in config
 				}
 			};
 		}

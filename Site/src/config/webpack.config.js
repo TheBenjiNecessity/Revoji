@@ -32,7 +32,8 @@ module.exports = {
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET",
-            "Access-Control-Allow-Headers": "Content-Type"
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Request-Headers": "origin"
         },
         proxy: {
             '/api': {
