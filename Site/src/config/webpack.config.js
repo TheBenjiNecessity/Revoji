@@ -4,7 +4,8 @@ module.exports = {
         app: './src/main.ts'
     },
     output: {
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     module: {
         rules: [{
@@ -29,22 +30,18 @@ module.exports = {
         host: '0.0.0.0',
         https: true,
         port: 8000,
+        historyApiFallback: true,
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET",
             "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Request-Headers": "origin"
         },
-        proxy: {
-            '/api': {
-                target: 'http://localhost:5001',
-                changeOrigin: true
-            },
-            '/service-api': {
-                target: 'http://localhost:5001',
-                changeOrigin: true
-            }
-        }
+        proxy: [{
+            context: ['/api', '/service-api', '/connect/token'],
+            target: 'http://localhost:5001',
+            secure: false
+        }]
 	}
 };
 //HtmlWebpackPlugin
