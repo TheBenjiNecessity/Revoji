@@ -25,6 +25,7 @@ export class Route {//TODO: this needs to allow for a tree structure of routes
     template:string;
     controller:string;
     controllerAs:string;
+    resolve:any;
 
     //controller
     //controllerAs
@@ -40,7 +41,8 @@ export class Route {//TODO: this needs to allow for a tree structure of routes
         routePath: string,
         title: string,
         template:string,
-        controller:string
+        controller:string,
+        resolve:any
     ) {
         this.id = id;
         this.routePath = routePath;
@@ -48,6 +50,7 @@ export class Route {//TODO: this needs to allow for a tree structure of routes
         this.template = template;
         this.controller = controller;
         this.controllerAs = '$ctrl';
+        this.resolve = resolve;
     }
 
     toUrl(args: any[]) {
