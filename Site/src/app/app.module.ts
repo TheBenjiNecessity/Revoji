@@ -1,8 +1,9 @@
 import * as angular from 'angular';
 
 import 'angular-route';
+import 'angular-local-storage';
 
-const app = angular.module('revoji', ['ngRoute']);
+const app = angular.module('revoji', ['ngRoute', 'LocalStorageModule']);
 
 export default app;
 
