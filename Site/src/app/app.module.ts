@@ -9,6 +9,7 @@ export default app;
 
 import './components/main';
 import './components/login';
+import './components/users';
 
 import './services';
 
