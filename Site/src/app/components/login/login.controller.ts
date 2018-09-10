@@ -1,10 +1,26 @@
 import * as angular from 'angular';
 
-export class LoginController {
-    testing:string;
+import { LoginService } from '../../services/login-api.service';
 
-    constructor() {
-        this.testing = 'this is a test';
+class loginModel {
+    handle: string;
+    password: string;
+}
+
+export class LoginController {
+    static $inject: string[] = ['$window', 'loginService'];
+
+    model: loginModel;
+
+    constructor(private $window:ng.IWindowService, private loginService:LoginService) {}
+
+    login() {
+        this.loginService.login(this.model.handle, this.model.password).then(resp => {
+            let url = `/user?handle=${this.model.handle}`;
+            this.$window.location.href = url;
+        }).catch(error => {
+            console.log(error);
+        });
     }
 }
 

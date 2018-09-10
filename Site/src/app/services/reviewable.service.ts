@@ -3,16 +3,17 @@ import * as angular from 'angular';
 import {ApiService} from './api.service';
 import {Reviewable} from '../models/reviewable.model';
 
-const url = "reviewable";
+const url = "service-api/reviewable";
 
 export class ReviewableService extends ApiService {
-    static $inject:string[] = ['$q', '$http'];
+    static $inject:string[] = ['$q', '$http', 'localStorageService'];
 
     constructor (
         $q:ng.IQService,
-        $http:ng.IHttpService
+        $http:ng.IHttpService,
+        localStorageService
     ) {
-        super($q, $http);
+        super($q, $http, localStorageService);
     }
 
     /* ================================ CRUD ================================ */

@@ -1,16 +1,25 @@
 import * as angular from 'angular';
 
-const serviceUrl = "https://localhost:8000/service-api";//TODO needs to be settable by config
+const serviceUrl = "https://localhost:8000";//TODO needs to be settable by config
 
 export class ApiService {
+    config: any;
+
     constructor (
-        private $q:ng.IQService,
-        private $http:ng.IHttpService
-    ) {}
+        protected $q:ng.IQService,
+        protected $http:ng.IHttpService,
+        protected localStorageService
+    ) {
+        let token = this.localStorageService.get('auth.token');
+        this.config = { headers: { Authorization: null } };
+        if (token) {
+            this.config.headers.Authorization = 'Bearer ' + token;
+        }
+    }
 
     get(url:string):ng.IPromise<any> {
         let uri = `${serviceUrl}/${url}`;
-        return this.$http.get(uri).then((resp:any) => {
+        return this.$http.get(uri, this.config).then((resp:any) => {
             if (resp.status == 200) {
                 return this.$q.resolve(resp.data);
             } else {
@@ -21,7 +30,7 @@ export class ApiService {
 
     post(url:string, body:any):ng.IPromise<any> {
         let uri = `${serviceUrl}/${url}`;
-        return this.$http.post(uri, body).then((resp:any) => {
+        return this.$http.post(uri, body, this.config).then((resp:any) => {
             if (resp.status == 200) {
                 return this.$q.resolve(resp.data);
             } else {
@@ -32,7 +41,7 @@ export class ApiService {
 
     del(url:string):ng.IPromise<any> {
         let uri = `${serviceUrl}/${url}`;
-        return this.$http.delete(uri).then((resp:any) => {
+        return this.$http.delete(uri, this.config).then((resp:any) => {
             if (resp.status == 200) {
                 return this.$q.resolve(resp.data);
             } else {

@@ -3,16 +3,17 @@ import { ApiService } from './api.service';
 import { AppUser } from '../models/appuser.model';
 import { AppUserStats } from '../models/appuser-stats.model';
 
-const url = "appuser";
+const url = "service-api/appuser";
 
 export class AppUserService extends ApiService {
-    static $inject:string[] = ['$q', '$http'];
+    static $inject:string[] = ['$q', '$http', 'localStorageService'];
 
     constructor (
         $q:ng.IQService,
-        $http:ng.IHttpService
+        $http:ng.IHttpService,
+        localStorageService
     ) {
-        super($q, $http);
+        super($q, $http, localStorageService);
     }
 
     getAppUserById(id: number):ng.IPromise<AppUser> {

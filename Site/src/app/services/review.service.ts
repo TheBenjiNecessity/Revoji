@@ -4,16 +4,17 @@ import { ApiService } from './api.service';
 import { Review } from '../models/review.model';
 import { ReviewLike } from '../models/review-like.model';
 
-const url = "reviews";
+const url = "service-api/reviews";
 
 export class ReviewService extends ApiService {
-    static $inject:string[] = ['$q', '$http'];
+    static $inject:string[] = ['$q', '$http', 'localStorageService'];
 
     constructor (
         $q:ng.IQService,
-        $http:ng.IHttpService
+        $http:ng.IHttpService,
+        localStorageService
     ) {
-        super($q, $http);
+        super($q, $http, localStorageService);
     }
 
     /* ================================ CRUD ================================ */
