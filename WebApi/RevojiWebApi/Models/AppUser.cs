@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 
@@ -39,6 +40,15 @@ namespace RevojiWebApi.Models
             dBAppUser.City = City;
             dBAppUser.AdministrativeArea = AdministrativeArea;
             dBAppUser.Country = Country;
+        }
+
+        public static AppUser UserFromHandle(string handle) 
+        {
+            using (var ctx = new RevojiDataContext()) 
+            {
+                var user = ctx.AppUsers.FirstOrDefault(u => u.Handle == handle);
+                return new AppUser(user);
+            }
         }
     }
 }

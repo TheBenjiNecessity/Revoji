@@ -26,6 +26,10 @@ export class AppUserService extends ApiService {
         return super.get(uri);
     }
 
+    getAuthUser():ng.IPromise<AppUser> {
+        return super.get(url);
+    }
+
     getStats(id: number):ng.IPromise<AppUserStats> {
         let uri = `${url}/counts/${id}`;
         return super.get(uri);

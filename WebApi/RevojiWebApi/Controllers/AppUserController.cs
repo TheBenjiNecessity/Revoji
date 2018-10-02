@@ -12,6 +12,13 @@ namespace RevojiWebApi.Controllers
     public partial class AppUserController : UserController
     {
         [Authorize]//what about one user being able to access another users stuff? claims?
+        [HttpGet("")]
+        public IActionResult Get()
+        {
+            return Ok(ApiUser);
+        }
+
+        //[Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

@@ -18,8 +18,7 @@ export function userRouteConfig(RouteConfigProvider) {
 
 getUser.$inject = ['$q', '$route', 'appUserService'];
 function getUser($q, $route, appUserService) {
-    let handle = $route.current.params.handle;
-    return appUserService.getAppUserByHandle(handle);
+    return appUserService.getAuthUser();
 }
 
 getUsers.$inject = ['$q', '$route', 'appUserService'];
