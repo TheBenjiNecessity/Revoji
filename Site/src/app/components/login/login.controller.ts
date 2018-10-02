@@ -1,6 +1,6 @@
 import * as angular from 'angular';
 
-import { LoginService } from '../../services/login-api.service';
+import { SessionService } from '../../services/session.service';
 
 class loginModel {
     handle: string;
@@ -8,16 +8,16 @@ class loginModel {
 }
 
 export class LoginController {
-    static $inject: string[] = ['$window', 'loginService'];
+    static $inject: string[] = ['$location', 'sessionService'];
 
     model: loginModel;
 
-    constructor(private $window:ng.IWindowService, private loginService:LoginService) {}
+    constructor(private $location:ng.ILocationService, private sessionService:SessionService) {}
 
     login() {
-        this.loginService.login(this.model.handle, this.model.password).then(resp => {
-            let url = `/user?handle=${this.model.handle}`;
-            this.$window.location.href = url;
+        this.sessionService.login(this.model.handle, this.model.password).then(resp => {
+            let url = `user`;
+            this.$location.path(url);
         }).catch(error => {
             console.log(error);
         });

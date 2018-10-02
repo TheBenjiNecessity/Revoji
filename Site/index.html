@@ -6,7 +6,7 @@
 
 		<base href="/">
 	</head>
-	<body ng-app="revoji" ng-class="{'login': !isLoggedIn, 'main': isLoggedIn}">
+	<body ng-app="revoji" ng-class="{'login': !sessionService.isLoggedIn, 'main': sessionService.isLoggedIn}">
 		<div ng-controller="MainController as $ctrl" ng-include="'/src/app/components/main/main.html'"></div>
 	</body>
 </html>

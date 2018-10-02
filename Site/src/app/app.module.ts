@@ -7,6 +7,8 @@ const app = angular.module('revoji', ['ngRoute', 'LocalStorageModule']);
 
 export default app;
 
+import './app.run';
+
 import './components/main';
 import './components/login';
 import './components/users';
