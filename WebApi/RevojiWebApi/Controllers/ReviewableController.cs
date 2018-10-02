@@ -9,7 +9,7 @@ using RevojiWebApi.Models;
 namespace RevojiWebApi.Controllers
 {
     [Route("service-api/[controller]")]
-    public partial class ReviewableController : Controller
+    public partial class ReviewableController : UserController
     {
         [Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]

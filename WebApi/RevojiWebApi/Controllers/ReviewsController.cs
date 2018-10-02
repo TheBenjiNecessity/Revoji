@@ -11,7 +11,7 @@ using RevojiWebApi.Models;
 namespace RevojiWebApi.Controllers
 {
     [Route("service-api/[controller]")]
-    public partial class ReviewsController : Controller
+    public partial class ReviewsController : UserController
     {
 #region CRUD
         [Authorize]//what about one user being able to access another users stuff? claims?
