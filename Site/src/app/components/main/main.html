@@ -1,1 +1,17 @@
+<!-- top bar -->
+<header ng-if="session.isLoggedIn">
+    <a href="#" class="icon">E</a>
+    <nav class="site-nav">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Trending</a></li>
+            <li><a href="#">Interests</a></li>
+            <li><a href="#">Me</a></li>
+        </ul>
+    </nav>
+    <div class="actions">
+        <input class="form-control search-box" type="text" ng-model="$ctrl.search" />
+        <button class="settings"></button>
+    </div>
+</header>
 <div class="wrapper" ng-view></div>
