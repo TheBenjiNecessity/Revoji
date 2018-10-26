@@ -1,5 +1,28 @@
 id,firstname,lastname,email,dob,gender,religion,politics,education,profession,interests,city,administrative_area,country,handle,password,salt,content,settings
-1,Ben,Wishart,email@email.com,19871202,Male,Protestant,None,Masters,None,Jogging,Saint John,New Brunswick,CA,Benji,p,s,{},{}
-2,John,Doe,email2@email.com,19881021,Male,None,None,High School,Developer,Reading,Montreal,Quebec,CA,Johnny,p,s,{},{}
-3,Jane,Doe,email3@email.com,19780703,Female,Jewish,Republican,High School,Engineer,Music,New York,New York,US,Jane123,p,s,{},{}
-4,anna,bonanza,anna@anna.com,19850209,Female,Catholic,Democrat,Bachelors,Teacher,Snow boarding,Toronto,Ontario,CA,annab,p,s,{},{}
+1,Ben,Wishart,email@email.com,19871202,Male,Protestant,None,Masters,None,Jogging,Saint John,New Brunswick,CA,Benji,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+2,John,Doe,email2@email.com,19881021,Male,None,None,High School,Developer,Reading,Montreal,Quebec,CA,Johnny,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+3,Jane,Doe,email3@email.com,19780703,Female,Jewish,Republican,High School,Engineer,Music,New York,New York,US,Jane123,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+4,anna,bonanza,anna@anna.com,19850209,Female,Catholic,Democrat,Bachelors,Teacher,Snow boarding,Toronto,Ontario,CA,annab,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+5,Ronald,Johnson,ronald@email.com,19720311,Male,None,Democrat,Bachelors,Teacher,Music,Toronto,Ontario,CA,ronaldj,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+6,Amanda,Lanister,amanda@email.com,19830721,Female,Protestant,Democrat,Masters,Teacher,Reading,Toronto,Ontario,CA,amandal,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+7,Susan,Davidson,susan@email.com,19780427,Female,Jewish,Democrat,High School,Janitor,Snow boarding,Montreal,Quebec,CA,susand,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+8,James,Smith,james@email.com,19691124,Male,Protestant,Democrat,Bachelors,Engineer,Snow boarding,New York,New York,US,jamess,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+9,Gordon,Tremblay,gordon@email.com,19901201,Male,Catholic,Democrat,Bachelors,Developer,Music,Montreal,Quebec,CA,gordont,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+10,Wendy,McCarthy,wendy@email.com,19940606,Female,None,Democrat,Masters,Teacher,Reading,Saint John,New Brunswick,CA,wendym,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+11,Veronica,Newton,veronica@email.com,19990803,Female,Protestant,Democrat,High School,Teacher,Snow boarding,Toronto,Ontario,CA,veronican,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+12,Caleb,Short,caleb@email.com,19830316,Male,Jewish,Democrat,Masters,Developer,Jogging,Toronto,Ontario,CA,calebs,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+13,Heather,Langdon,heather@email.com,19890714,Female,Catholic,Democrat,High School,Engineer,Music,Montreal,Quebec,CA,heatherl,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+14,Lily,Chandler,lily@email.com,19840117,Female,Protestant,Democrat,High School,Janitor,Snow boarding,New York,New York,US,lilyc,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+15,Jason,Lake,jason@email.com,19860403,Male,None,Democrat,Bachelors,Teacher,Jogging,Saint John,New Brunswick,CA,jasonl,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+16,Mandy,Kane,mandy@email.com,19711108,Female,Catholic,Democrat,High School,Teacher,Snow boarding,Montreal,Quebec,CA,mandyk,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+17,Patricia,O'Neil,patricia@email.com,19771031,Female,Jewish,Democrat,Masters,Janitor,Reading,Toronto,Ontario,CA,patriciao,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+18,Geoff,Blakely,geoff@email.com,19750930,Male,Protestant,Democrat,Bachelors,Engineer,Music,Montreal,Ontario,CA,geoffb,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+19,Holly,Oliver,holly@email.com,19870704,Female,None,Democrat,High School,Teacher,Snow boarding,New York,New York,US,hollyo,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+20,Wanda,Mason,wanda@email.com,19970222,Female,Protestant,Democrat,Bachelors,Developer,Reading,Montreal,Quebec,CA,wandam,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+21,Lucy,Donovan,lucy@email.com,19670826,Female,Catholic,Democrat,High School,Teacher,Reading,Saint John,New Brunswick,CA,lucyd,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+22,Henry,McDonald,henry@email.com,19660127,Male,Protestant,Democrat,Masters,Developer,Music,Montreal,Quebec,CA,henrym,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+23,Adam,Grimes,adam@email.com,19730723,Male,Protestant,Democrat,High School,Janitor,Jogging,New York,New York,US,adamg,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+24,Alex,Kirk,alex@email.com,19860404,Male,None,Democrat,Bachelors,Teacher,Snow boarding,Montreal,Quebec,CA,alexk,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+25,Patrick,Spooner,patrick@email.com,19590306,Male,Protestant,Democrat,High School,Developer,Reading,Toronto,Ontario,CA,patricks,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+26,Michael,Stanford,michael@email.com,19900805,Male,Jewish,Democrat,Bachelors,Teacher,Reading,Montreal,Quebec,CA,michaels,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
+27,Luke,Haywood,luke@email.com,19911009,Male,Protestant,Democrat,High School,Engineer,Music,New York,New York,US,lukeh,$2b$10$InGuymmSQhNObJbmo0lx/upbu4JFPsPYgmfnugQu71baAlZCXedDi,$2b$10$InGuymmSQhNObJbmo0lx/u,{},{}
