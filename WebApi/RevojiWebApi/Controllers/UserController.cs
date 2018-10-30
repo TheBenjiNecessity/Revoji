@@ -18,7 +18,10 @@ namespace RevojiWebApi.Controllers
             string handle = identity.Claims.Where(cl => cl.Type == ClaimTypes.NameIdentifier)
                                     .Select(cl => cl.Value)
                                     .FirstOrDefault();
-            ApiUser = AppUser.UserFromHandle(handle);
+            if (handle != null) 
+            {
+                ApiUser = AppUser.UserFromHandle(handle);
+            }
 
             base.OnActionExecuting(context);
         }
