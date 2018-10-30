@@ -101,6 +101,34 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Performs a search of the users database with the given text and paging
+        /// </summary>
+        /// <returns>A list of users that fit the search criteria (paging added)</returns>
+        /// <param name="text">the search text (usually from a textbox)</param>
+        /// <param name="pageStart">page start</param>
+        /// <param name="pageLimit">page limit</param>
+        //[Authorize]
+        [HttpGet("search")]
+        public IActionResult Search(string text, int pageStart = 0, int pageLimit = 20)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                // Filter out users whose first name, last name, or handle don't contain
+                // the search text.
+                var query = context.AppUsers.Where(au => au.Id != 1 &&
+                                                   (au.FirstName.Contains(text) ||
+                                                    au.LastName.Contains(text) ||
+                                                    au.Handle.Contains(text)));
+
+                var users = query.Skip(pageStart).Take(pageLimit).Select(au => new AppUser(au)).ToArray();
+
+                // Filter out results based on popularity/is a following of the apiuser/past searches
+
+                return Ok(users);
+            }
+        }
+
         [Authorize]
         [HttpPost("changepassword/{id}")]
         public IActionResult ChangePassword(int id, string newPassword, string oldPassword)
