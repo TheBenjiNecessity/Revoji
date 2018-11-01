@@ -27,6 +27,21 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
+        [HttpGet("search")]
+        public IActionResult Search(string text, int pageStart = 0, int pageLimit = 20)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var query = context.Reviewables.Where(r => r.Title.Contains(text));
+                var reviewables = query.Skip(pageStart).Take(pageLimit).Select(r => new Reviewable(r)).ToArray();
+
+                // Filter out results based on popularity/past searches
+
+                return Ok(reviewables);
+            }
+        }
+
+        [Authorize]
         [HttpGet("list/type/{type}")]
         public IActionResult ListByType(string type, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
