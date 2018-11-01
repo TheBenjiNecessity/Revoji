@@ -108,7 +108,7 @@ namespace RevojiWebApi.Controllers
         /// <param name="text">the search text (usually from a textbox)</param>
         /// <param name="pageStart">page start</param>
         /// <param name="pageLimit">page limit</param>
-        //[Authorize]
+        [Authorize]
         [HttpGet("search")]
         public IActionResult Search(string text, int pageStart = 0, int pageLimit = 20)
         {
