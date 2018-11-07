@@ -1,44 +1,60 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
+using RevojiWebApi.Services;
 
 namespace RevojiWebApi.Controllers
 {
+    //enum AdaptorType
+
     [Route("service-api/[controller]")]
     public partial class ReviewableController : UserController
     {
-        [Authorize]//what about one user being able to access another users stuff? claims?
+        [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id, string type)
         {
-            using (var context = new RevojiDataContext())
+            ReviewableAPIFactory reviewableAPIFactory;
+            if (type.Equals("media"))
             {
-                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
-                if (dbReviewable == null)
-                {
-                    return new NotFoundResult();
-                }
-                return Ok(new ReviewableDetail(dbReviewable));
+                reviewableAPIFactory = new MediaFactory();
             }
+            else if (type.Equals("product"))
+            {
+                reviewableAPIFactory = new ProductFactory();
+            }
+            else 
+            {
+                reviewableAPIFactory = new MediaFactory();
+            }
+
+            return Ok(reviewableAPIFactory.GetAPIAdaptor().GetReviewableByIDAsync(id).Result);
         }
 
         [Authorize]
         [HttpGet("search")]
-        public IActionResult Search(string text, int pageStart = 0, int pageLimit = 20)
+        public IActionResult Search(string text, string type, int pageStart = 0, int pageLimit = 20)
         {
-            using (var context = new RevojiDataContext())
+            ReviewableAPIFactory reviewableAPIFactory;
+            if (type.Equals("media"))
             {
-                var query = context.Reviewables.Where(r => r.Title.Contains(text));
-                var reviewables = query.Skip(pageStart).Take(pageLimit).Select(r => new Reviewable(r)).ToArray();
-
-                // Filter out results based on popularity/past searches
-
-                return Ok(reviewables);
+                reviewableAPIFactory = new MediaFactory();
             }
+            else if (type.Equals("product"))
+            {
+                reviewableAPIFactory = new ProductFactory();
+            }
+            else
+            {
+                reviewableAPIFactory = new MediaFactory();
+            }
+
+            return Ok(reviewableAPIFactory.GetAPIAdaptor().SearchReviewablesAsync(text, pageStart, pageLimit).Result);
         }
 
         [Authorize]

@@ -12,6 +12,7 @@
     <Folder Include="DBTables\DBContexts\" />
     <Folder Include="Attributes\" />
     <Folder Include="Stored Procedures\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
