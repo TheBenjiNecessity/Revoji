@@ -28,10 +28,10 @@ namespace RevojiWebApi.DBTables
         [Column("title_image_url")]
         public string TitleImageUrl { get; set; }
 
-        [Column("content")]
+        [Column("content", TypeName = "json")]
         public string ReviewableContentJSON { get; set; }
 
-        [Column("info")]
+        [Column("info", TypeName = "json")]
         public string ReviewableInfoJSON { get; set; }
 
         [NotMapped]
