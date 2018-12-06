@@ -80,5 +80,6 @@ namespace RevojiWebApi.DBTables
 
         public virtual ICollection<DBReview> Reviews { get; set; }
         public virtual ICollection<DBLike> DBLikes { get; set; }// Liked many reviews
+        public virtual ICollection<DBReply> DBReplies { get; set; }
     }
 }
