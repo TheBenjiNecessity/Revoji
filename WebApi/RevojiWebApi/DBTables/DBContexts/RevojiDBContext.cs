@@ -11,7 +11,8 @@ namespace RevojiWebApi.DBTables.DBContexts
         public DbSet<DBReviewable> Reviewables { get; set; }
         public DbSet<DBLike> Likes { get; set; }
         public DbSet<DBFollowing> Followings { get; set; }
-        
+        public DbSet<DBReply> Replies { get; set; }
+
         public RevojiDBContext(DbContextOptions<RevojiDBContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,6 +41,19 @@ namespace RevojiWebApi.DBTables.DBContexts
             modelBuilder.Entity<DBLike>()
                         .HasOne(l => l.DBAppUser)
                         .WithMany(a => a.DBLikes)
+                        .HasForeignKey(l => l.AppUserId);
+
+            modelBuilder.Entity<DBReply>()
+                        .HasKey(l => new { l.ReviewId, l.AppUserId });
+
+            modelBuilder.Entity<DBReply>()
+                        .HasOne(l => l.DBReview)
+                        .WithMany(r => r.DBReplies)
+                        .HasForeignKey(l => l.ReviewId);
+
+            modelBuilder.Entity<DBReply>()
+                        .HasOne(l => l.DBAppUser)
+                        .WithMany(a => a.DBReplies)
                         .HasForeignKey(l => l.AppUserId);
         }
     }

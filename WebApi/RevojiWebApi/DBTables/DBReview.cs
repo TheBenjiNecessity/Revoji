@@ -32,5 +32,6 @@ namespace RevojiWebApi.DBTables
         public virtual DBReviewable DBReviewable { get; set; }
 
         public virtual ICollection<DBLike> DBLikes { get; set; }
+        public virtual ICollection<DBReply> DBReplies { get; set; }
     }
 }
