@@ -6,6 +6,7 @@
 \i tables/following.sql
 
 \i tables/like.sql
+\i tables/reply.sql
 
 \i functions/follower_count.sql
 \i functions/following_count.sql
