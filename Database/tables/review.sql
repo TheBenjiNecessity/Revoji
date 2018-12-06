@@ -8,11 +8,11 @@ CREATE TABLE review (
 
     title text,
     comment text,
-    emojis text,
+    emojis text NOT NULL,
     created timestamp NOT NULL,
 
     app_user_id int NOT NULL,
-    reviewable_id int,
+    reviewable_id int NOT NULL,
 
 	CONSTRAINT review_primary_key PRIMARY KEY (id),
     CONSTRAINT review_user_foreign_key FOREIGN KEY (app_user_id) REFERENCES app_user (id),
