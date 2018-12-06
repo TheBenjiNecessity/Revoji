@@ -20,7 +20,7 @@ namespace RevojiWebApi.Controllers
         public IActionResult Get(string id, string type)
         {
             ReviewableAPIFactory reviewableAPIFactory;
-            if (type.Equals("media"))
+            if (type.Equals("media") || type.Equals(OMDBAPIAdaptor.TPNAME))//TODO this isn't right
             {
                 reviewableAPIFactory = new MediaFactory();
             }
