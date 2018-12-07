@@ -9,8 +9,7 @@ namespace RevojiWebApi.Models
         [Required]
         public int AppUserID { get; set; }
 
-        [Required]
-        public int ReviewableID { get; set; }
+        public int? ReviewableID { get; set; }
 
         public string Title { get; set; }
 
@@ -35,6 +34,11 @@ namespace RevojiWebApi.Models
             AppUserID = dBReview.AppUserId;
             ReviewableID = dBReview.ReviewableId;
             Created = dBReview.Created;
+
+            if (dBReview.DBAppUser != null && dBReview.DBReviewable != null) { //TODO: This isn't quite right
+                AppUser = new AppUser(dBReview.DBAppUser);
+                Reviewable = new Reviewable(dBReview.DBReviewable);
+            }
         }
 
         public override void UpdateDB(DBTable dbModel)
@@ -49,7 +53,8 @@ namespace RevojiWebApi.Models
             dBReview.Created = Created;
 
             dBReview.AppUserId = AppUserID;
-            dBReview.ReviewableId = ReviewableID;
+            if (ReviewableID.HasValue)
+                dBReview.ReviewableId = ReviewableID.Value;
         }
     }
 }
