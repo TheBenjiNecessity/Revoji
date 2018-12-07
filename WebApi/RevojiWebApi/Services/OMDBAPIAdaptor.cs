@@ -5,12 +5,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
 
 namespace RevojiWebApi.Services
 {
     public class OMDBAPIAdaptor : ReviewableAPIAdaptor
     {
+        public static string TPNAME = "imdb";
+
         public OMDBAPIAdaptor()
         {
             apiKey = "72f1abd1";
@@ -41,6 +44,17 @@ namespace RevojiWebApi.Services
                 reviewable.Title = reviewableJSON.title;
                 reviewable.Type = reviewableJSON.type;
                 reviewable.TitleImageUrl = reviewableJSON.poster;
+                reviewable.TpId = reviewableJSON.imdbID;
+                reviewable.TpName = TPNAME;
+                reviewable.Description = reviewableJSON.plot;
+
+                using (var context = new RevojiDataContext())
+                {
+                    var rev = context.Reviewables.Where(r => r.TpId == reviewable.TpId && r.TpName == TPNAME).FirstOrDefault();
+                    if (rev != null) {
+                        reviewable.ID = rev.Id;
+                    }
+                }
             }
 
             return reviewable;
@@ -60,6 +74,8 @@ namespace RevojiWebApi.Services
                     reviewable.Title = r.title;
                     reviewable.Type = r.type;
                     reviewable.TitleImageUrl = r.image;
+                    reviewable.TpId = r.imdbID;
+                    reviewable.TpName = TPNAME;
                     return reviewable;
                 }).ToArray();
             }

@@ -22,6 +22,14 @@ namespace RevojiWebApi.DBTables
         [Column("type")]
         public string Type { get; set; }
 
+        [Required]
+        [Column("tp_id")]
+        public string TpId { get; set; }
+
+        [Required]
+        [Column("tp_name")]
+        public string TpName { get; set; }
+
         [Column("description")]
         public string Description { get; set; }
 

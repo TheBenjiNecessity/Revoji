@@ -12,6 +12,12 @@ namespace RevojiWebApi.Models
         [Required(ErrorMessage = "reviewable_type_required")]
         public string Type { get; set; }
 
+        [Required(ErrorMessage = "reviewable_tpid_required")]
+        public string TpId { get; set; }
+
+        [Required(ErrorMessage = "reviewable_tpname_required")]
+        public string TpName { get; set; }
+
         public string Description { get; set; }
 
         public string TitleImageUrl { get; set; }
@@ -24,6 +30,8 @@ namespace RevojiWebApi.Models
             Type = dBReviewable.Type;
             TitleImageUrl = dBReviewable.TitleImageUrl;
             Description = dBReviewable.Description;
+            TpId = dBReviewable.TpId;
+            TpName = dBReviewable.TpName;
         }
 
         public override void UpdateDB(DBTable dbModel)
@@ -36,6 +44,8 @@ namespace RevojiWebApi.Models
             dBReviewable.Type = Type;
             dBReviewable.TitleImageUrl = TitleImageUrl;
             dBReviewable.Description = Description;
+            dBReviewable.TpId = TpId;
+            dBReviewable.TpName = TpName;
         }
     }
 }

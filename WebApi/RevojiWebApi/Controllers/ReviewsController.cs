@@ -110,8 +110,8 @@ namespace RevojiWebApi.Controllers
         }
         
         [Authorize]
-        [HttpGet("list/reviewable/{id}")]
-        public IActionResult ListByReviewable(int id,
+        [HttpGet("list/reviewable/{tpId}")]
+        public IActionResult ListByReviewable(string tpId, string tpName,
                                               string order = "DESC",
                                               int pageStart = 0,
                                               int pageLimit = 20)
@@ -119,7 +119,8 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 var reviews = context.Reviews
-                                     .Where(r => r.ReviewableId == id)
+                                     .Where(r => r.DBReviewable.TpId == tpId &&
+                                            r.DBReviewable.TpName == tpName)
                                      .Include(r => r.DBAppUser)
                                      .Include(r => r.DBReviewable);
 
