@@ -37,7 +37,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("search")]
+        [HttpGet("search/{text}")]
         public IActionResult Search(string text, string type, int pageStart = 0, int pageLimit = 20)
         {
             ReviewableAPIFactory reviewableAPIFactory;
