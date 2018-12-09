@@ -58,7 +58,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("list/type/{type}")]
+        [HttpGet("type/{type}")]
         public IActionResult ListByType(string type, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             //what would you order?

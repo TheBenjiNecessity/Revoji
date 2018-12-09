@@ -8,7 +8,7 @@ using RevojiWebApi.Models;
 
 namespace RevojiWebApi.Controllers
 {
-    public partial class ReviewsController
+    public partial class ReviewController
     {
         [Authorize]
         [HttpPost("like")]

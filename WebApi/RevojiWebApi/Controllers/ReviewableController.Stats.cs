@@ -28,7 +28,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("stats/emojistats/{id}")]
+        [HttpGet("{id}/stats/icon")]
         public IActionResult GetEmojiStats(int id)
         {
             Dictionary<string, int> emojiCounts = new Dictionary<string, int>();
@@ -53,34 +53,11 @@ namespace RevojiWebApi.Controllers
             }
         }
 
-        //[Authorize]//what about one user being able to access another users stuff? claims?
-        //[HttpGet("stats/wordstats/{id}")]
-        //public IActionResult GetWordStats(int id)
-        //{
-        //    using (var context = new RevojiDataContext())
-        //    {
-        //        DBReviewable dbReviewable = context.Get<DBReviewable>(id);
-        //        if (dbReviewable == null)
-        //        {
-        //            return new NotFoundResult();
-        //        }
-
-        //        ReviewableDetail reviewable = new ReviewableDetail(dbReviewable);
-
-        //        Regex rgx = new Regex("[^a-zA-Z]");//TODO: this won't work with other languages
-
-        //        //var words = reviewable.Reviews.SelectMany(r => r.Comment.Replace() Split());
-
-        //        // Make a list of every word from every comment in every review (delimited by whitespace)
-
-        //        // set all words to lowercase and strip out punctuation (period, quote)
-
-        //        // remove all words that aren't adjectives
-
-        //        // group words together into a dictionary (key = word, value = count for that word)
-
-        //        return Ok();
-        //    }
-        //}
+        [Authorize]//what about one user being able to access another users stuff? claims?
+        [HttpGet("{id}/stats/word/{id}")]
+        public IActionResult GetWordStats(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

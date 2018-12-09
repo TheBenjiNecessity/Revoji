@@ -11,7 +11,7 @@ using RevojiWebApi.Models;
 namespace RevojiWebApi.Controllers
 {
     [Route("service-api/[controller]")]
-    public partial class ReviewsController : UserController
+    public partial class ReviewController : UserController
     {
 #region CRUD
         [Authorize]//what about one user being able to access another users stuff? claims?
@@ -41,19 +41,39 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
+                if (review.ReviewableID == null && review.Reviewable == null)
+                {
+                    return BadRequest(new { ErrorMessage = "Reviewable not populated." });
+                }
+
                 DBReview dbReview = new DBReview();
                 review.UpdateDB(dbReview);
                 dbReview.Created = DateTime.Now;
 
+                // If there is no reviewable in the db that the review refers to then create one
+                if (review.ReviewableID == null && !context.Reviewables.Any(r => r.TpId == review.Reviewable.TpId))
+                {
+                    DBReviewable dBReviewable = new DBReviewable();
+                    review.Reviewable.UpdateDB(dBReviewable);
+                    context.Add(dBReviewable);
+                    context.Save();
+
+                    dbReview.ReviewableId = dBReviewable.Id;
+                }
+
                 context.Add(dbReview);
                 context.Save();
 
-                return Ok(new Review(dbReview));
+                var result = new Review(dbReview);
+                result.AppUser = review.AppUser;
+                result.Reviewable = review.Reviewable;
+
+                return Ok(result);
             }
         }
 
         [Authorize]
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]Review review)
         {
             using (var context = new RevojiDataContext())
@@ -92,7 +112,7 @@ namespace RevojiWebApi.Controllers
 #endregion
 
         [Authorize]
-        [HttpGet("list/user/{id}")]
+        [HttpGet("user/{id}")]
         public IActionResult ListByUser(int id,
                                         string order = "DESC", 
                                         int pageStart = 0,
@@ -110,7 +130,7 @@ namespace RevojiWebApi.Controllers
         }
         
         [Authorize]
-        [HttpGet("list/reviewable/{tpId}")]
+        [HttpGet("reviewable/{tpId}")]
         public IActionResult ListByReviewable(string tpId, string tpName,
                                               string order = "DESC",
                                               int pageStart = 0,
@@ -129,7 +149,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpGet("list/followings/{id}")]
+        [HttpGet("following/{id}")]
         public IActionResult ListByFollowings(int id,
                                               string order = "DESC",
                                               int pageStart = 0,

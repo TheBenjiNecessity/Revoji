@@ -11,7 +11,7 @@ namespace RevojiWebApi.Controllers
     public partial class AppUserController
 	{
 		[Authorize]//what about one user being able to access another users stuff? claims?
-        [HttpGet("counts/{id}")]
+        [HttpGet("{id}/counts")]
         public IActionResult GetCounts(int id)
         {
             using (var context = new RevojiDataContext())

@@ -21,7 +21,7 @@ namespace RevojiWebApi.Controllers
         /// <param name="pageStart">Page start.</param>
         /// <param name="pageLimit">Page limit.</param>
         [Authorize]
-        [HttpGet("followers/{id}")]
+        [HttpGet("{id}/followers")]
         public IActionResult ListFollowers(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
@@ -71,7 +71,7 @@ namespace RevojiWebApi.Controllers
         /// <param name="pageStart">Page start.</param>
         /// <param name="pageLimit">Page limit.</param>
         [Authorize]
-        [HttpGet("followings/{id}")]
+        [HttpGet("{id}/followings")]
         public IActionResult ListFollowings(int id, string order = "DESC", int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
@@ -116,7 +116,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("follower")]
+        [HttpPost("following")]
         public IActionResult AddFollowing([FromBody]AppUserFollowing following)
         {
             using (var context = new RevojiDataContext())
@@ -133,7 +133,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpDelete("follower/{id}")]//id is the id of the follower
+        [HttpDelete("{id}/following/{followingId}")]//id is the id of the follower
         public IActionResult RemoveFollowing(int id, int followingId)
         {
             using (var context = new RevojiDataContext())

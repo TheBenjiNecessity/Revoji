@@ -64,7 +64,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("{id}")]
+        [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]AppUserDetail appUser)
         {
             using (var context = new RevojiDataContext())
@@ -109,7 +109,7 @@ namespace RevojiWebApi.Controllers
         /// <param name="pageStart">page start</param>
         /// <param name="pageLimit">page limit</param>
         [Authorize]
-        [HttpGet("search")]
+        [HttpGet("search/{text}")]
         public IActionResult Search(string text, int pageStart = 0, int pageLimit = 20)
         {
             using (var context = new RevojiDataContext())
@@ -130,12 +130,12 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("changepassword/{id}")]
-        public IActionResult ChangePassword(int id, string newPassword, string oldPassword)
+        [HttpPost("changepassword")]
+        public IActionResult ChangePassword(string newPassword, string oldPassword)
         {
             using (var context = new RevojiDataContext())
             {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
+                DBAppUser dbAppUser = context.Get<DBAppUser>(ApiUser.ID);
                 if (dbAppUser == null)
                 {
                     return new NotFoundResult();
