@@ -27,8 +27,8 @@
 | Read        | Get    | ```/reviewable/{tpId}?tpName=```                              | Get a reviewable by tpid and tpname    | Yes           |
 | Search      | Get    | ```/reviewable/{text}?tpName=&order=&pageStart=&pageLimit=``` | List reviewables by search text        | Yes           |
 | List        | Get    | ```/reviewable/type/{type}?order=&pageStart=&pageLimit=```    | List reviewables by type               | Yes           |
-| Emoji Stats | Get    | ```/reviewable/stats/icon/{tpId}?tpName=```                   | Get emoji stats                        | Yes           |
-| Word Stats  | Get    | ```/reviewable/stats/word/{tpId}?tpName=```                   | Get word stats                         | Yes           |
+| Emoji Stats | Get    | ```/reviewable/{id}/stats/icon/{tpId}?tpName=```              | Get emoji stats                        | Yes           |
+| Word Stats  | Get    | ```/reviewable/{id}/stats/word/{tpId}?tpName=```              | Get word stats                         | Yes           |
 
 - - -
 
