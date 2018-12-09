@@ -14,7 +14,7 @@
 | Search          | Get    | ```/appuser/search/{text}```       | Search for app users by given text     | Yes                 |
 | Followers       | Get    | ```/appuser/{id}/followers```      | List followers for the given user      | Yes                 |
 | Followings      | Get    | ```/appuser/{id}/followings```     | List followings for the given user     | Yes                 |
-| Change Password | Put    | ```/appuser/{id}/changepassword``` | Change the password for the api user   | Yes                 |
+| Change Password | Put    | ```/appuser/changepassword```      | Change the password for the api user   | Yes                 |
 | Add Following   | Post   | ```/appuser/{id}/following```      | Add a following for the given user     | Yes                 |
 | Del Following   | Delete | ```/appuser/{id}/following/{id}``` | Delete a following for the given user  | Yes                 |
 
