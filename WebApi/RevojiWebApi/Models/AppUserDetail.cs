@@ -20,6 +20,8 @@ namespace RevojiWebApi.Models
 
         public string Interests { get; set; }
 
+        public DateTime? Joined { get; set; }
+
         dynamic Content;
 
         dynamic Settings;

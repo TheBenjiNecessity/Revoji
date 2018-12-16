@@ -55,6 +55,9 @@ namespace RevojiWebApi.DBTables
         [Column("country")]
         public string Country { get; set; }
 
+        [Column("joined")]
+        public DateTime? Joined { get; set; }
+
         [Column("content")]
         private string AppUserContentJSON { get; set; }
 

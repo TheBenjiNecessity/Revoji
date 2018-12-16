@@ -71,6 +71,10 @@ namespace RevojiWebApi.DBTables.DBContexts
             modelBuilder.Entity<DBReview>()
                         .Property(r => r.Created)
                         .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<DBAppUser>()
+                        .Property(a => a.Joined)
+                        .HasDefaultValueSql("now()");
         }
     }
 }

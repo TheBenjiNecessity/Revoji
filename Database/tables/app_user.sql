@@ -29,6 +29,7 @@ CREATE TABLE app_user (
 	education text,
 	profession text,
 	interests text,
+	joined timestamp default now(),
 
 	--location
 	city text,
