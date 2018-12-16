@@ -15,7 +15,7 @@ namespace RevojiWebApi.Models
         [Required]
         public string Type { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         public AppUser AppUser { get; set; }
 

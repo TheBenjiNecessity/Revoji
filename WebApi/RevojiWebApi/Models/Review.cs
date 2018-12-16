@@ -11,9 +11,9 @@ namespace RevojiWebApi.Models
 
         public int? ReviewableID { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; }//TODO remove?
 
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         public string Comment { get; set; }
 

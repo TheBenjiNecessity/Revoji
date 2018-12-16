@@ -16,7 +16,7 @@ namespace RevojiWebApi
         [Required]
         public string Comment { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         public AppUser AppUser { get; set; }
 

@@ -48,7 +48,6 @@ namespace RevojiWebApi.Controllers
 
                 DBReview dbReview = new DBReview();
                 review.UpdateDB(dbReview);
-                dbReview.Created = DateTime.Now;
 
                 // If there is no reviewable in the db that the review refers to then create one
                 if (review.ReviewableID == null && !context.Reviewables.Any(r => r.TpId == review.Reviewable.TpId))

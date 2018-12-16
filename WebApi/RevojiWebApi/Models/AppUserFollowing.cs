@@ -12,7 +12,7 @@ namespace RevojiWebApi.Models
         [Required]
         public int FollowingId { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         public AppUserFollowing() { }
 

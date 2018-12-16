@@ -18,7 +18,6 @@ namespace RevojiWebApi.Controllers
             {
                 DBReply dBReply = new DBReply();
                 reply.UpdateDB(dBReply);
-                dBReply.Created = DateTime.Now;
 
                 context.Add(dBReply);
                 context.Save();

@@ -10,7 +10,7 @@ namespace RevojiWebApi.DBTables
         public string Comment { get; set; }
 
         [Column("created")]
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         [Column("app_user_id")]
         public int AppUserId { get; set; }

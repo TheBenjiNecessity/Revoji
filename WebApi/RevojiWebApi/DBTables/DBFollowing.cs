@@ -7,7 +7,7 @@ namespace RevojiWebApi.DBTables
     public class DBFollowing
     {
         [Column("created")]
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         [Column("follower_app_user_id")]
         public int FollowerAppUserId { get; set; }

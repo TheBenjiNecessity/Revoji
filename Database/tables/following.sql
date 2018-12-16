@@ -3,7 +3,7 @@
 --  follower_app_user_id: the id of the user doing the following
 -- following_app_user_id: the id of the user being followed
 CREATE TABLE follower (
-    created timestamp NOT NULL,
+    created timestamp default now(),
 
     follower_app_user_id int NOT NULL,
     following_app_user_id int NOT NULL,

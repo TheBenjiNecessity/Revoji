@@ -9,7 +9,7 @@ CREATE TABLE review (
     title text,
     comment text,
     emojis text NOT NULL,
-    created timestamp NOT NULL,
+    created timestamp default now(),
 
     app_user_id int NOT NULL,
     reviewable_id int NOT NULL,

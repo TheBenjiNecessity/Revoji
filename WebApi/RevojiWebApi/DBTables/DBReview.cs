@@ -11,7 +11,7 @@ namespace RevojiWebApi.DBTables
         public string Title { get; set; }
 
         [Column("created")]
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
 
         [Column("comment")]
         public string Comment { get; set; }

@@ -3,7 +3,7 @@
 -- created: the timestamp that the user created the review reply
 CREATE TABLE review_reply (
     comment text NOT NULL,
-    created timestamp NOT NULL,
+    created timestamp default now(),
 
     review_id int NOT NULL,
     app_user_id int NOT NULL,

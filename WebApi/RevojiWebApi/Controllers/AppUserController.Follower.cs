@@ -125,7 +125,6 @@ namespace RevojiWebApi.Controllers
                 DBFollowing dbFollowing = new DBFollowing();
                 dbFollowing.FollowingAppUserId = followingId;
                 dbFollowing.FollowerAppUserId = ApiUser.ID;
-                dbFollowing.Created = DateTime.Now;//TODO: 0001/01/01 ?
 
                 context.Add(dbFollowing);
                 context.Save();
@@ -142,7 +141,7 @@ namespace RevojiWebApi.Controllers
             {
                 var dbFollowing = context.Followings
                                          .Where(f => f.FollowerAppUserId == ApiUser.ID &&
-                                                f.FollowingAppUserId == followingId)
+                                                     f.FollowingAppUserId == followingId)
                                          .FirstOrDefault();
 
                 if (dbFollowing == null)
@@ -153,7 +152,7 @@ namespace RevojiWebApi.Controllers
                 context.Remove(dbFollowing);
                 context.Save();
 
-                return Ok();
+                return Ok(new AppUserFollowing(dbFollowing));
             }
         }
 

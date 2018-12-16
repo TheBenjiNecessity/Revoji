@@ -4,7 +4,7 @@
 -- app_user_id: the user making the review
 CREATE TABLE review_like (
     type text NOT NULL,
-    created timestamp NOT NULL,
+    created timestamp default now(),
     review_id int NOT NULL,
     app_user_id int NOT NULL,
 

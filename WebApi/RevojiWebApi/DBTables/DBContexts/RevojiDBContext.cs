@@ -30,6 +30,10 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .WithMany(a => a.Followings)
                         .HasForeignKey(f => f.FollowingAppUserId);
 
+            modelBuilder.Entity<DBFollowing>()
+                        .Property(f => f.Created)
+                        .HasDefaultValueSql("now()");
+
             modelBuilder.Entity<DBLike>()
                         .HasKey(l => new { l.ReviewId, l.AppUserId });
 
@@ -43,6 +47,10 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .WithMany(a => a.DBLikes)
                         .HasForeignKey(l => l.AppUserId);
 
+            modelBuilder.Entity<DBLike>()
+                        .Property(l => l.Created)
+                        .HasDefaultValueSql("now()");
+
             modelBuilder.Entity<DBReply>()
                         .HasKey(l => new { l.ReviewId, l.AppUserId });
 
@@ -55,6 +63,14 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .HasOne(l => l.DBAppUser)
                         .WithMany(a => a.DBReplies)
                         .HasForeignKey(l => l.AppUserId);
+
+            modelBuilder.Entity<DBReply>()
+                        .Property(r => r.Created)
+                        .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<DBReview>()
+                        .Property(r => r.Created)
+                        .HasDefaultValueSql("now()");
         }
     }
 }
