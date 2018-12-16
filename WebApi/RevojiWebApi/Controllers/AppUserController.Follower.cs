@@ -156,5 +156,25 @@ namespace RevojiWebApi.Controllers
                 return Ok();
             }
         }
+
+        [Authorize]
+        [HttpGet("following/{followingId}")]
+        public IActionResult getFollowing(int followingId) //this should be get following
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var dbFollowing = context.Followings
+                                         .Where(f => f.FollowerAppUserId == ApiUser.ID && 
+                                                     f.FollowingAppUserId == followingId)
+                                         .FirstOrDefault();
+
+                if (dbFollowing == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                return Ok(new AppUserFollowing(dbFollowing));
+            }
+        }
     }
 }
