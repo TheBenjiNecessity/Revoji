@@ -30,7 +30,8 @@ namespace RevojiWebApi.Controllers
                                        .Where(f => f.FollowingAppUserId == id)
                                        .Include(f => f.Follower);
 
-                if (followers.Count() == 0) {
+                if (followers.Count() == 0)
+                {
                     return new NotFoundResult();
                 }
 
@@ -49,7 +50,7 @@ namespace RevojiWebApi.Controllers
                 {
                     return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
                 }
-                
+
                 // Get a list of followings offset by pageStart and limited by pageLimit
                 IQueryable<DBFollowing> pagedFollowers = orderedAppUserFollowers.Skip(pageStart)
                                                                                  .Take(pageLimit);
@@ -57,7 +58,7 @@ namespace RevojiWebApi.Controllers
                 // Map this list of followings to a list of AppUser models
                 IEnumerable<AppUser> appUserFollowers = pagedFollowers.Select(f => f.Follower)
                                                                       .Select(a => new AppUser(a));
-                                                                      
+
                 return Ok(appUserFollowers.ToArray());
             }
         }
@@ -116,14 +117,15 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("following")]
-        public IActionResult AddFollowing([FromBody]AppUserFollowing following)
+        [HttpPost("following/{followingId}")]
+        public IActionResult AddFollowing(int followingId)
         {
             using (var context = new RevojiDataContext())
             {
                 DBFollowing dbFollowing = new DBFollowing();
+                dbFollowing.FollowingAppUserId = followingId;
+                dbFollowing.FollowerAppUserId = ApiUser.ID;
                 dbFollowing.Created = DateTime.Now;//TODO: 0001/01/01 ?
-                following.UpdateDB(dbFollowing);
 
                 context.Add(dbFollowing);
                 context.Save();
@@ -133,16 +135,16 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{id}/following/{followingId}")]//id is the id of the follower
-        public IActionResult RemoveFollowing(int id, int followingId)
+        [HttpDelete("following/{followingId}")]//id is the id of the follower
+        public IActionResult RemoveFollowing(int followingId)
         {
             using (var context = new RevojiDataContext())
             {
                 var dbFollowing = context.Followings
-                                         .Where(f => f.FollowerAppUserId == id && 
+                                         .Where(f => f.FollowerAppUserId == ApiUser.ID &&
                                                 f.FollowingAppUserId == followingId)
                                          .FirstOrDefault();
-                
+
                 if (dbFollowing == null)
                 {
                     return new NotFoundResult();
