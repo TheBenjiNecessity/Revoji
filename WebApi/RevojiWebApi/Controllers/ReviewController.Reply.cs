@@ -60,7 +60,8 @@ namespace RevojiWebApi.Controllers
                 var replies = context.Replies
                                      .Where(r => r.ReviewId == id)
                                      .Include(r => r.DBAppUser)
-                                     .Include(r => r.DBReview);
+                                     .Include(r => r.DBReview)
+                                     .Include("DBReview.DBReviewable");
 
                 return applyReplyFilter(replies, order, pageStart, pageLimit);
             }
