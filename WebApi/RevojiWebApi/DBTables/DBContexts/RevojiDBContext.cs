@@ -12,6 +12,7 @@ namespace RevojiWebApi.DBTables.DBContexts
         public DbSet<DBLike> Likes { get; set; }
         public DbSet<DBFollowing> Followings { get; set; }
         public DbSet<DBReply> Replies { get; set; }
+        public DbSet<DBBlocking> Blockings { get; set; }
 
         public RevojiDBContext(DbContextOptions<RevojiDBContext> options) : base(options) {}
 

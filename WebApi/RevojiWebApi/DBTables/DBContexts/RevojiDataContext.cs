@@ -17,6 +17,7 @@ namespace RevojiWebApi.DBTables.DBContexts
         public IQueryable<DBFollowing> Followings { get { return context.Followings; } }
         public IQueryable<DBLike> Likes { get { return context.Likes; } }
         public IQueryable<DBReply> Replies { get { return context.Replies; } }
+        public IQueryable<DBBlocking> Blockings { get { return context.Blockings; } }
 
 
         public RevojiDataContext()
