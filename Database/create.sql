@@ -4,6 +4,7 @@
 
 \i tables/review.sql
 \i tables/following.sql
+\i tables/blocking.sql
 
 \i tables/like.sql
 \i tables/reply.sql
