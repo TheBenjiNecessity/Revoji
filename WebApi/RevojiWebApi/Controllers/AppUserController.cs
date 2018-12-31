@@ -116,10 +116,14 @@ namespace RevojiWebApi.Controllers
             {
                 // Filter out users whose first name, last name, or handle don't contain
                 // the search text.
-                var query = context.AppUsers.Where(au => au.Id != 1 &&
+                var query = context.AppUsers.Where(au => au.Id != ApiUser.ID &&
                                                    (au.FirstName.Contains(text) ||
                                                     au.LastName.Contains(text) ||
                                                     au.Handle.Contains(text)));
+
+                var blockings = context.Blockings.Where(b => b.BlockerAppUserId == ApiUser.ID).Select(b => b.Blocker);
+
+                query = query.Except(blockings);
 
                 var users = query.Skip(pageStart).Take(pageLimit).Select(au => new AppUser(au)).ToArray();
 
