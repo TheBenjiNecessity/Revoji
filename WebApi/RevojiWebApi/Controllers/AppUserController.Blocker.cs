@@ -55,7 +55,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("block/{blockedId}")]
-        public IActionResult getFollowing(int blockedId) //this should be get following
+        public IActionResult getBlocking(int blockedId) //this should be get following
         {
             using (var context = new RevojiDataContext())
             {
