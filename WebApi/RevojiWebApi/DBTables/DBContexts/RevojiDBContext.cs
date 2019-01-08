@@ -76,6 +76,19 @@ namespace RevojiWebApi.DBTables.DBContexts
             modelBuilder.Entity<DBAppUser>()
                         .Property(a => a.Joined)
                         .HasDefaultValueSql("now()");
+
+            modelBuilder.Entity<DBBlocking>()
+                        .HasKey(b => new { b.BlockerAppUserId, b.BlockedAppUserId });
+
+            modelBuilder.Entity<DBBlocking>()
+                        .HasOne(b => b.Blocker)
+                        .WithMany(a => a.Blockers)
+                        .HasForeignKey(b => b.BlockerAppUserId);
+
+            modelBuilder.Entity<DBBlocking>()
+                        .HasOne(b => b.Blocked)
+                        .WithMany(a => a.Blockings)
+                        .HasForeignKey(b => b.BlockedAppUserId);
         }
     }
 }

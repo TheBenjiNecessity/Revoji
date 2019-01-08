@@ -81,6 +81,7 @@ namespace RevojiWebApi.DBTables
         public virtual ICollection<DBFollowing> Followings { get; set; }
         public virtual ICollection<DBFollowing> Followers { get; set; }
         public virtual ICollection<DBBlocking> Blockings { get; set; }
+        public virtual ICollection<DBBlocking> Blockers { get; set; }
 
         public virtual ICollection<DBReview> Reviews { get; set; }
         public virtual ICollection<DBLike> DBLikes { get; set; }// Liked many reviews
