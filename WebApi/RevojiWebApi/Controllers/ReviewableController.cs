@@ -24,7 +24,7 @@ namespace RevojiWebApi.Controllers
             {
                 reviewableAPIFactory = new MediaFactory();
             }
-            else if (type.Equals("product"))
+            else if (type.Equals("products"))
             {
                 reviewableAPIFactory = new ProductFactory();
             }
@@ -45,7 +45,7 @@ namespace RevojiWebApi.Controllers
             {
                 reviewableAPIFactory = new MediaFactory();
             }
-            else if (type.Equals("product"))
+            else if (type.Equals("products"))
             {
                 reviewableAPIFactory = new ProductFactory();
             }
