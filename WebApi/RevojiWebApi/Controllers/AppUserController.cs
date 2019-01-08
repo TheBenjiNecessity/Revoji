@@ -134,7 +134,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("changepassword")]
+        [HttpPut("changepassword")]
         public IActionResult ChangePassword(string newPassword, string oldPassword)
         {
             using (var context = new RevojiDataContext())
@@ -151,6 +151,30 @@ namespace RevojiWebApi.Controllers
                 }
 
                 dbAppUser.SetPassword(newPassword);
+                context.Save();
+
+                return Ok();
+            }
+        }
+
+        [Authorize]
+        [HttpPut("changeemail/{email}")]
+        public IActionResult ChangeEmail(string email)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                DBAppUser dbAppUser = context.Get<DBAppUser>(ApiUser.ID);
+                if (dbAppUser == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                //if (email is valid)
+                //{
+                //    return new BadRequestResult();
+                //}
+
+                dbAppUser.Email = email;
                 context.Save();
 
                 return Ok();
