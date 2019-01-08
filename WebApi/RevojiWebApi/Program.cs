@@ -19,7 +19,8 @@ namespace RevojiWebApi
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                   .UseStartup<Startup>()
+                   .UseUrls("http://localhost:5001", "http://10.0.1.23:5001")
+                   .Build();
     }
 }
