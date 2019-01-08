@@ -20,7 +20,7 @@ namespace RevojiWebApi
 
         public AppUser AppUser { get; set; }
 
-        public Review Review { get; set; }
+       //public Review Review { get; set; }
 
         public Reply() { }
 
@@ -30,6 +30,9 @@ namespace RevojiWebApi
             Created = dbReply.Created;
             AppUserID = dbReply.AppUserId;
             ReviewID = dbReply.ReviewId;
+
+            AppUser = new AppUser(dbReply.DBAppUser);
+            //Review = new Review(dbReply.DBReview);
         }
 
         public void UpdateDB(DBReply dbReply)
