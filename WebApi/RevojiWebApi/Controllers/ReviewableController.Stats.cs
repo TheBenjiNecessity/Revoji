@@ -54,7 +54,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]//what about one user being able to access another users stuff? claims?
-        [HttpGet("{id}/stats/word/{id}")]
+        [HttpGet("{id}/stats/word")]
         public IActionResult GetWordStats(int id)
         {
             throw new NotImplementedException();
