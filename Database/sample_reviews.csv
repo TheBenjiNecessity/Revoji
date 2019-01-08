@@ -1,29 +1,23 @@
 id,title,comment,emojis,created,app_user_id,reviewable_id
 1,It's good,I think it's good,U+1F600,20180707,1,1
 2,It's great,I think it's great,U+1F601,20180707,2,2
-3,It's good,I think it's not great,U+1F62A,20180707,3,3
-4,title,I absolutely love it,U+1F60D,20181002,7,11
-5,title,What is this crap!? I hate it!,U+1F621,20181002,6,9
-6,title,This is so sweet,U+1F60A,20181002,9,21
-7,title,This show was hilarious,U+1F606,20181115,11,8
-8,title,I thought it would be better,U+1F61E,20181115,23,14
-9,title,Never laughed harder in my life,U+1F923,20181002,26,18
-10,title,It doesn't really work,U+2639,20181115,18,13
-11,title,The location isn't great,U+1F610,20181115,18,16
-12,title,It is so slow,U+1F610,20181115,5,26
-13,title,,U+1F606,20180112,7,8
-14,title,,U+1F60D,20181002,3,24
-15,title,,U+2639,20181002,23,8
-16,title,,U+1F61E,20180112,4,24
-17,title,,U+1F600,20180112,7,28
-18,title,,U+1F60D,20181002,5,8
-19,title,,U+1F601,20181002,6,8
-20,title,,U+2639,20181002,6,11
-21,title,,U+1F600,20181002,3,2
-22,title,,U+1F601,20180112,13,4
-23,title,,U+1F61E,20180112,14,6
-24,title,,U+2639,20181002,22,6
-25,title,,U+2639,20180707,4,5
-26,title,,U+1F600,20180707,17,5
-27,title,,U+1F61E,20180707,15,9
-28,title,,U+1F601,20181002,15,10
+3,It's good,I think it's not great,U+1F62A,20180707,3,1
+4,title,I absolutely love it,U+1F60D,20181002,7,1
+5,title,What is this crap!? I hate it!,U+1F621,20181002,6,2
+6,title,This is so sweet,U+1F60A,20181002,9,2
+7,title,This show was hilarious,U+1F606,20181115,11,2
+8,title,I thought it would be better,U+1F61E,20181115,23,1
+9,title,Never laughed harder in my life,U+1F923,20181002,26,1
+10,title,It doesn't really work,U+2639,20181115,18,1
+11,title,It is so slow,U+1F610,20181115,5,2
+12,title,,U+1F61E,20180112,4,1
+13,title,,U+1F600,20180112,7,2
+14,title,,U+1F60D,20181002,5,1
+15,title,,U+1F601,20181002,6,1
+16,title,,U+1F600,20181002,3,2
+17,title,,U+1F601,20180112,13,2
+18,title,,U+1F61E,20180112,14,2
+19,title,,U+2639,20181002,22,1
+20,title,,U+2639,20180707,4,2
+21,title,,U+1F600,20180707,17,2
+22,title,,U+1F61E,20180707,15,2
