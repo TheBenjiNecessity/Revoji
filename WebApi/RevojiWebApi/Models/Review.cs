@@ -35,8 +35,11 @@ namespace RevojiWebApi.Models
             ReviewableID = dBReview.ReviewableId;
             Created = dBReview.Created;
 
-            if (dBReview.DBAppUser != null && dBReview.DBReviewable != null) { //TODO: This isn't quite right
+            if (dBReview.DBAppUser != null) { //TODO: This isn't quite right
                 AppUser = new AppUser(dBReview.DBAppUser);
+            }
+
+            if (dBReview.DBReviewable != null) {
                 Reviewable = new Reviewable(dBReview.DBReviewable);
             }
         }
