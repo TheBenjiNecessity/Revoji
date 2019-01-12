@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - dotnet restore WebApi/RevojiWebApi/RevojiWebApi.csproj
+  build:
+    commands:
+      - dotnet publish -c release -o ./build_output WebApi/RevojiWebApi/RevojiWebApi.csproj
+artifacts:
+  files:
+    - WebApi/RevojiWebApi/build_output/**/*
+    - scripts/**/*
+    - appspec.yml
