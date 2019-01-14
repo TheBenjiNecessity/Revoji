@@ -10,5 +10,3 @@ phases:
 artifacts:
   files:
     - WebApi/RevojiWebApi/build_output/**/*
-    - scripts/**/*
-    - appspec.yml
