@@ -9,4 +9,4 @@ phases:
       - dotnet publish -c release -o ./build_output WebApi/RevojiWebApi/RevojiWebApi.csproj
 artifacts:
   files:
-    - Revoji/build_output/**/*
+    - WebApi/RevojiWebApi/bin/Debug/netcoreapp2.0/*
