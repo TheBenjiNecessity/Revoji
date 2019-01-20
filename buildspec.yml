@@ -6,8 +6,8 @@ phases:
       - dotnet restore WebApi/RevojiWebApi/RevojiWebApi.csproj
   build:
     commands:
-      - echo $CODEBUILD_SRC_DIR
+      - ls
       - dotnet publish -c release -o ./build_output WebApi/RevojiWebApi/RevojiWebApi.csproj
 artifacts:
   files:
-    - ./build_output/*
+    - ./build_output
