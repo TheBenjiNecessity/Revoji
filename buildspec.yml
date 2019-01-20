@@ -10,3 +10,4 @@ phases:
 artifacts:
   files:
     - WebApi/RevojiWebApi/build_output/**/*
+  discard-paths: yes
