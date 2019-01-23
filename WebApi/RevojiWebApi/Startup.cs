@@ -43,9 +43,15 @@ namespace RevojiWebApi
 			        .AllowAnyMethod()
 			        .AllowAnyHeader()
 			        .AllowCredentials());
-			});         
-         
-			services.AddMvc();
+			});
+
+            services.Configure<IISOptions>(iis =>
+            {
+                iis.AuthenticationDisplayName = "Windows";
+                iis.AutomaticAuthentication = false;
+            });
+
+            services.AddMvc();
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
