@@ -9,4 +9,6 @@ phases:
       - dotnet publish -c release -o ./build_output WebApi/RevojiWebApi/RevojiWebApi.csproj
 artifacts:
   files:
-    - WebApi/RevojiWebApi/build_output/**/*
+    - WebApi/RevojiWebApi/build_output/*
+    - WebApi/RevojiWebApi/build_output/runtimes/win/lib/netstandard2.0/Microsoft.Win32.Registry.dll
+  discard-paths: yes
