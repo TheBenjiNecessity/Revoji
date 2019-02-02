@@ -6,7 +6,12 @@ phases:
       - dotnet restore WebApi/RevojiWebApi/RevojiWebApi.csproj
   build:
     commands:
-      - dotnet publish -c release -o ./build_output WebApi/RevojiWebApi/RevojiWebApi.csproj
+      - dotnet build WebApi/RevojiWebApi/RevojiWebApi.csproj
+      - dotnet publish -c release -o ./staging/build_output WebApi/RevojiWebApi/RevojiWebApi.csproj
+  post_build:
+    commands:
+      - cp ./WebApi/aws-windows-deployment-manifest.json ./WebApi/RevojiWebApi/staging/.
 artifacts:
   files:
-    - WebApi/RevojiWebApi/build_output/*
+    - WebApi/RevojiWebApi/staging/build_output/*
+  base-directory: 'WebApi/RevojiWebApi/staging'
