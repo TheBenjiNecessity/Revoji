@@ -21,7 +21,6 @@ namespace RevojiWebApi
         public void ConfigureServices(IServiceCollection services)
         {
 			services.AddIdentityServer()
-					.AddDeveloperSigningCredential()
 					.AddInMemoryApiResources(Config.GetApiResources())
 					.AddInMemoryClients(Config.GetClients())
 					.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
