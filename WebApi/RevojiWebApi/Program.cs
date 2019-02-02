@@ -20,8 +20,10 @@ namespace RevojiWebApi
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseSetting("detailedErrors", "true")
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .CaptureStartupErrors(true)
                 .Build();
     }
 }
