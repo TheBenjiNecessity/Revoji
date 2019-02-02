@@ -11,6 +11,7 @@ phases:
   post_build:
     commands:
       - cp ./WebApi/aws-windows-deployment-manifest.json ./WebApi/RevojiWebApi/staging/.
+      - mkdir ./WebApi/RevojiWebApi/staging/logs
 artifacts:
   files:
     - '**/*'
