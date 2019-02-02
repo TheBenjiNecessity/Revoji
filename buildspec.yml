@@ -13,5 +13,5 @@ phases:
       - cp ./WebApi/aws-windows-deployment-manifest.json ./WebApi/RevojiWebApi/staging/.
 artifacts:
   files:
-    - WebApi/RevojiWebApi/staging/build_output/*
+    - '**/*'
   base-directory: 'WebApi/RevojiWebApi/staging'

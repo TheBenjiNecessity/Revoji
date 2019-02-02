@@ -5,7 +5,7 @@
       {
         "name": "dotnetapp",
         "parameters": {
-          "appBundle": ".",
+          "appBundle": "./build_output",
           "iisPath": "/",
           "iisWebSite": "Default Web Site"
         }
