@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Cryptography.X509Certificates;
 
 namespace RevojiWebApi
 {
@@ -20,15 +21,25 @@ namespace RevojiWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-			services.AddIdentityServer()
-					.AddInMemoryApiResources(Config.GetApiResources())
+            var keyIssuer = "IdentityServer4.com";
+
+            X509Store store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
+
+            var certificates = store.Certificates.Find(X509FindType.FindByIssuerName, keyIssuer, true);
+
+            var certificate = certificates[0]; //TODO: check for null
+
+            services.AddIdentityServer()
+                    .AddSigningCredential(certificate)
+                    .AddInMemoryApiResources(Config.GetApiResources())
 					.AddInMemoryClients(Config.GetClients())
 					.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			        .AddJwtBearer(options => 
 			{
-				options.Authority = "http://localhost:5001/";//TODO change to variable
+				options.Authority = "http://revvr1.us-west-2.elasticbeanstalk.com";//TODO change to variable
 				options.Audience = "api";
 				options.RequireHttpsMetadata = false;
 			});
