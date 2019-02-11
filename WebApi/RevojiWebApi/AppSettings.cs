@@ -22,7 +22,7 @@ namespace RevojiWebApi
                 string hostname = appConfig["RDS_HOSTNAME"];
                 string port = appConfig["RDS_PORT"];
 
-                return "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";";
+                return "User ID=" + username + ";Password=" + password + ";Server=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security= true; Pooling=true;";
             }
         }
     }
