@@ -10,20 +10,21 @@ namespace RevojiWebApi
 
         public static string ConnectionString
         {
-            get {
-                var appConfig = ConfigurationManager.AppSettings;
+            get { return Configuration.GetConnectionString("DBConnectionString"); }
+            //get {
+            //    var appConfig = ConfigurationManager.AppSettings;
 
-                string dbname = appConfig["RDS_DB_NAME"];
+            //    string dbname = appConfig["RDS_DB_NAME"];
 
-                if (string.IsNullOrEmpty(dbname)) return null;
+            //    if (string.IsNullOrEmpty(dbname)) return null;
 
-                string username = appConfig["RDS_USERNAME"];
-                string password = appConfig["RDS_PASSWORD"];
-                string hostname = appConfig["RDS_HOSTNAME"];
-                string port = appConfig["RDS_PORT"];
+            //    string username = appConfig["RDS_USERNAME"];
+            //    string password = appConfig["RDS_PASSWORD"];
+            //    string hostname = appConfig["RDS_HOSTNAME"];
+            //    string port = appConfig["RDS_PORT"];
 
-                return "User ID=" + username + ";Password=" + password + ";Server=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security= true; Pooling=true;";
-            }
+            //    return "User ID=" + username + ";Password=" + password + ";Server=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security= true; Pooling=true;";
+            //}
         }
     }
 }
