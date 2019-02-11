@@ -79,6 +79,8 @@ namespace RevojiWebApi
             
 			//app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());//TODO: only allow certain origins?
 			app.UseMvc();
+
+            app.UseDatabaseErrorPage();
 		}
     }
 }
