@@ -10,21 +10,21 @@ namespace RevojiWebApi
 
         public static string ConnectionString
         {
-            get { return Configuration.GetConnectionString("DBConnectionString"); }
-            //get {
-            //    var appConfig = ConfigurationManager.AppSettings;
+            //get { return Configuration.GetConnectionString("DBConnectionString"); }
+            get {
+                var appConfig = ConfigurationManager.AppSettings;
 
-            //    string dbname = appConfig["RDS_DB_NAME"];
+                string dbname = "ebdb"; //appConfig["RDS_DB_NAME"];
 
-            //    if (string.IsNullOrEmpty(dbname)) return null;
+                if (string.IsNullOrEmpty(dbname)) return null;
 
-            //    string username = appConfig["RDS_USERNAME"];
-            //    string password = appConfig["RDS_PASSWORD"];
-            //    string hostname = appConfig["RDS_HOSTNAME"];
-            //    string port = appConfig["RDS_PORT"];
+                string username = "benjinecessity"; //appConfig["RDS_USERNAME"];
+                string password = "thenetnecessity";//appConfig["RDS_PASSWORD"];
+                string hostname = "revojidb.ce1ceaxa3cbr.us-west-2.rds.amazonaws.com";//appConfig["RDS_HOSTNAME"];
+                string port = "5432";// appConfig["RDS_PORT"];
 
-            //    return "User ID=" + username + ";Password=" + password + ";Server=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security= true; Pooling=true;";
-            //}
+                return "User ID=" + username + ";Password=" + password + ";Host=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security=true;Pooling=true;";
+            }
         }
     }
 }
