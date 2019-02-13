@@ -20,7 +20,7 @@ namespace RevojiWebApi
 
                 string username = "benjinecessity"; //appConfig["RDS_USERNAME"];
                 string password = "thenetnecessity";//appConfig["RDS_PASSWORD"];
-                string hostname = "revojidb.ce1ceaxa3cbr.us-west-2.rds.amazonaws.com";//appConfig["RDS_HOSTNAME"];
+                string hostname = "aa18y48p9gnz56o.ce1ceaxa3cbr.us-west-2.rds.amazonaws.com";//appConfig["RDS_HOSTNAME"];
                 string port = "5432";// appConfig["RDS_PORT"];
 
                 return "User ID=" + username + ";Password=" + password + ";Host=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security=true;Pooling=true;";
