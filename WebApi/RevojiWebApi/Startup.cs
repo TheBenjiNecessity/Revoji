@@ -26,7 +26,7 @@ namespace RevojiWebApi
             X509Certificate2 certificate = null;
             using (var certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine))
             {
-                var thumbprint = "33 d3 55 64 03 09 7d b1 34 8d 59 39 94 e6 9f c0 0d 13 eb e3";
+                var thumbprint = "1a fe 7f 14 eb 82 47 75 23 52 4d 4d 23 6c 4c 1c 4f ac 64 ff";
                 var password = "owljofyguqua";
 
                 certStore.Open(OpenFlags.ReadOnly);
