@@ -21,14 +21,25 @@ namespace RevojiWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var keyIssuer = "revoji.us-west-2.elasticbeanstalk.com";
+            //var keyIssuer = "revoji.us-west-2.elasticbeanstalk.com";
 
-            X509Store store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
-            store.Open(OpenFlags.ReadOnly);
+            X509Certificate2 certificate = null;
+            using (var certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+            {
+                var thumbprint = "‎33 d3 55 64 03 09 7d b1 34 8d 59 39 94 e6 9f c0 0d 13 eb e3";
 
-            var certificates = store.Certificates.Find(X509FindType.FindByIssuerName, keyIssuer, true);
+                certStore.Open(OpenFlags.ReadOnly);
+                var certCollection = certStore.Certificates.Find(
+                    X509FindType.FindByThumbprint,
+                    thumbprint,
+                    false
+                    );
 
-            var certificate = certificates[0]; //TODO: check for null
+                if (certCollection.Count > 0)
+                {
+                    certificate = certCollection[0];
+                }
+            }
 
             services.AddIdentityServer()
                     //.AddDeveloperSigningCredential()
