@@ -18,7 +18,7 @@ namespace RevojiWebApi.Controllers
             return Ok(ApiUser);
         }
 
-        //[Authorize]//what about one user being able to access another users stuff? claims?
+        [Authorize]//what about one user being able to access another users stuff? claims?
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
