@@ -14,43 +14,28 @@ namespace RevojiWebApi
     {
         Task IResourceOwnerPasswordValidator.ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            try
+            using (var dbctx = new RevojiDataContext())
             {
-                using (var dbctx = new RevojiDataContext())
+                if (context.UserName == null || context.Password == null)
                 {
-                    if (context.UserName == null || context.Password == null)
-                    {
-                        context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "missing_arguments_error");
-                        return Task.FromResult<object>(null);
-                    }
+                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "missing_arguments_error");
+                    return Task.FromResult<object>(null);
+                }
 
-                    try
-                    {
-                        DBAppUser dbAppUser = dbctx.AppUsers.FirstOrDefault(u => u.Handle == context.UserName);
-                        if (dbAppUser == null || !dbAppUser.isPasswordCorrect(context.Password))
-                        {
-                            context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_handle_password_error");
-                            return Task.FromResult<object>(null);
-                        }
 
-                        var claim = new Claim(ClaimTypes.Name, dbAppUser.Handle);
-                        var claims = new List<Claim>();
-                        claims.Add(claim);
-                        context.Result = new GrantValidationResult(dbAppUser.Handle, "access_token", claims);
-                        return Task.FromResult<object>(null);
-                    }
-                    catch (NullReferenceException e)
-                    {
-                        context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, e.Message);
-                        return Task.FromResult<object>(null);
-                    }
-    			}
-            }
-            catch (NullReferenceException e)
-            {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "Data Context error: " + e.Message);
+                DBAppUser dbAppUser = dbctx.AppUsers.FirstOrDefault(u => u.Handle == context.UserName);
+                if (dbAppUser == null || !dbAppUser.isPasswordCorrect(context.Password))
+                {
+                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_handle_password_error");
+                    return Task.FromResult<object>(null);
+                }
+
+                var claim = new Claim(ClaimTypes.Name, dbAppUser.Handle);
+                var claims = new List<Claim>();
+                claims.Add(claim);
+                context.Result = new GrantValidationResult(dbAppUser.Handle, "access_token", claims);
                 return Task.FromResult<object>(null);
-            }
+			}
         }
 	}
 }
