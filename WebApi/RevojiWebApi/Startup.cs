@@ -21,7 +21,7 @@ namespace RevojiWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var keyIssuer = "revoji2.com";
+            var keyIssuer = "revoji.us-west-2.elasticbeanstalk.com";
 
             X509Store store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadOnly);
