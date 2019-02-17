@@ -38,7 +38,7 @@ namespace RevojiWebApi
 
                 if (certCollection.Count > 0)
                 {
-                    certificate = new X509Certificate2(certCollection[0].GetRawCertData(), password);
+                    certificate = new X509Certificate2(certCollection[0].RawData, password);
                 }
             }
 
