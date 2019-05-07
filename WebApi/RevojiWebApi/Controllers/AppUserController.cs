@@ -101,6 +101,25 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
+        [HttpDelete("")]
+        public IActionResult Delete()
+        {
+            using (var context = new RevojiDataContext())
+            {
+                DBAppUser dbAppUser = context.Get<DBAppUser>(ApiUser.ID);
+                if (dbAppUser == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                context.Remove(dbAppUser);
+                context.Save();
+
+                return Ok();
+            }
+        }
+
         /// <summary>
         /// Performs a search of the users database with the given text and paging
         /// </summary>
