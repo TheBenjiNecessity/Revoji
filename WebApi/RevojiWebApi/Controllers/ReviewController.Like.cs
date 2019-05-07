@@ -18,6 +18,7 @@ namespace RevojiWebApi.Controllers
             {
                 DBLike dBLike = new DBLike();
                 like.UpdateDB(dBLike);
+                dBLike.Created = DateTime.Now;
 
                 context.Add(dBLike);
                 context.Save();
