@@ -42,12 +42,12 @@ namespace RevojiWebApi.Models
             dBAppUser.Country = Country;
         }
 
-        public static AppUser UserFromHandle(string handle) 
+        public static AppUserDetail UserFromHandle(string handle) 
         {
-            using (var ctx = new RevojiDataContext()) 
+            using (var ctx = new RevojiDataContext())
             {
                 var user = ctx.AppUsers.FirstOrDefault(u => u.Handle == handle);
-                return new AppUser(user);
+                return new AppUserDetail(user);
             }
         }
     }
