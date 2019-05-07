@@ -13,7 +13,7 @@ namespace RevojiWebApi.Models
         public int ReviewID { get; set; }
 
         [Required]
-        public string Type { get; set; }
+        public string agreeType { get; set; }
 
         public DateTime? Created { get; set; }
 
@@ -24,7 +24,7 @@ namespace RevojiWebApi.Models
         public Like() { }
 
         public Like(DBLike dbLike) {
-            Type = dbLike.Type;
+            agreeType = dbLike.agreeType;
             Created = dbLike.Created;
             AppUserID = dbLike.AppUserId;
             ReviewID = dbLike.ReviewId;
@@ -32,7 +32,7 @@ namespace RevojiWebApi.Models
 
         public void UpdateDB(DBLike dBLike)
         {
-            dBLike.Type = Type;
+            dBLike.agreeType = agreeType;
             dBLike.Created = Created;
             dBLike.AppUserId = AppUserID;
             dBLike.ReviewId = ReviewID;

@@ -7,7 +7,7 @@ namespace RevojiWebApi.DBTables
     public class DBLike
     {
         [Column("type")]
-        public string Type { get; set; }
+        public string agreeType { get; set; }
 
         [Column("created")]
         public DateTime? Created { get; set; }
