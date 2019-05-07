@@ -51,7 +51,7 @@ namespace RevojiWebApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]AppUserDetail appUser)
         {
-            using (var context = new RevojiDataContext()) 
+            using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = new DBAppUser();
                 appUser.UpdateDB(dbAppUser);
@@ -86,6 +86,7 @@ namespace RevojiWebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            //TODO: this probably shouldn't exist
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
@@ -140,9 +141,9 @@ namespace RevojiWebApi.Controllers
                                                     au.LastName.Contains(text) ||
                                                     au.Handle.Contains(text)));
 
-                var blockings = context.Blockings.Where(b => b.BlockerAppUserId == ApiUser.ID).Select(b => b.Blocker);
+                //var blockings = context.Blockings.Where(b => b.BlockerAppUserId == ApiUser.ID).Select(b => b.Blocker);
 
-                query = query.Except(blockings);
+                //query = query.Except(blockings);
 
                 var users = query.Skip(pageStart).Take(pageLimit).Select(au => new AppUser(au)).ToArray();
 
@@ -164,7 +165,7 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                if (!dbAppUser.isPasswordCorrect(oldPassword)) 
+                if (!dbAppUser.isPasswordCorrect(oldPassword))
                 {
                     return new BadRequestResult();
                 }
