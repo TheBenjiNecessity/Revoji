@@ -64,20 +64,30 @@ namespace RevojiWebApi.DBTables
         [Column("settings")]
         private string AppUserSettingsJSON { get; set; }
 
+        [Column("preferences")]
+        private string AppUserPreferencesJSON { get; set; }
+
         [NotMapped]
-        public ReviewableContent Content
+        public AppUserContent Content
         {
-            get { return JsonConvert.DeserializeObject<ReviewableContent>(AppUserContentJSON); }
+            get { return JsonConvert.DeserializeObject<AppUserContent>(AppUserContentJSON); }
             set { AppUserContentJSON = JsonConvert.SerializeObject(value); }
         }
 
         [NotMapped]
-        public ReviewableContent Settings
+        public AppUserSettings Settings
         {
-            get { return JsonConvert.DeserializeObject<ReviewableContent>(AppUserSettingsJSON); }
+            get { return JsonConvert.DeserializeObject<AppUserSettings>(AppUserSettingsJSON); }
             set { AppUserSettingsJSON = JsonConvert.SerializeObject(value); }
         }
-         
+
+        [NotMapped]
+        public AppUserPreferences Preferences
+        {
+            get { return JsonConvert.DeserializeObject<AppUserPreferences>(AppUserPreferencesJSON); }
+            set { AppUserPreferencesJSON = JsonConvert.SerializeObject(value); }
+        }
+
         public virtual ICollection<DBFollowing> Followings { get; set; }
         public virtual ICollection<DBFollowing> Followers { get; set; }
         public virtual ICollection<DBBlocking> Blockings { get; set; }
