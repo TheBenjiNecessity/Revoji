@@ -22,7 +22,7 @@ CREATE TABLE app_user (
 	firstname text NOT NULL,
     lastname text NOT NULL,
 	email text NOT NULL,
-	DOB date,
+	DOB timestamp, -- TODO: Date or Timestamp?
 	gender text,
 	religion text,
 	politics text,
@@ -42,6 +42,7 @@ CREATE TABLE app_user (
 
 	content json,
 	settings json,
+	preferences json,
 
 	CONSTRAINT app_user_primary_key PRIMARY KEY (id),
 	CONSTRAINT app_user_handle_unique UNIQUE(handle),
