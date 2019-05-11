@@ -13,8 +13,8 @@ namespace RevojiWebApi.Controllers
     public partial class ReviewableController
     {
         [Authorize]//what about one user being able to access another users stuff? claims?
-        [HttpGet("stats/reviewcount/{id}")]
-        public IActionResult GetReviewCount(int id)
+        [HttpGet("{id}/stats/counts")]
+        public IActionResult GetReviewCount(int id) //Why?
         {
             using (var context = new RevojiDataContext())
             {
@@ -23,7 +23,9 @@ namespace RevojiWebApi.Controllers
                                    .Where(r => r.ReviewableId == id)
                                    .Count();
 
-                return Ok(count);
+                var stats = new ReviewableStats(count);
+
+                return Ok(stats);
             }
         }
 
@@ -58,6 +60,16 @@ namespace RevojiWebApi.Controllers
         public IActionResult GetWordStats(int id)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    class ReviewableStats
+    {
+        public int reviewCount { get; set; }
+
+        public ReviewableStats(int reviewCount)
+        {
+            this.reviewCount = reviewCount;
         }
     }
 }
