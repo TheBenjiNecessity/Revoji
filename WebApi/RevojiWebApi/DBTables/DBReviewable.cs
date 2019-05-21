@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
-using RevojiWebApi.DBTables.JSONObjects;
 
 namespace RevojiWebApi.DBTables
 {
@@ -36,25 +35,11 @@ namespace RevojiWebApi.DBTables
         [Column("title_image_url")]
         public string TitleImageUrl { get; set; }
 
-        [Column("content", TypeName = "json")]
-        public string ReviewableContentJSON { get; set; }
+        [Column("content")]
+        public string Content{ get; set; }
 
-        [Column("info", TypeName = "json")]
-        public string ReviewableInfoJSON { get; set; }
-
-        [NotMapped]
-        public ReviewableContent Content
-        {
-            get { return JsonConvert.DeserializeObject<ReviewableContent>(ReviewableContentJSON); }
-            set { ReviewableContentJSON = JsonConvert.SerializeObject(value); }
-        }
-
-        [NotMapped]
-        public ReviewableContent Info
-        {
-            get { return JsonConvert.DeserializeObject<ReviewableContent>(ReviewableInfoJSON); }
-            set { ReviewableInfoJSON = JsonConvert.SerializeObject(value); }
-        }
+        [Column("info")]
+        public string Info { get; set; }
         
         public virtual ICollection<DBReview> DBReviews { get; set; }
     }

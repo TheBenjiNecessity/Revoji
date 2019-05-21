@@ -58,34 +58,13 @@ namespace RevojiWebApi.DBTables
         public DateTime? Joined { get; set; }
 
         [Column("content")]
-        private string AppUserContentJSON { get; set; }
+        public string Content { get; set; }
 
         [Column("settings")]
-        private string AppUserSettingsJSON { get; set; }
+        public string Settings { get; set; }
 
         [Column("preferences")]
-        private string AppUserPreferencesJSON { get; set; }
-
-        [NotMapped]
-        public AppUserContent Content
-        {
-            get { return JsonConvert.DeserializeObject<AppUserContent>(AppUserContentJSON); }
-            set { AppUserContentJSON = JsonConvert.SerializeObject(value); }
-        }
-
-        [NotMapped]
-        public AppUserSettings Settings
-        {
-            get { return JsonConvert.DeserializeObject<AppUserSettings>(AppUserSettingsJSON); }
-            set { AppUserSettingsJSON = JsonConvert.SerializeObject(value); }
-        }
-
-        [NotMapped]
-        public AppUserPreferences Preferences
-        {
-            get { return JsonConvert.DeserializeObject<AppUserPreferences>(AppUserPreferencesJSON); }
-            set { AppUserPreferencesJSON = JsonConvert.SerializeObject(value); }
-        }
+        public string Preferences { get; set; }
 
         public virtual ICollection<DBFollowing> Followings { get; set; }
         public virtual ICollection<DBFollowing> Followers { get; set; }

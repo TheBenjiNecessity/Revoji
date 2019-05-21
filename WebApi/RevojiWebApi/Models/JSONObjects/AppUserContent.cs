@@ -1,4 +1,4 @@
-﻿namespace RevojiWebApi.DBTables
+﻿namespace RevojiWebApi.Models
 {
     public class AppUserContent
     {

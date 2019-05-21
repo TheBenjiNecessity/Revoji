@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 
@@ -12,16 +13,28 @@ namespace RevojiWebApi.Models
 
         public Dictionary<string, int> emojiCounts { get; set; }
 
-        dynamic Content;
+        public string ReviewableContentJSON { get; set; }
 
-        dynamic Info;
+        public string ReviewableInfoJSON { get; set; }
+
+        public ReviewableContent Content
+        {
+            get { return JsonConvert.DeserializeObject<ReviewableContent>(ReviewableContentJSON); }
+            set { ReviewableContentJSON = JsonConvert.SerializeObject(value); }
+        }
+
+        public ReviewableContent Info
+        {
+            get { return JsonConvert.DeserializeObject<ReviewableContent>(ReviewableInfoJSON); }
+            set { ReviewableInfoJSON = JsonConvert.SerializeObject(value); }
+        }
 
         public ReviewableDetail() { }
 
 		public ReviewableDetail(DBReviewable dBReviewable) : base(dBReviewable)
 		{
-			Content = dBReviewable.Content;
-			Info = dBReviewable.Info;
+            ReviewableContentJSON = dBReviewable.Content;
+            ReviewableInfoJSON = dBReviewable.Info;
 
             using (var context = new RevojiDataContext())
             {
@@ -48,8 +61,8 @@ namespace RevojiWebApi.Models
 
 			DBReviewable dBReviewable = dbModel as DBReviewable;
 
-			dBReviewable.Content = Content;
-			dBReviewable.Info = Info;
-		}
+            dBReviewable.Content = ReviewableContentJSON;
+            dBReviewable.Info = ReviewableInfoJSON;
+        }
     }
 }

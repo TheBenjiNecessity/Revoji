@@ -8,11 +8,11 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Models\" />
     <Folder Include="DBTables\" />
-    <Folder Include="DBTables\JSONObjects\" />
     <Folder Include="DBTables\DBContexts\" />
     <Folder Include="Attributes\" />
     <Folder Include="Stored Procedures\" />
     <Folder Include="Services\" />
+    <Folder Include="Models\JSONObjects\" />
   </ItemGroup>
 
   <ItemGroup>

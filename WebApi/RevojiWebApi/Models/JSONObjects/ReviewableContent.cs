@@ -1,4 +1,4 @@
-﻿namespace RevojiWebApi.DBTables.JSONObjects
+﻿namespace RevojiWebApi.Models
 {
     public class ReviewableContent
     {

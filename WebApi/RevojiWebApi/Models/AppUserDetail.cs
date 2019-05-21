@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 using RevojiWebApi.DBTables;
 
 namespace RevojiWebApi.Models
@@ -21,10 +22,6 @@ namespace RevojiWebApi.Models
         public string Interests { get; set; }
 
         public DateTime? Joined { get; set; }
-
-        dynamic Content;
-
-        dynamic Settings;
 
         public AppUserDetail() { }
 
