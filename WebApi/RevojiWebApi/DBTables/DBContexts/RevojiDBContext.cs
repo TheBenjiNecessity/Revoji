@@ -89,6 +89,13 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .HasOne(b => b.Blocked)
                         .WithMany(a => a.Blockings)
                         .HasForeignKey(b => b.BlockedAppUserId);
+
+            modelBuilder.Entity<DBAppUser>().Property(a => a.Content).HasColumnType("json");
+            modelBuilder.Entity<DBAppUser>().Property(a => a.Settings).HasColumnType("json");
+            modelBuilder.Entity<DBAppUser>().Property(a => a.Preferences).HasColumnType("json");
+
+            modelBuilder.Entity<DBReviewable>().Property(r => r.Content).HasColumnType("json");
+            modelBuilder.Entity<DBReviewable>().Property(r => r.Info).HasColumnType("json");
         }
     }
 }
