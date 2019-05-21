@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
-using RevojiWebApi.DBTables.JSONObjects;
 
 namespace RevojiWebApi.DBTables
 {
@@ -26,7 +25,7 @@ namespace RevojiWebApi.DBTables
         public string LastName { get; set; }
 
         [Column("dob")]
-        public DateTime? DOB { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Column("gender")]
         public string Gender { get; set; }

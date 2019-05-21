@@ -6,7 +6,7 @@ namespace RevojiWebApi.Models
 {
     public class AppUserDetail : AppUser
     {
-        public DateTime? DOB { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public string Gender { get; set; }
 
@@ -30,7 +30,7 @@ namespace RevojiWebApi.Models
 
         public AppUserDetail(DBAppUser dbAppUser) : base (dbAppUser)
         {
-            DOB = dbAppUser.DOB;
+            DateOfBirth = dbAppUser.DateOfBirth;
             Gender = dbAppUser.Gender;
             Religion = dbAppUser.Religion;
             Politics = dbAppUser.Politics;
@@ -45,7 +45,7 @@ namespace RevojiWebApi.Models
 
             DBAppUser dBAppUser = dbModel as DBAppUser;
 
-            dBAppUser.DOB = DOB;
+            dBAppUser.DateOfBirth = DateOfBirth;
             dBAppUser.Gender = Gender;
             dBAppUser.Religion = Religion;
             dBAppUser.Politics = Politics;
