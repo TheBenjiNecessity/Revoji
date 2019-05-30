@@ -23,8 +23,7 @@ namespace RevojiWebApi.DBTables
         public string Email { get; set; }
 
         public bool isPasswordCorrect(string givenPassword) {
-            string givenHashedPassword = BCryptHelper.HashPassword(givenPassword, Salt);
-			return givenHashedPassword == Password;
+            return BCryptHelper.CheckPassword(givenPassword, Password);
         }
 
         public void SetPassword(string password) {
