@@ -46,8 +46,12 @@ namespace RevojiWebApi.Models
         {
             using (var ctx = new RevojiDataContext())
             {
-                var user = ctx.AppUsers.FirstOrDefault(u => u.Handle == handle);
-                return new AppUserDetail(user);
+                var user = ctx.AppUsers.Where(au => au.Handle == handle).FirstOrDefault();
+                if (user != null)
+                {
+                    return new AppUserDetail(user);
+                }
+                return null;
             }
         }
     }
