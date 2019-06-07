@@ -34,7 +34,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBLike dBLike = context.Likes
-                                       .Where(l => l.ReviewId == id && 
+                                       .Where(l => l.ReviewId == id &&
                                               l.AppUserId == appUserId)
                                        .FirstOrDefault();
                 if (dBLike == null)
@@ -46,6 +46,26 @@ namespace RevojiWebApi.Controllers
                 context.Save();
 
                 return Ok();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("like/{id}")]
+        public IActionResult GetLike(int id, int appUserId)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                DBLike dBLike = context.Likes
+                                       .Where(l => l.ReviewId == id &&
+                                              l.AppUserId == appUserId)
+                                       .FirstOrDefault();
+
+                if (dBLike == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                return Ok(new Like(dBLike));
             }
         }
     }
