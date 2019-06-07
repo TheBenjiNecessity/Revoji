@@ -6,6 +6,12 @@ namespace RevojiWebApi.DBTables
     [Table("review_reply")]
     public class DBReply
     {
+        public DBReply()
+        {
+            DBAppUser = new DBAppUser();
+            DBReview = new DBReview();
+        }
+
         [Column("comment")]
         public string Comment { get; set; }
 

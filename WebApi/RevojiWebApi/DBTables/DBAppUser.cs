@@ -14,6 +14,11 @@ namespace RevojiWebApi.DBTables
             Followers = new List<DBFollowing>();
             Followings = new List<DBFollowing>();
             Reviews = new List<DBReview>();
+
+            Blockings = new List<DBBlocking>();
+            Blockers = new List<DBBlocking>();
+            Likes = new List<DBLike>();
+            Replies = new List<DBReply>();
         }
 
         [Required]
@@ -72,7 +77,7 @@ namespace RevojiWebApi.DBTables
         public virtual ICollection<DBBlocking> Blockers { get; set; }
 
         public virtual ICollection<DBReview> Reviews { get; set; }
-        public virtual ICollection<DBLike> DBLikes { get; set; }// Liked many reviews
-        public virtual ICollection<DBReply> DBReplies { get; set; }
+        public virtual ICollection<DBLike> Likes { get; set; }// Liked many reviews
+        public virtual ICollection<DBReply> Replies { get; set; }
     }
 }

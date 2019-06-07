@@ -45,7 +45,7 @@ namespace RevojiWebApi.DBTables.DBContexts
 
             modelBuilder.Entity<DBLike>()
                         .HasOne(l => l.DBAppUser)
-                        .WithMany(a => a.DBLikes)
+                        .WithMany(a => a.Likes)
                         .HasForeignKey(l => l.AppUserId);
 
             modelBuilder.Entity<DBLike>()
@@ -62,7 +62,7 @@ namespace RevojiWebApi.DBTables.DBContexts
 
             modelBuilder.Entity<DBReply>()
                         .HasOne(l => l.DBAppUser)
-                        .WithMany(a => a.DBReplies)
+                        .WithMany(a => a.Replies)
                         .HasForeignKey(l => l.AppUserId);
 
             modelBuilder.Entity<DBReply>()

@@ -7,6 +7,14 @@ namespace RevojiWebApi.DBTables
     [Table("review")]
     public class DBReview : DBTable
     {
+        public DBReview()
+        {
+            DBAppUser = new DBAppUser();
+            DBReviewable = new DBReviewable();
+            DBLikes = new List<DBLike>();
+            DBReplies = new List<DBReply>();
+        }
+
         [Column("title")]
         public string Title { get; set; }
 

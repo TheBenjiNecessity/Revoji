@@ -6,6 +6,12 @@ namespace RevojiWebApi.DBTables
     [Table("blocking")]
     public class DBBlocking
     {
+        public DBBlocking() 
+        {
+            Blocker = new DBAppUser();
+            Blocked = new DBAppUser();
+        }
+
         [Column("blocker_app_user_id")]
         public int BlockerAppUserId { get; set; }
 

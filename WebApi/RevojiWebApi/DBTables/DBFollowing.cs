@@ -6,6 +6,12 @@ namespace RevojiWebApi.DBTables
     [Table("follower")]
     public class DBFollowing
     {
+        public DBFollowing()
+        {
+            Follower = new DBAppUser();
+            Following = new DBAppUser();
+        }
+
         [Column("created")]
         public DateTime? Created { get; set; }
 

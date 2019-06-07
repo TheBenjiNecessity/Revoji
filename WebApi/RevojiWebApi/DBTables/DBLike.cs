@@ -6,6 +6,12 @@ namespace RevojiWebApi.DBTables
     [Table("review_like")]
     public class DBLike
     {
+        public DBLike()
+        {
+            DBAppUser = new DBAppUser();
+            DBReview = new DBReview();
+        }
+
         [Column("type")]
         public string agreeType { get; set; }
 
