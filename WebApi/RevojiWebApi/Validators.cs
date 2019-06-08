@@ -22,7 +22,7 @@ namespace RevojiWebApi
                     return Task.FromResult<object>(null);
                 }
 
-                DBAppUser dbAppUser = dbctx.AppUsers.Where(au => au.Handle == context.UserName).FirstOrDefault();
+                DBAppUser dbAppUser = dbctx.AppUsers.FirstOrDefault(au => au.Handle == context.UserName);
                 if (dbAppUser == null || !dbAppUser.isPasswordCorrect(context.Password))
                 {
                     context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_handle_password_error");
@@ -34,7 +34,7 @@ namespace RevojiWebApi
                 claims.Add(claim);
                 context.Result = new GrantValidationResult(dbAppUser.Handle, "access_token", claims);
                 return Task.FromResult<object>(null);
-			}
+            }
         }
-	}
+    }
 }
