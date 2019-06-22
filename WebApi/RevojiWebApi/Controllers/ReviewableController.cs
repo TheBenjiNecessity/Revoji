@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -28,7 +29,7 @@ namespace RevojiWebApi.Controllers
             {
                 reviewableAPIFactory = new ProductFactory();
             }
-            else 
+            else
             {
                 reviewableAPIFactory = new MediaFactory();
             }
@@ -87,6 +88,33 @@ namespace RevojiWebApi.Controllers
                 }
 
                 return Ok(orderedReviews.Select(r => new Reviewable(r)));
+            }
+        }
+
+        [Authorize]
+        [HttpGet("trending")]
+        public IActionResult ListTrending(string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        {
+            //TODO
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("can-review/{tpId}")]
+        public IActionResult CanReview(string tpId, string tpName)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var reviewable = context.Reviewables.Where(r => r.TpId == tpId && r.TpName == tpName).Include(r => r.DBReviews).FirstOrDefault();
+
+                if (reviewable == null || !reviewable.DBReviews.Any(r => r.AppUserId == ApiUser.ID))
+                {
+                    return Ok();
+                } 
+                else 
+                {
+                    return BadRequest();
+                }
             }
         }
     }
