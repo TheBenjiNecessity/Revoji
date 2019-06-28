@@ -60,6 +60,9 @@ namespace RevojiWebApi.Controllers
                     dbReview.ReviewableId = dBReviewable.Id;
                 }
 
+                dbReview.DBAppUser = null;
+                dbReview.DBReviewable = null;
+
                 context.Add(dbReview);
                 context.Save();
 

@@ -70,6 +70,16 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .HasDefaultValueSql("now()");
 
             modelBuilder.Entity<DBReview>()
+                        .HasOne(r => r.DBReviewable)
+                        .WithMany(r => r.DBReviews)
+                        .HasForeignKey(r => r.ReviewableId);
+
+            modelBuilder.Entity<DBReview>()
+                        .HasOne(r => r.DBAppUser)
+                        .WithMany(r => r.Reviews)
+                        .HasForeignKey(r => r.AppUserId);
+
+            modelBuilder.Entity<DBReview>()
                         .Property(r => r.Created)
                         .HasDefaultValueSql("now()");
 

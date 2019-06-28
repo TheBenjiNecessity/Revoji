@@ -16,7 +16,7 @@ namespace RevojiWebApi.Models
 
         public virtual void UpdateDB(DBTable dbModel)
         {
-            ID = dbModel.Id;
+            dbModel.Id = ID;
         }
     }
 }
