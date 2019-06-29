@@ -49,6 +49,18 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
+        [HttpGet("reply/can-reply/{id}")]
+        public IActionResult CanReply(int id, int reviewableId)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var review = context.Reviews.Where(r => r.AppUserId == id && r.ReviewableId == reviewableId).Include(r => r.DBReplies).FirstOrDefault();
+
+                return Ok(review == null || !review.DBReplies.Any(r => r.AppUserId == ApiUser.ID));
+            }
+        }
+
+        [Authorize]
         [HttpGet("reply/{id}")]
         public IActionResult ListByReview(int id,
                                           string order = "DESC",
