@@ -19,10 +19,13 @@ namespace RevojiWebApi.Controllers
                 DBReply dBReply = new DBReply();
                 reply.UpdateDB(dBReply);
 
+                dBReply.DBAppUser = null;
+                dBReply.DBReview = null;
+
                 context.Add(dBReply);
                 context.Save();
 
-                return Ok(new Reply(dBReply));
+                return Ok();
             }
         }
 
