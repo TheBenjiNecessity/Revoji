@@ -59,7 +59,7 @@ namespace RevojiWebApi.Controllers
             {
                 var review = context.Reviews.Where(r => r.AppUserId == id && r.ReviewableId == reviewableId).Include(r => r.DBReplies).FirstOrDefault();
 
-                return Ok(review == null || !review.DBReplies.Any(r => r.AppUserId == ApiUser.ID));
+                return Ok(review == null || (!review.DBReplies.Any(r => r.AppUserId == ApiUser.ID) && review.AppUserId != ApiUser.ID));
             }
         }
 
