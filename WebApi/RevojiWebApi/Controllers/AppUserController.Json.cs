@@ -38,7 +38,7 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                return Ok(JsonConvert.DeserializeObject<AppUserContent>(dbAppUser.Settings));
+                return Ok(JsonConvert.DeserializeObject<AppUserSettings>(dbAppUser.Settings));
             }
 
 
@@ -56,7 +56,7 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                return Ok(JsonConvert.DeserializeObject<AppUserContent>(dbAppUser.Preferences));
+                return Ok(JsonConvert.DeserializeObject<AppUserPreferences>(dbAppUser.Preferences));
             }
         }
 
