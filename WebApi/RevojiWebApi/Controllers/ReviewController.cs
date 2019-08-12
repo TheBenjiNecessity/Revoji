@@ -181,6 +181,21 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("list")]
+        public IActionResult ListByCreated(string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var reviews = context.Reviews
+                                     .Where(r => r.AppUserId == ApiUser.ID)
+                                     .Include(r => r.DBAppUser)
+                                     .Include(r => r.DBReviewable);
+
+                return applyReviewFilter(reviews, order, pageStart, pageLimit);
+            }
+        }
+
         private IActionResult applyReviewFilter(IQueryable<DBReview> reviews,
                                                 string order,
                                                 int pageStart,
