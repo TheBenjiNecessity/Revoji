@@ -80,6 +80,18 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("reply/list")]
+        public IActionResult ListRepliesByCreated(string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var replies = context.Replies.Include(r => r.DBAppUser).Include(r => r.DBReview).Include(r => r.DBReview.DBReviewable).Include(r => r.DBReview.DBAppUser);
+
+                return applyReplyFilter(replies, order, pageStart, pageLimit);
+            }
+        }
+
         private IActionResult applyReplyFilter(IQueryable<DBReply> replies,
                                                 string order,
                                                 int pageStart,

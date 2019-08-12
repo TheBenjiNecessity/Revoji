@@ -68,5 +68,49 @@ namespace RevojiWebApi.Controllers
                 return Ok(new Like(dBLike));
             }
         }
+
+        [Authorize]
+        [HttpGet("like/list")]
+        public IActionResult ListLikesByCreated(string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var likes = context.Likes.Where(l => l.AppUserId == ApiUser.ID);
+
+                return applyLikeFilter(likes, order, pageStart, pageLimit);
+            }
+        }
+
+        private IActionResult applyLikeFilter(IQueryable<DBLike> likes,
+                                                string order,
+                                                int pageStart,
+                                                int pageLimit)
+        {
+            if (likes.Count() == 0)
+            {
+                return new NotFoundResult();
+            }
+
+            IOrderedQueryable<DBLike> orderedLikes;
+            if (order == "DESC")
+            {
+                orderedLikes = likes.OrderByDescending(l => l.Created);
+            }
+            else if (order == "ASC")
+            {
+                orderedLikes = likes.OrderBy(l => l.Created);
+            }
+            else
+            {
+                return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
+            }
+
+            IQueryable<DBLike> pagedLikes = orderedLikes.Skip(pageStart)
+                                                        .Take(pageLimit);
+
+            Like[] likeModels = pagedLikes.Select(l => new Like(l)).ToArray();
+
+            return Ok(likeModels);
+        }
     }
 }
