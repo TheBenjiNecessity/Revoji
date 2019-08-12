@@ -53,6 +53,11 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
+                if (context.AppUsers.Any(user => user.Handle == appUser.Handle))
+                {
+                    return BadRequest();
+                }
+
                 DBAppUser dbAppUser = new DBAppUser();
                 appUser.UpdateDB(dbAppUser);
 
