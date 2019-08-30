@@ -10,7 +10,7 @@ namespace RevojiWebApi.Controllers
 {
     public class UserController : Controller
     {
-        public AppUser ApiUser { get; private set; }
+        public AppUserDetail ApiUser { get; private set; }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
