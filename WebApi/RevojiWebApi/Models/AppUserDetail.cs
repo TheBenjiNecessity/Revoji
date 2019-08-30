@@ -23,6 +23,23 @@ namespace RevojiWebApi.Models
 
         public DateTime? Joined { get; set; }
 
+        public int Age
+        {
+            get
+            {
+                if (DateOfBirth.HasValue)
+                {
+                    DateTime zeroTime = new DateTime(1, 1, 1);
+                    TimeSpan span = DateTime.Now - DateOfBirth.Value;
+                    return (zeroTime + span).Year - 1;
+                }
+                else 
+                {
+                    return -1;
+                }
+            }
+        }
+
         public AppUserDetail() { }
 
         public AppUserDetail(DBAppUser dbAppUser) : base (dbAppUser)
