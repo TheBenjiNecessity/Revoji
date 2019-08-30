@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -196,10 +197,23 @@ namespace RevojiWebApi.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet("trending")]
+        public IActionResult ListTrending(int pageStart = 0, int pageLimit = 20)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var reviews = filterReviewsForUsers(context).OrderBy(r => r);
+
+                return applyReviewFilter(reviews, "DESC", pageStart, pageLimit);
+            }
+        }
+
         private IActionResult applyReviewFilter(IQueryable<DBReview> reviews,
                                                 string order,
                                                 int pageStart,
-                                                int pageLimit) {
+                                                int pageLimit)
+        {
             if (reviews.Count() == 0)
             {
                 return new NotFoundResult();
@@ -227,10 +241,36 @@ namespace RevojiWebApi.Controllers
             return Ok(reviewModels);
         }
 
-        /**
-         * list (add ability to filter by (demographics/category):
-         *    trending reviews (latest/highest rated/most rated/...)
-         *    reviews by user interest
-         */
+        private IQueryable<DBReview> filterReviewsForUsers(RevojiDataContext context)
+        {
+            var ApiUserPreferences = JsonConvert.DeserializeObject<AppUserPreferences>(context.AppUsers.Where(au => au.Id == ApiUser.ID).FirstOrDefault().Preferences);
+            var users = from user in context.AppUsers
+                        let p = JsonConvert.DeserializeObject<AppUserPreferences>(user.Preferences)
+                        where 
+                            ApiUser.Age >= p.AgeRangeMin &&
+                            ApiUser.Age <= p.AgeRangeMax &&
+                            isEqualWithTolerance(ApiUserPreferences.Personality, p.Personality) &&
+                            isEqualWithTolerance(ApiUserPreferences.PoliticalAffiliation, p.PoliticalAffiliation) &&
+                            isEqualWithTolerance(ApiUserPreferences.PoliticalOpinion, p.PoliticalOpinion) &&
+                            isEqualWithTolerance(ApiUserPreferences.Religiosity, p.Religiosity) &&
+                            ApiUserPreferences.Location.Intersect(p.Location).Any()
+                        select user.Id;
+
+            var reviews = context.Reviews
+                                 .Where(r => users.Contains(r.AppUserId))
+                                 .Include(r => r.DBAppUser)
+                                 .Include(r => r.DBReviewable);
+
+            return reviews;
+        }
+
+        private bool isEqualWithTolerance(float valueWithOffset, float target)
+        {
+            float tolerance = 10;
+            float lowerBound = valueWithOffset - tolerance;
+            float upperBound = valueWithOffset + tolerance;
+
+            return lowerBound < target && upperBound > target;
+        }
     }
 }
