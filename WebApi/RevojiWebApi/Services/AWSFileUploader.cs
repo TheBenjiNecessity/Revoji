@@ -16,8 +16,8 @@ namespace RevojiWebApi.Services
     {
         public static string BUCKET_URL = "https://revoji-content.s3-us-west-2.amazonaws.com";
 
-        private static string accessKey = "AKIAQVA7QUMV3DODNB6B";
-        private static string accessSecret = "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";
+        private static string accessKey = "";
+        private static string accessSecret = "";
         private static string bucket = "revoji-content";
 
         public static async Task<UploadPhotoModel> UploadObject(IFormFile file, string filepath)
