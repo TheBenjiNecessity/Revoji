@@ -49,11 +49,18 @@ namespace RevojiWebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]AppUserDetail appUser)
+        public IActionResult Create([FromBody]AppUserCreateModel userCreateModel)
         {
             using (var context = new RevojiDataContext())
             {
+                var appUser = userCreateModel.User;
+
                 if (context.AppUsers.Any(user => user.Handle == appUser.Handle))
+                {
+                    return BadRequest();
+                }
+
+                if (string.IsNullOrEmpty(userCreateModel.Password))// TODO: handle things like #chars, capital/lower case, symbols?
                 {
                     return BadRequest();
                 }
@@ -61,10 +68,12 @@ namespace RevojiWebApi.Controllers
                 DBAppUser dbAppUser = new DBAppUser();
                 appUser.UpdateDB(dbAppUser);
 
+                dbAppUser.SetPassword(userCreateModel.Password);
+
                 context.Add(dbAppUser);
                 context.Save();
 
-                return Ok(new AppUser(dbAppUser));
+                return Ok(new AppUserDetail(dbAppUser));
             }
         }
 
@@ -205,5 +214,24 @@ namespace RevojiWebApi.Controllers
                 return Ok();
             }
         }
+
+        //[HttpPost("handle/{handle}")]
+        //public IActionResult TempFixPassword(string handle, string password)
+        //{
+        //    using (var context = new RevojiDataContext())
+        //    {
+        //        DBAppUser dbAppUser = context.AppUsers.FirstOrDefault(user => user.Handle == handle);
+
+        //        dbAppUser.SetPassword(password);
+        //        context.Save();
+        //    }
+        //    return Ok();
+        //}
+    }
+
+    public class AppUserCreateModel
+    {
+        public AppUserDetail User { get; set; }
+        public string Password { get; set; }
     }
 }
