@@ -12,13 +12,10 @@ namespace RevojiWebApi.Models
         [Required(ErrorMessage = "email_required")]
         public string Email { get; set; }
 
-        public string Password { get; set; }
-
         public User() { }
 
         public User (DBUser dbUser) : base(dbUser.Id){
             Handle = dbUser.Handle;
-            Password = dbUser.Password;
             Email = dbUser.Email;
         }
 
@@ -29,13 +26,7 @@ namespace RevojiWebApi.Models
             DBUser dbUser = dbModel as DBUser;
 
             dbUser.Handle = Handle;
-            dbUser.Password = Password;
             dbUser.Email = Email;
-
-            if (!string.IsNullOrEmpty(Password))//should this be here? should be set once
-            {
-                dbUser.SetPassword(Password);
-            }
         }
     }
 }
