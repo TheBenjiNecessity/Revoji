@@ -13,12 +13,12 @@ namespace RevojiWebApi.Controllers
     public partial class AppUserController
     {
         [Authorize]
-        [HttpPost("{id}/profilepicture")]
-        public IActionResult uploadProfilePicture(int id, [FromForm]IFormFile file)
+        [HttpPost("profilepicture")]
+        public IActionResult uploadProfilePicture([FromForm]IFormFile file)
         {
             using (var context = new RevojiDataContext())
             {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
+                DBAppUser dbAppUser = context.Get<DBAppUser>(ApiUser.ID);
                 if (dbAppUser == null)
                 {
                     return new NotFoundResult();
