@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -243,10 +244,16 @@ namespace RevojiWebApi.Controllers
 
         private IQueryable<DBReview> filterReviewsForUsers(RevojiDataContext context)
         {
-            var ApiUserPreferences = JsonConvert.DeserializeObject<AppUserPreferences>(context.AppUsers.Where(au => au.Id == ApiUser.ID).FirstOrDefault().Preferences);
+            string dbApiUserPreferences = context.AppUsers.Where(au => au.Id == ApiUser.ID).FirstOrDefault().Preferences;
+            AppUserPreferences ApiUserPreferences = null; 
+
+            if (!string.IsNullOrEmpty(dbApiUserPreferences)) {
+                ApiUserPreferences = JsonConvert.DeserializeObject<AppUserPreferences>(dbApiUserPreferences);
+            }
+
             var users = from user in context.AppUsers
-                        let p = JsonConvert.DeserializeObject<AppUserPreferences>(user.Preferences)
-                        where 
+                        let p = !string.IsNullOrEmpty(user.Preferences) ? JsonConvert.DeserializeObject<AppUserPreferences>(user.Preferences) : null
+                        where p != null && ApiUser.ID != user.Id &&
                             ApiUser.Age >= p.AgeRangeMin &&
                             ApiUser.Age <= p.AgeRangeMax &&
                             isEqualWithTolerance(ApiUserPreferences.Personality, p.Personality) &&
