@@ -244,7 +244,10 @@ namespace RevojiWebApi.Controllers
 
         private IQueryable<DBReview> filterReviewsForUsers(RevojiDataContext context)
         {
-            string dbApiUserPreferences = context.AppUsers.Where(au => au.Id == ApiUser.ID).FirstOrDefault().Preferences;
+            string dbApiUserPreferences = context.AppUsers
+                                                 .Where(au => au.Id == ApiUser.ID)
+                                                 .FirstOrDefault()
+                                                 .Preferences;
             AppUserPreferences ApiUserPreferences = null; 
 
             if (!string.IsNullOrEmpty(dbApiUserPreferences)) {
