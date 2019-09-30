@@ -9,57 +9,79 @@ namespace RevojiWebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        const string CorsPolicyIdentifier = "CorsPolicy";
+
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
 
             AppSettings.Configuration = configuration; //this feels wrong
+
+            CurrentEnvironment = environment;
+
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         }
 
         public IConfiguration Configuration { get; }
+        private IHostingEnvironment CurrentEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            X509Certificate2 certificate = null;
-            using (var certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+            string jwtBearerAuthority = "http://revoji.us-west-2.elasticbeanstalk.com";
+
+            if (CurrentEnvironment.IsProduction())
             {
-                var thumbprint = "1a fe 7f 14 eb 82 47 75 23 52 4d 4d 23 6c 4c 1c 4f ac 64 ff";
-                var password = "owljofyguqua";
-
-                certStore.Open(OpenFlags.ReadOnly);
-                var certCollection = certStore.Certificates.Find(
-                    X509FindType.FindByThumbprint,
-                    thumbprint,
-                    false
-                    );
-
-                if (certCollection.Count > 0)
+                X509Certificate2 certificate = null;
+                using (var certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine))
                 {
-                    certificate = certCollection[0];
+                    var thumbprint = "1a fe 7f 14 eb 82 47 75 23 52 4d 4d 23 6c 4c 1c 4f ac 64 ff";
+                    var password = "owljofyguqua"; // TODO: should be gotten from external config file
+
+                    certStore.Open(OpenFlags.ReadOnly);
+                    var certCollection = certStore.Certificates.Find(
+                        X509FindType.FindByThumbprint,
+                        thumbprint,
+                        false
+                        );
+
+                    if (certCollection.Count > 0)
+                    {
+                        certificate = certCollection[0];
+                    }
                 }
+
+                services.AddIdentityServer()
+                        .AddSigningCredential(certificate)
+                        .AddInMemoryApiResources(Config.GetApiResources())
+                        .AddInMemoryClients(Config.GetClients())
+                        .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
+            }
+            else
+            {
+                services.AddIdentityServer()
+                    .AddDeveloperSigningCredential()
+                    .AddInMemoryApiResources(Config.GetApiResources())
+                    .AddInMemoryClients(Config.GetClients())
+                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
+
+                jwtBearerAuthority = "http://localhost:5001"; // TODO: Get from config file
             }
 
-            services.AddIdentityServer()
-                    //.AddDeveloperSigningCredential()
-                    .AddSigningCredential(certificate)
-                    .AddInMemoryApiResources(Config.GetApiResources())
-					.AddInMemoryClients(Config.GetClients())
-					.AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 			        .AddJwtBearer(options => 
 			{
-				options.Authority = "http://revoji.us-west-2.elasticbeanstalk.com";//TODO change to variable
+                options.Authority = jwtBearerAuthority;
 				options.Audience = "api";
 				options.RequireHttpsMetadata = false;
 			});
 
 			services.AddAuthorization();
 
-			services.AddCors(options =>
+			services.AddCors(options => // TODO: configure CORS properly
 			{
-			    options.AddPolicy("CorsPolicy",
+			    options.AddPolicy(CorsPolicyIdentifier,
 			        builder => builder.AllowAnyOrigin()
 			        .AllowAnyMethod()
 			        .AllowAnyHeader()
@@ -78,22 +100,18 @@ namespace RevojiWebApi
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
-			//if (env.IsDevelopment())
-			//{
-			//	app.UseDeveloperExceptionPage();
-			//}
-
 			app.UseAuthentication()
 			   .UseIdentityServer();
 
-			app.UseCors("CorsPolicy");
-            
-			//app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());//TODO: only allow certain origins?
+			app.UseCors(CorsPolicyIdentifier);
+
 			app.UseMvc();
 
-            app.UseDatabaseErrorPage();
-
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDatabaseErrorPage();
+                app.UseDeveloperExceptionPage();
+            }
         }
     }
 }
