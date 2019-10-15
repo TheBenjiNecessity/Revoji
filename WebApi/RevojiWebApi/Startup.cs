@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Cryptography.X509Certificates;
+using System.Configuration;
+using Amazon.S3;
+using RevojiWebApi.Services;
 
 namespace RevojiWebApi
 {
@@ -11,26 +14,26 @@ namespace RevojiWebApi
     {
         const string CorsPolicyIdentifier = "CorsPolicy";
 
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
-            Configuration = configuration;
+            _configuration = configuration;
 
             AppSettings.Configuration = configuration; //this feels wrong
+            AppSettings.CurrentEnvironment = environment;
 
-            CurrentEnvironment = environment;
+            AWSFileUploader.s3Client = configuration.GetAWSOptions().CreateServiceClient<IAmazonS3>();
 
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         }
-
-        public IConfiguration Configuration { get; }
-        private IHostingEnvironment CurrentEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             string jwtBearerAuthority = "http://revoji.us-west-2.elasticbeanstalk.com";
 
-            if (CurrentEnvironment.IsProduction())
+            if (AppSettings.CurrentEnvironment.IsProduction())
             {
                 X509Certificate2 certificate = null;
                 using (var certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine))
@@ -95,6 +98,9 @@ namespace RevojiWebApi
             });
 
             services.AddMvc();
+
+            services.AddDefaultAWSOptions(_configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

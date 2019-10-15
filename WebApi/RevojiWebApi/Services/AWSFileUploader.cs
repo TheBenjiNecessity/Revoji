@@ -5,20 +5,22 @@ using System.Net;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.Runtime;
+using Amazon.Runtime.CredentialManagement;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace RevojiWebApi.Services
 {
     public class AWSFileUploader
     {
-        public static string BUCKET_URL = "https://revoji-content.s3-us-west-2.amazonaws.com";
+        public static readonly string BUCKET_URL = "https://revoji-content.s3-us-west-2.amazonaws.com";
+        private static readonly string bucketName = "revoji-content";
+        private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USWest2;
 
-        private static string accessKey = "";
-        private static string accessSecret = "";
-        private static string bucket = "revoji-content";
+        public static IAmazonS3 s3Client { private get; set; }
 
         public static async Task<UploadPhotoModel> UploadObject(IFormFile file, string filepath)
         {
@@ -26,9 +28,6 @@ namespace RevojiWebApi.Services
             {
                 throw new NullReferenceException("Filepath cannot be empty");
             }
-
-            // connecting to the client
-            var client = new AmazonS3Client(accessKey, accessSecret, RegionEndpoint.USWest2);
 
             // get the file and convert it to the byte[]
             byte[] fileBytes = new byte[file.Length];
@@ -43,14 +42,13 @@ namespace RevojiWebApi.Services
             {
                 var request = new PutObjectRequest
                 {
-                    BucketName = bucket,
+                    BucketName = bucketName,
                     Key = fileName,
                     InputStream = stream,
-                    ContentType = file.ContentType,
-                    CannedACL = S3CannedACL.PublicRead
+                    ContentType = file.ContentType
                 };
 
-                response = await client.PutObjectAsync(request);
+                response = await s3Client.PutObjectAsync(request);
             }
 
             return new UploadPhotoModel
@@ -63,11 +61,11 @@ namespace RevojiWebApi.Services
 
         public static async Task<UploadPhotoModel> RemoveObject(string fileName)
         {
-            var client = new AmazonS3Client(accessKey, accessSecret, RegionEndpoint.EUCentral1);
+            var client = new AmazonS3Client(RegionEndpoint.USWest2);
 
             var request = new DeleteObjectRequest
             {
-                BucketName = bucket,
+                BucketName = bucketName,
                 Key = fileName
             };
 
