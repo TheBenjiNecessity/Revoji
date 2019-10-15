@@ -26,12 +26,17 @@ namespace RevojiWebApi.Controllers
 
                 var result = AWSFileUploader.UploadObject(file, "profile_pictures").Result;
 
+                if (!result.Success)
+                {
+                    return new BadRequestResult();
+                }
+
                 var content = JsonConvert.DeserializeObject<AppUserContent>(dbAppUser.Content);
                 content.Avatar = result.Url;
 
                 dbAppUser.Content = JsonConvert.SerializeObject(content);
                 context.Save();
-
+                
                 return Ok(result);
             }
         }
