@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
 namespace RevojiWebApi
@@ -7,23 +8,27 @@ namespace RevojiWebApi
     public class AppSettings
     {
         public static IConfiguration Configuration { private get; set; }
+        public static IHostingEnvironment CurrentEnvironment { get; set; }
 
         public static string ConnectionString
         {
-            //get { return Configuration.GetConnectionString("DBConnectionString"); }
             get {
-                var appConfig = ConfigurationManager.AppSettings;
+                if (CurrentEnvironment.IsProduction()) {
+                    var appConfig = ConfigurationManager.AppSettings;
 
-                string dbname = "ebdb"; //appConfig["RDS_DB_NAME"];
+                    string dbname = "ebdb"; //appConfig["RDS_DB_NAME"];
 
-                if (string.IsNullOrEmpty(dbname)) return null;
+                    if (string.IsNullOrEmpty(dbname)) return null;
 
-                string username = "benjinecessity"; //appConfig["RDS_USERNAME"];
-                string password = "thenetnecessity";//appConfig["RDS_PASSWORD"];
-                string hostname = "aa18y48p9gnz56o.ce1ceaxa3cbr.us-west-2.rds.amazonaws.com";//appConfig["RDS_HOSTNAME"];
-                string port = "5432";// appConfig["RDS_PORT"];
+                    string username = "benjinecessity"; //appConfig["RDS_USERNAME"];
+                    string password = "thenetnecessity";//appConfig["RDS_PASSWORD"];
+                    string hostname = "aa18y48p9gnz56o.ce1ceaxa3cbr.us-west-2.rds.amazonaws.com";//appConfig["RDS_HOSTNAME"];
+                    string port = "5432";// appConfig["RDS_PORT"];
 
-                return "User ID=" + username + ";Password=" + password + ";Host=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security=true;Pooling=true;";
+                    return "User ID=" + username + ";Password=" + password + ";Host=" + hostname + ";Port=" + port + ";Database=" + dbname + ";Integrated Security=true;Pooling=true;";
+                } else {
+                    return Configuration.GetConnectionString("DBConnectionString");
+                }
             }
         }
     }
