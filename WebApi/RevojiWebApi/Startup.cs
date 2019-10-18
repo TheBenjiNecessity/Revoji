@@ -72,24 +72,24 @@ namespace RevojiWebApi
             }
 
 
-			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-			        .AddJwtBearer(options => 
-			{
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options => 
+            {
                 options.Authority = jwtBearerAuthority;
-				options.Audience = "api";
-				options.RequireHttpsMetadata = false;
-			});
+                options.Audience = "api";
+                options.RequireHttpsMetadata = false;
+            });
 
-			services.AddAuthorization();
+            services.AddAuthorization();
 
-			services.AddCors(options => // TODO: configure CORS properly
-			{
-			    options.AddPolicy(CorsPolicyIdentifier,
-			        builder => builder.AllowAnyOrigin()
-			        .AllowAnyMethod()
-			        .AllowAnyHeader()
-			        .AllowCredentials());
-			});
+            services.AddCors(options => // TODO: configure CORS properly
+            {
+                options.AddPolicy(CorsPolicyIdentifier,
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
             services.Configure<IISOptions>(iis =>
             {
@@ -103,15 +103,15 @@ namespace RevojiWebApi
             services.AddAWSService<IAmazonS3>();
         }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-		{
-			app.UseAuthentication()
-			   .UseIdentityServer();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            app.UseAuthentication()
+               .UseIdentityServer();
 
-			app.UseCors(CorsPolicyIdentifier);
+            app.UseCors(CorsPolicyIdentifier);
 
-			app.UseMvc();
+            app.UseMvc();
 
             if (env.IsDevelopment())
             {
