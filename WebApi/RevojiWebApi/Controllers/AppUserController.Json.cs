@@ -17,7 +17,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
+                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Content))
                 {
                     return new NotFoundResult();
                 }
@@ -33,7 +33,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
+                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Settings))
                 {
                     return new NotFoundResult();
                 }
@@ -51,7 +51,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
+                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Preferences))
                 {
                     return new NotFoundResult();
                 }
