@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Configuration;
 using Amazon.S3;
 using RevojiWebApi.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace RevojiWebApi
 {
@@ -16,7 +17,7 @@ namespace RevojiWebApi
 
         private readonly IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             _configuration = configuration;
 
@@ -84,11 +85,7 @@ namespace RevojiWebApi
 
             services.AddCors(options => // TODO: configure CORS properly
             {
-                options.AddPolicy(CorsPolicyIdentifier,
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                options.AddPolicy(CorsPolicyIdentifier, builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
             services.Configure<IISOptions>(iis =>
@@ -97,14 +94,14 @@ namespace RevojiWebApi
                 iis.AutomaticAuthentication = false;
             });
 
-            services.AddMvc();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
 
             services.AddDefaultAWSOptions(_configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             app.UseAuthentication()
                .UseIdentityServer();
@@ -115,7 +112,7 @@ namespace RevojiWebApi
 
             if (env.IsDevelopment())
             {
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
                 app.UseDeveloperExceptionPage();
             }
         }
