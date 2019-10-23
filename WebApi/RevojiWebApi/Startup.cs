@@ -87,8 +87,7 @@ namespace RevojiWebApi
                 options.AddPolicy(CorsPolicyIdentifier,
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
             });
 
             services.Configure<IISOptions>(iis =>
