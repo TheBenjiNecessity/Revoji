@@ -2,13 +2,14 @@
 using System.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace RevojiWebApi
 {
     public class AppSettings
     {
         public static IConfiguration Configuration { private get; set; }
-        public static IHostingEnvironment CurrentEnvironment { get; set; }
+        public static IHostEnvironment CurrentEnvironment { get; set; }
 
         public static string ConnectionString
         {
