@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Microsoft.Extensions.Logging;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 
@@ -12,8 +13,17 @@ namespace RevojiWebApi
 {
 	public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
+        private readonly ILogger logger;
+
+        public ResourceOwnerPasswordValidator(ILogger<ResourceOwnerPasswordValidator> logger)
+        {
+            this.logger = logger;
+        }
+
         Task IResourceOwnerPasswordValidator.ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
+            logger.LogInformation("ValidateAsync");
+
             using (var dbctx = new RevojiDataContext())
             {
                 if (context.UserName == null || context.Password == null)
