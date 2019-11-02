@@ -24,25 +24,30 @@ namespace RevojiWebApi
         {
             logger.LogInformation("ValidateAsync");
 
-            using (var dbctx = new RevojiDataContext())
-            {
-                if (context.UserName == null || context.Password == null)
+            try {
+                using (var dbctx = new RevojiDataContext())
                 {
-                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "missing_arguments_error");
+                    if (context.UserName == null || context.Password == null)
+                    {
+                        context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "missing_arguments_error");
+                        return Task.FromResult<object>(null);
+                    }
+
+                    DBAppUser dbAppUser = dbctx.AppUsers.FirstOrDefault(au => au.Handle == context.UserName);
+                    if (dbAppUser == null || !dbAppUser.isPasswordCorrect(context.Password))
+                    {
+                        context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_handle_password_error");
+                        return Task.FromResult<object>(null);
+                    }
+
+                    var claim = new Claim(ClaimTypes.Name, dbAppUser.Handle);
+                    var claims = new List<Claim>();
+                    claims.Add(claim);
+                    context.Result = new GrantValidationResult(dbAppUser.Handle, "access_token", claims);
                     return Task.FromResult<object>(null);
                 }
-
-                DBAppUser dbAppUser = dbctx.AppUsers.FirstOrDefault(au => au.Handle == context.UserName);
-                if (dbAppUser == null || !dbAppUser.isPasswordCorrect(context.Password))
-                {
-                    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "invalid_handle_password_error");
-                    return Task.FromResult<object>(null);
-                }
-
-                var claim = new Claim(ClaimTypes.Name, dbAppUser.Handle);
-                var claims = new List<Claim>();
-                claims.Add(claim);
-                context.Result = new GrantValidationResult(dbAppUser.Handle, "access_token", claims);
+            } catch (Exception e) {
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest, "exception_error " + e.Message);
                 return Task.FromResult<object>(null);
             }
         }
