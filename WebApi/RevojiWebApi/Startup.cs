@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Configuration;
 using Amazon.S3;
 using RevojiWebApi.Services;
+using Microsoft.Extensions.Logging;
 
 namespace RevojiWebApi
 {
@@ -15,8 +16,9 @@ namespace RevojiWebApi
         const string CorsPolicyIdentifier = "CorsPolicy";
 
         private readonly IConfiguration _configuration;
+        private readonly ILogger logger;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment, ILogger<Startup> logger)
         {
             _configuration = configuration;
 
@@ -26,6 +28,8 @@ namespace RevojiWebApi
             AWSFileUploader.s3Client = configuration.GetAWSOptions().CreateServiceClient<IAmazonS3>();
 
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+
+            this.logger = logger;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -33,8 +37,12 @@ namespace RevojiWebApi
         {
             string jwtBearerAuthority = "http://revoji.us-west-2.elasticbeanstalk.com";
 
+            logger.LogInformation("ConfigureServices");
+
             if (AppSettings.CurrentEnvironment.IsProduction())
             {
+                logger.LogInformation("IsProduction");
+
                 X509Certificate2 certificate = null;
                 using (var certStore = new X509Store(StoreName.My, StoreLocation.LocalMachine))
                 {
@@ -50,6 +58,7 @@ namespace RevojiWebApi
 
                     if (certCollection.Count > 0)
                     {
+                        logger.LogInformation("Has Certificate");
                         certificate = certCollection[0];
                     }
                 }
@@ -62,6 +71,8 @@ namespace RevojiWebApi
             }
             else
             {
+                logger.LogInformation("IsDevelopment");
+
                 services.AddIdentityServer()
                     .AddDeveloperSigningCredential()
                     .AddInMemoryApiResources(Config.GetApiResources())
