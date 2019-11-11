@@ -39,8 +39,8 @@ namespace RevojiWebApi
 
             logger.LogInformation("ConfigureServices");
 
-            //if (AppSettings.CurrentEnvironment.IsProduction())
-            //{
+            if (AppSettings.CurrentEnvironment.IsProduction())
+            {
                 logger.LogInformation("IsProduction");
 
                 X509Certificate2 certificate = null;
@@ -68,19 +68,19 @@ namespace RevojiWebApi
                         .AddInMemoryApiResources(Config.GetApiResources())
                         .AddInMemoryClients(Config.GetClients())
                         .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
-            //}
-            //else
-            //{
-            //    logger.LogInformation("IsDevelopment");
+            }
+            else
+            {
+                logger.LogInformation("IsDevelopment");
 
-            //    services.AddIdentityServer()
-            //        .AddDeveloperSigningCredential()
-            //        .AddInMemoryApiResources(Config.GetApiResources())
-            //        .AddInMemoryClients(Config.GetClients())
-            //        .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
+                services.AddIdentityServer()
+                    .AddDeveloperSigningCredential()
+                    .AddInMemoryApiResources(Config.GetApiResources())
+                    .AddInMemoryClients(Config.GetClients())
+                    .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
 
-            //    jwtBearerAuthority = "http://localhost:5001"; // TODO: Get from config file
-            //}
+                jwtBearerAuthority = "http://localhost:5001"; // TODO: Get from config file
+            }
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
