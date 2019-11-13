@@ -35,10 +35,6 @@ namespace RevojiWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string jwtBearerAuthority = "http://revoji.us-west-2.elasticbeanstalk.com";
-
-            logger.LogInformation("ConfigureServices");
-
             if (AppSettings.CurrentEnvironment.IsProduction())
             {
                 logger.LogInformation("IsProduction");
@@ -78,15 +74,13 @@ namespace RevojiWebApi
                     .AddInMemoryApiResources(Config.GetApiResources())
                     .AddInMemoryClients(Config.GetClients())
                     .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>();
-
-                jwtBearerAuthority = "http://localhost:5001"; // TODO: Get from config file
             }
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => 
             {
-                options.Authority = jwtBearerAuthority;
+                options.Authority = AppSettings.JWTBearerAuthority;
                 options.Audience = "api";
                 options.RequireHttpsMetadata = false;
             });

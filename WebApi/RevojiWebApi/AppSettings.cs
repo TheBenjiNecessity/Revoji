@@ -31,5 +31,10 @@ namespace RevojiWebApi
                 }
             }
         }
+
+        public static string JWTBearerAuthority
+        {
+            get { return Configuration.GetValue<string>("jwtbearerauth"); }
+        }
     }
 }
