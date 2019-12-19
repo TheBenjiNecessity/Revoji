@@ -69,15 +69,19 @@ namespace RevojiWebApi.Services
             {
                 var reviewableString = await response.Content.ReadAsStringAsync();
                 OMDBJSONSearchResponse search = JsonConvert.DeserializeObject<OMDBJSONSearchResponse>(reviewableString);
-                reviewables = search.reviewables.Select(r => {
-                    var reviewable = new Reviewable();
-                    reviewable.Title = r.title;
-                    reviewable.Type = r.type;
-                    reviewable.TitleImageUrl = r.image;
-                    reviewable.TpId = r.imdbID;
-                    reviewable.TpName = TPNAME;
-                    return reviewable;
-                }).ToArray();
+
+                if (search.Response)
+                {
+                    reviewables = search.reviewables.Select(r => {
+                        var reviewable = new Reviewable();
+                        reviewable.Title = r.title;
+                        reviewable.Type = r.type;
+                        reviewable.TitleImageUrl = r.image;
+                        reviewable.TpId = r.imdbID;
+                        reviewable.TpName = TPNAME;
+                        return reviewable;
+                    }).ToArray();
+                }
             }
 
             return reviewables;
@@ -88,6 +92,8 @@ namespace RevojiWebApi.Services
     {
         [JsonProperty("search")]
         public List<OMDBJSONSearchItemResponse> reviewables { get; set; }
+
+        public bool Response { get; set; }
     }
 
     public class OMDBJSONSearchItemResponse
