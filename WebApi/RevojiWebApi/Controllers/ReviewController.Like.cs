@@ -88,7 +88,7 @@ namespace RevojiWebApi.Controllers
         {
             if (likes.Count() == 0)
             {
-                return new NotFoundResult();
+                return Ok(new Like[0]);
             }
 
             IOrderedQueryable<DBLike> orderedLikes;

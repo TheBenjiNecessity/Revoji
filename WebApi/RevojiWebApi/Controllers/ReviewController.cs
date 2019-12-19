@@ -217,7 +217,7 @@ namespace RevojiWebApi.Controllers
         {
             if (reviews.Count() == 0)
             {
-                return new NotFoundResult();
+                return Ok(new Review[0]);
             }
 
             IOrderedQueryable<DBReview> orderedReviews;

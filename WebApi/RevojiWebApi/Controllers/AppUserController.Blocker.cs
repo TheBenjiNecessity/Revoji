@@ -85,7 +85,7 @@ namespace RevojiWebApi.Controllers
 
                 if (blockings.Count() == 0)
                 {
-                    return new NotFoundResult();
+                    return Ok(new AppUser[0]);
                 }
 
                 // Get an ordered list of followings from the given user by appUserId

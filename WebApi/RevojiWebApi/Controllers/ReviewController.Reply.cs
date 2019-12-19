@@ -99,7 +99,7 @@ namespace RevojiWebApi.Controllers
         {
             if (replies.Count() == 0)
             {
-                return new NotFoundResult();
+                return Ok(new Reply[0]);
             }
 
             IOrderedQueryable<DBReply> orderedReplies;

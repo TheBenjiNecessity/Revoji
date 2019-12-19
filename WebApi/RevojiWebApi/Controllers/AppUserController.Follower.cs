@@ -32,7 +32,7 @@ namespace RevojiWebApi.Controllers
 
                 if (followers.Count() == 0)
                 {
-                    return new NotFoundResult();
+                    return Ok(new AppUser[0]);
                 }
 
                 // Get an ordered list of followings from the given user by appUserId
@@ -85,7 +85,7 @@ namespace RevojiWebApi.Controllers
 
                 if (followings.Count() == 0)
                 {
-                    return new NotFoundResult();
+                    return Ok(new AppUser[0]);
                 }
 
                 // Get an ordered list of followings from the given user by appUserId
