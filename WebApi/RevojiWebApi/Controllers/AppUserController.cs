@@ -57,7 +57,12 @@ namespace RevojiWebApi.Controllers
 
                 if (context.AppUsers.Any(user => user.Handle == appUser.Handle))
                 {
-                    return BadRequest();
+                    return BadRequest("duplicate_user_handle");
+                }
+
+                if (context.AppUsers.Any(user => user.Email == appUser.Email))
+                {
+                    return BadRequest("duplicate_user_email");
                 }
 
                 if (string.IsNullOrEmpty(userCreateModel.Password))// TODO: handle things like #chars, capital/lower case, symbols?
