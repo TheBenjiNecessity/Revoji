@@ -9,4 +9,4 @@
 --update app_user set salt = '$2b$10$InGuymmSQhNObJbmo0lx/u';
 
 -- If you want to completely obliterate your database and start from scratch
--- TRUNCATE review_like, follower, review, reviewable, app_user RESTART IDENTITY;
+-- TRUNCATE blocking, review_reply, review_like, follower, review, reviewable, app_user RESTART IDENTITY;
