@@ -81,14 +81,7 @@ namespace RevojiWebApi.Controllers
             {
                 var reviewable = context.Reviewables.Where(r => r.TpId == tpId && r.TpName == tpName).Include(r => r.DBReviews).FirstOrDefault();
 
-                if (reviewable == null || !reviewable.DBReviews.Any(r => r.AppUserId == ApiUser.ID))
-                {
-                    return Ok();
-                } 
-                else 
-                {
-                    return BadRequest();
-                }
+                return Ok(reviewable == null || !reviewable.DBReviews.Any(r => r.AppUserId == ApiUser.ID));
             }
         }
 
