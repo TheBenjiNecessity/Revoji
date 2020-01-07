@@ -4,7 +4,9 @@
 --       title: the main text displayed as a title
 --        type: what kind of reviewable this is
             -- time/location dependant (event, concert)
-            -- consumable (movie, product, food)
+            -- consumable (food)
+            -- product
+            -- media (movie, tv)
             -- service ongoing (cell phone plan, tv package)
             -- business (restaurant, cell carrier)
 -- description: a short bio of the reviewable
