@@ -17,44 +17,18 @@ namespace RevojiWebApi.Controllers
     public partial class ReviewableController : UserController
     {
         [Authorize]
-        [HttpGet("{id}")]
-        public IActionResult Get(string id, string type)
+        [HttpGet("{tpID}")]
+        public IActionResult Get(string tpID, string type)
         {
-            ReviewableAPIFactory reviewableAPIFactory;
-            if (type.Equals("media") || type.Equals(OMDBAPIAdaptor.TPNAME))//TODO this isn't right
-            {
-                reviewableAPIFactory = new MediaFactory();
-            }
-            else if (type.Equals("products"))
-            {
-                reviewableAPIFactory = new ProductFactory();
-            }
-            else
-            {
-                reviewableAPIFactory = new MediaFactory();
-            }
-
-            return Ok(reviewableAPIFactory.GetAPIAdaptor().GetReviewableByIDAsync(id).Result);
+            ReviewableAPIFactory reviewableAPIFactory = getReviewableAPIFactory(type);
+            return Ok(reviewableAPIFactory.GetAPIAdaptor().GetReviewableByIDAsync(tpID).Result);
         }
 
         [Authorize]
         [HttpGet("search/{text}")]
         public IActionResult Search(string text, string type, int pageStart = 0, int pageLimit = 20)
         {
-            ReviewableAPIFactory reviewableAPIFactory;
-            if (type.Equals("media"))
-            {
-                reviewableAPIFactory = new MediaFactory();
-            }
-            else if (type.Equals("products"))
-            {
-                reviewableAPIFactory = new ProductFactory();
-            }
-            else
-            {
-                reviewableAPIFactory = new MediaFactory();
-            }
-
+            ReviewableAPIFactory reviewableAPIFactory = getReviewableAPIFactory(type);
             return Ok(reviewableAPIFactory.GetAPIAdaptor().SearchReviewablesAsync(text, pageStart, pageLimit).Result);
         }
 
@@ -107,14 +81,23 @@ namespace RevojiWebApi.Controllers
             {
                 var reviewable = context.Reviewables.Where(r => r.TpId == tpId && r.TpName == tpName).Include(r => r.DBReviews).FirstOrDefault();
 
-                if (reviewable == null || !reviewable.DBReviews.Any(r => r.AppUserId == ApiUser.ID))
-                {
-                    return Ok();
-                } 
-                else 
-                {
-                    return BadRequest();
-                }
+                return Ok(reviewable == null || !reviewable.DBReviews.Any(r => r.AppUserId == ApiUser.ID));
+            }
+        }
+
+        private ReviewableAPIFactory getReviewableAPIFactory(string type)
+        {
+            if (type.Equals("media"))
+            {
+                return new MediaFactory();
+            }
+            else if (type.Equals("product"))
+            {
+                return new ProductFactory();
+            }
+            else
+            {
+                return new MediaFactory();
             }
         }
     }

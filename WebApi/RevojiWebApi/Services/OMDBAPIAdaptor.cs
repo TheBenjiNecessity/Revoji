@@ -12,7 +12,7 @@ namespace RevojiWebApi.Services
 {
     public class OMDBAPIAdaptor : ReviewableAPIAdaptor
     {
-        public static string TPNAME = "media";
+        public static string TPNAME = "imdb";
 
         public OMDBAPIAdaptor()
         {
