@@ -10,12 +10,15 @@ namespace RevojiWebApi.Services
 {
     public class BarcodeAPIAdaptor : ReviewableAPIAdaptor
     {
-        public static string TPNAME = "barcode";
-
         public BarcodeAPIAdaptor()
         {
             apiKey = "lnh8fwquw4yk7yaaxszoa09xhpahvs";
             apiUrl = "https://api.barcodelookup.com/v2/products?key=" + apiKey;
+        }
+
+        public override string getThirdPartyName()
+        {
+            return "YmFyY29kZQ==";
         }
 
         public override string getUrlForId(string id)
@@ -63,7 +66,7 @@ namespace RevojiWebApi.Services
             reviewable.Title = product.product_name;
             reviewable.TitleImageUrl = product.images.First();
             reviewable.TpId = product.barcode_number;
-            reviewable.TpName = TPNAME;
+            reviewable.TpName = getThirdPartyName();
             reviewable.Type = product.category.Split('>').Last().Trim();
             reviewable.Description = product.description;
             return reviewable;

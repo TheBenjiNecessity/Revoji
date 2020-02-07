@@ -16,7 +16,7 @@ namespace RevojiWebApi.Models
         public string TpId { get; set; }
 
         [Required(ErrorMessage = "reviewable_tpname_required")]
-        public string TpName { get; set; }
+        public string TpName { get; set; } // The name in base64 (why?) of the third party api used
 
         public string Description { get; set; }
 

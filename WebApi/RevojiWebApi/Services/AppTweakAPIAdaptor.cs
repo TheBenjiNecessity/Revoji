@@ -16,6 +16,10 @@ namespace RevojiWebApi
             apiKey = "";
         }
 
+        public override string getThirdPartyName()
+        {
+            return "QXBwVHdlYWs=";
+        }
 
         public override Task<Reviewable> GetReviewableByIDAsync(string id)
         {

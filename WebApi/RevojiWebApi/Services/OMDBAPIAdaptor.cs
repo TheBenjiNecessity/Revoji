@@ -12,12 +12,15 @@ namespace RevojiWebApi.Services
 {
     public class OMDBAPIAdaptor : ReviewableAPIAdaptor
     {
-        public static string TPNAME = "imdb";
-
         public OMDBAPIAdaptor()
         {
             apiKey = "72f1abd1";
             apiUrl = "http://www.omdbapi.com/?apikey=" + apiKey;
+        }
+
+        public override string getThirdPartyName()
+        {
+            return "b21kYmFwaQ==";
         }
 
         public override string getUrlForId(string id) 
@@ -45,12 +48,12 @@ namespace RevojiWebApi.Services
                 reviewable.Type = reviewableJSON.type;
                 reviewable.TitleImageUrl = reviewableJSON.poster;
                 reviewable.TpId = reviewableJSON.imdbID;
-                reviewable.TpName = TPNAME;
+                reviewable.TpName = getThirdPartyName();
                 reviewable.Description = reviewableJSON.plot;
 
                 using (var context = new RevojiDataContext())
                 {
-                    var rev = context.Reviewables.Where(r => r.TpId == reviewable.TpId && r.TpName == TPNAME).FirstOrDefault();
+                    var rev = context.Reviewables.Where(r => r.TpId == reviewable.TpId && r.TpName == getThirdPartyName()).FirstOrDefault();
                     if (rev != null) {
                         reviewable.ID = rev.Id;
                     }
@@ -78,7 +81,7 @@ namespace RevojiWebApi.Services
                         reviewable.Type = r.type;
                         reviewable.TitleImageUrl = r.image;
                         reviewable.TpId = r.imdbID;
-                        reviewable.TpName = TPNAME;
+                        reviewable.TpName = getThirdPartyName();
                         return reviewable;
                     }).ToArray();
                 }

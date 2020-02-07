@@ -18,17 +18,17 @@ namespace RevojiWebApi.Controllers
     {
         [Authorize]
         [HttpGet("{tpID}")]
-        public IActionResult Get(string tpID, string type)
+        public IActionResult Get(string tpID, string tpName)
         {
-            ReviewableAPIFactory reviewableAPIFactory = getReviewableAPIFactory(type);
+            ReviewableAPIFactory reviewableAPIFactory = getReviewableAPIFactory(tpName);
             return Ok(reviewableAPIFactory.GetAPIAdaptor().GetReviewableByIDAsync(tpID).Result);
         }
 
         [Authorize]
         [HttpGet("search/{text}")]
-        public IActionResult Search(string text, string type, int pageStart = 0, int pageLimit = 20)
+        public IActionResult Search(string text, string tpName, int pageStart = 0, int pageLimit = 20)
         {
-            ReviewableAPIFactory reviewableAPIFactory = getReviewableAPIFactory(type);
+            ReviewableAPIFactory reviewableAPIFactory = getReviewableAPIFactory(tpName);
             return Ok(reviewableAPIFactory.GetAPIAdaptor().SearchReviewablesAsync(text, pageStart, pageLimit).Result);
         }
 
@@ -85,13 +85,13 @@ namespace RevojiWebApi.Controllers
             }
         }
 
-        private ReviewableAPIFactory getReviewableAPIFactory(string type)
+        private ReviewableAPIFactory getReviewableAPIFactory(string tpName)
         {
-            if (type.Equals("media"))
+            if (tpName.Equals("b21kYmFwaQ=="))
             {
                 return new MediaFactory();
             }
-            else if (type.Equals("product"))
+            else if (tpName.Equals("YmFyY29kZQ=="))
             {
                 return new ProductFactory();
             }

@@ -16,6 +16,8 @@ namespace RevojiWebApi.Services
         protected string apiKey;
         protected HttpClient client;
 
+        public abstract string getThirdPartyName();
+
         public abstract string getUrlForId(string id);
         public abstract string getUrlForSearch(string searchText, int pageOffset, int pageLimit);
 
