@@ -30,7 +30,7 @@ namespace RevojiWebApi
                     AllowAccessTokensViaBrowser = true,
                     AccessTokenLifetime = 31536000,
                     AllowedScopes = { "api" },
-                    AllowedCorsOrigins = { "http://localhost:3000", "http://dotohtwo.com" }//TODO needs to be in config
+                    AllowedCorsOrigins = { "http://localhost:3000", "http://dotohtwo.com", "http://api.dotohtwo.com" }//TODO needs to be in config
                 }
             };
         }
