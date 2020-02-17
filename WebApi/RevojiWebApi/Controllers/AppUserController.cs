@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -140,10 +140,6 @@ namespace RevojiWebApi.Controllers
                                                     au.LastName.Contains(text) ||
                                                     au.Handle.Contains(text)));
 
-                //var blockings = context.Blockings.Where(b => b.BlockerAppUserId == ApiUser.ID).Select(b => b.Blocker);
-
-                //query = query.Except(blockings);
-
                 var users = query.Skip(pageStart).Take(pageLimit).Select(au => new AppUser(au)).ToArray();
 
                 // Filter out results based on popularity/is a following of the apiuser/past searches
@@ -199,19 +195,6 @@ namespace RevojiWebApi.Controllers
                 return Ok();
             }
         }
-
-        //[HttpPost("handle/{handle}")]
-        //public IActionResult TempFixPassword(string handle, string password)
-        //{
-        //    using (var context = new RevojiDataContext())
-        //    {
-        //        DBAppUser dbAppUser = context.AppUsers.FirstOrDefault(user => user.Handle == handle);
-
-        //        dbAppUser.SetPassword(password);
-        //        context.Save();
-        //    }
-        //    return Ok();
-        //}
     }
 
     public class AppUserCreateModel
