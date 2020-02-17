@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -98,26 +98,6 @@ namespace RevojiWebApi.Controllers
                 context.Save();
 
                 return Ok(new AppUserDetail(dbAppUser));
-            }
-        }
-
-        [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            //TODO: this probably shouldn't exist
-            using (var context = new RevojiDataContext())
-            {
-                DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null)
-                {
-                    return new NotFoundResult();
-                }
-
-                context.Remove(dbAppUser);
-                context.Save();
-
-                return Ok();
             }
         }
 
