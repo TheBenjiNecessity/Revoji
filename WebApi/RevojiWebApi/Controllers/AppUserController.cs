@@ -67,7 +67,7 @@ namespace RevojiWebApi.Controllers
 
                 if (string.IsNullOrEmpty(userCreateModel.Password))// TODO: handle things like #chars, capital/lower case, symbols?
                 {
-                    return BadRequest();
+                    return BadRequest("password_not_set");
                 }
 
                 DBAppUser dbAppUser = new DBAppUser();
