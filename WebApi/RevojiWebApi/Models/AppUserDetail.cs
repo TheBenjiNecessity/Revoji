@@ -51,6 +51,7 @@ namespace RevojiWebApi.Models
             Education = dbAppUser.Education;
             Profession = dbAppUser.Profession;
             Interests = dbAppUser.Interests;
+            Joined = dbAppUser.Joined;
         }
 
         public override void UpdateDB(DBTable dbModel)
@@ -66,6 +67,7 @@ namespace RevojiWebApi.Models
             dBAppUser.Education = Education;
             dBAppUser.Profession = Profession;
             dBAppUser.Interests = Interests;
+            dBAppUser.Joined = Joined;
         }
     }
 }
