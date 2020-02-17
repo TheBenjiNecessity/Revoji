@@ -134,7 +134,7 @@ namespace RevojiWebApi.Controllers
         }
 
         [Authorize]
-        [HttpDelete("following/{followingId}")]//id is the id of the follower
+        [HttpDelete("following/{followingId}")]
         public IActionResult RemoveFollowing(int followingId)
         {
             using (var context = new RevojiDataContext())
@@ -158,7 +158,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("following/{followingId}")]
-        public IActionResult getFollowing(int followingId) //this should be get following
+        public IActionResult getFollowing(int followingId)
         {
             using (var context = new RevojiDataContext())
             {
