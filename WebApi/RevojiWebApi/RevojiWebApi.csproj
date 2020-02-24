@@ -13,6 +13,7 @@
     <Folder Include="Stored Procedures\" />
     <Folder Include="Services\" />
     <Folder Include="Models\JSONObjects\" />
+    <Folder Include="DBTables\Comparers\" />
   </ItemGroup>
 
   <ItemGroup>

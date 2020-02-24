@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
+using RevojiWebApi.DBTables.Comparers;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
 
@@ -204,7 +205,11 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
-                var reviews = filterReviewsForUsers(context).OrderBy(r => r);
+                var reviewComparer = new ReviewComparer();
+                var reviews = context.Reviews.Where(r => r.AppUserId != ApiUser.ID)
+                                             .OrderBy(r => reviewComparer)
+                                             .Include(r => r.DBAppUser)
+                                             .Include(r => r.DBReviewable);
 
                 return applyReviewFilter(reviews, "DESC", pageStart, pageLimit);
             }

@@ -7,7 +7,7 @@ using RevojiWebApi.DBTables.DBContexts;
 namespace RevojiWebApi.DBTables
 {
     [Table("review")]
-    public class DBReview : DBTable, IComparable
+    public class DBReview : DBTable
     {
         public DBReview()
         {
@@ -43,22 +43,5 @@ namespace RevojiWebApi.DBTables
 
         public virtual ICollection<DBLike> DBLikes { get; set; }
         public virtual ICollection<DBReply> DBReplies { get; set; }
-
-        public int CompareTo(object obj) // Compares 'popularity'
-        {
-            var otherReview = obj as DBReview;
-            var repliesALength = DBReplies.Count();
-            var repliesBLength = otherReview.DBReplies.Count();
-            var repliesLengthDifference = repliesALength - repliesBLength;
-
-            var reviewAGreatLikesCount = DBLikes.Where(r => r.ReviewId == Id && r.agreeType == "great").Count();
-            var reviewABadLikesCount = otherReview.DBLikes.Where(r => r.ReviewId == Id && r.agreeType == "bad").Count();
-            var reviewBGreatLikesCount = DBLikes.Where(r => r.ReviewId == otherReview.Id && r.agreeType == "great").Count();
-            var reviewBBadLikesCount = otherReview.DBLikes.Where(r => r.ReviewId == otherReview.Id && r.agreeType == "bad").Count();
-
-            var reviewLikesDifference = (reviewAGreatLikesCount - reviewABadLikesCount) - (reviewBGreatLikesCount - reviewBBadLikesCount);
-
-            return (repliesLengthDifference * 5) + reviewLikesDifference; //x5?
-        }
     }
 }
