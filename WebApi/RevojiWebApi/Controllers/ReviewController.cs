@@ -118,47 +118,29 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpGet("user/{id}")]
-        public IActionResult ListByUser(int id,
-                                        string order = "DESC", 
-                                        int pageStart = 0,
-                                        int pageLimit = 20)
+        public IActionResult ListByUser(int id, int beforeId, int afterId, int limit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                var reviews = context.Reviews
-                                     .Where(r => r.AppUserId == id)
-                                     .Include(r => r.DBAppUser)
-                                     .Include(r => r.DBReviewable);
-
-                return applyReviewFilter(reviews, order, pageStart, pageLimit);
+                var reviews = context.Reviews.Where(r => r.AppUserId == id);
+                return applyReviewFilter(reviews, beforeId, afterId, limit);
             }
         }
         
         [Authorize]
         [HttpGet("reviewable/{tpId}")]
-        public IActionResult ListByReviewable(string tpId, string tpName,
-                                              string order = "DESC",
-                                              int pageStart = 0,
-                                              int pageLimit = 20)
+        public IActionResult ListByReviewable(string tpId, string tpName, int beforeId, int afterId, int limit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                var reviews = context.Reviews
-                                     .Where(r => r.DBReviewable.TpId == tpId &&
-                                            r.DBReviewable.TpName == tpName)
-                                     .Include(r => r.DBAppUser)
-                                     .Include(r => r.DBReviewable);
-
-                return applyReviewFilter(reviews, order, pageStart, pageLimit);
+                var reviews = context.Reviews.Where(r => r.DBReviewable.TpId == tpId && r.DBReviewable.TpName == tpName);
+                return applyReviewFilter(reviews, beforeId, afterId, limit);
             }
         }
 
         [Authorize]
         [HttpGet("following/{id}")]
-        public IActionResult ListByFollowings(int id,
-                                              string order = "DESC",
-                                              int pageStart = 0,
-                                              int pageLimit = 20)
+        public IActionResult ListByFollowings(int id, int beforeId, int afterId, int limit = 20)
         {
             using (var context = new RevojiDataContext())
             {
@@ -172,79 +154,74 @@ namespace RevojiWebApi.Controllers
 
                 if (appUser == null || followings.Count() == 0)
                 {
-                    return new NotFoundResult();
+                    return Ok(new Review[0]);
                 }
 
-                var reviews = context.Reviews
-                                     .Where(r => followings.Contains(r.AppUserId))
-                                     .Include(r => r.DBAppUser)
-                                     .Include(r => r.DBReviewable);
+                var reviews = context.Reviews.Where(r => followings.Contains(r.AppUserId));
 
-                return applyReviewFilter(reviews, order, pageStart, pageLimit);
+                return applyReviewFilter(reviews, beforeId, afterId, limit);
             }
         }
 
         [Authorize]
         [HttpGet("list")]
-        public IActionResult ListByCreated(string order = "DESC", int pageStart = 0, int pageLimit = 20)
+        public IActionResult ListByCreated(int beforeId, int afterId, int limit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                var reviews = context.Reviews
-                                     .Where(r => r.AppUserId == ApiUser.ID)
-                                     .Include(r => r.DBAppUser)
-                                     .Include(r => r.DBReviewable);
+                var reviews = context.Reviews.Where(r => r.AppUserId == ApiUser.ID);
 
-                return applyReviewFilter(reviews, order, pageStart, pageLimit);
+                return applyReviewFilter(reviews, beforeId, afterId, limit);
             }
         }
 
         [Authorize]
         [HttpGet("trending")]
-        public IActionResult ListTrending(int pageStart = 0, int pageLimit = 20)
+        public IActionResult ListTrending(int limit = 20)
         {
             using (var context = new RevojiDataContext())
             {
-                var reviewComparer = new ReviewComparer();
+                var reviewComparer = new TrendingReviewComparer();
                 var reviews = context.Reviews.Where(r => r.AppUserId != ApiUser.ID)
                                              .OrderBy(r => reviewComparer)
-                                             .Include(r => r.DBAppUser)
-                                             .Include(r => r.DBReviewable);
+                                             .Take(limit);
 
-                return applyReviewFilter(reviews, "DESC", pageStart, pageLimit);
+                var includableReviews = reviews.Include(r => r.DBAppUser).Include(r => r.DBReviewable);
+
+                Review[] reviewModels = includableReviews.Select(r => new Review(r)).ToArray();
+                PagedResponse<Review> pagedResponse = new PagedResponse<Review>(reviewModels, new PageMetaData());
+                return Ok(pagedResponse);
             }
         }
 
-        private IActionResult applyReviewFilter(IQueryable<DBReview> reviews,
-                                                string order,
-                                                int pageStart,
-                                                int pageLimit)
+        private IActionResult applyReviewFilter(IQueryable<DBReview> reviews, int beforeId, int afterId, int limit, bool ordered = true)
         {
-            if (reviews.Count() == 0)
+            var orderedReviews = reviews;
+
+            if (ordered)
             {
-                return Ok(new Review[0]);
+                orderedReviews = orderedReviews.OrderByDescending(r => r.Id);
             }
 
-            IOrderedQueryable<DBReview> orderedReviews;
-            if (order == "DESC")
+            if (beforeId > 0)
             {
-                orderedReviews = reviews.OrderByDescending(r => r.Created);
+                orderedReviews = orderedReviews.Where(r => r.Id <= beforeId);
             }
-            else if (order == "ASC")
+            else if (afterId > 0)
             {
-                orderedReviews = reviews.OrderBy(r => r.Created);
-            }
-            else
-            {
-                return BadRequest("Bad order direction parameter given. Must be either DESC or ASC.");
+                orderedReviews = orderedReviews.Where(r => r.Id >= afterId);
             }
 
-            IQueryable<DBReview> pageReviews = orderedReviews.Skip(pageStart)
-                                                             .Take(pageLimit);
+            if (limit > 0)
+            {
+                orderedReviews = orderedReviews.Take(limit);
+            }
+            
+            orderedReviews = orderedReviews.Include(r => r.DBAppUser).Include(r => r.DBReviewable);
 
-            Review[] reviewModels = pageReviews.Select(r => new Review(r)).ToArray();
-
-            return Ok(reviewModels);
+            Review[] reviewModels = orderedReviews.Select(r => new Review(r)).ToArray();
+            PagedResponse<Review> pagedResponse = new PagedResponse<Review>(reviewModels, new PageMetaData());
+            return Ok(pagedResponse);
         }
 
         private IQueryable<DBReview> filterReviewsForUsers(RevojiDataContext context)
