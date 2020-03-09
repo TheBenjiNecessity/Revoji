@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace RevojiWebApi.DBTables.Comparers
 {
-    public class ReviewComparer : IComparer<DBReview>
+    public class TrendingReviewComparer : IComparer<DBReview>
     {
-        public ReviewComparer() { }
+        public TrendingReviewComparer() { }
 
         public int Compare(DBReview firstReview, DBReview secondReview)
         {
