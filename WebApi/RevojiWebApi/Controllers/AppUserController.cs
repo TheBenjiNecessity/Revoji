@@ -5,6 +5,7 @@ using RevojiWebApi.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using RevojiWebApi.DBTables.Comparers;
 
 namespace RevojiWebApi.Controllers
 {
@@ -134,15 +135,17 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 // Filter out users whose first name, last name, or handle don't contain
-                // the search text.
+                // the search text. Also filter out the current user.
+                // This also sorts on user popularity so that only the most popular users
+                // show up first.
+                var userPopularityComparer = new UserPopularityComparer();
                 var query = context.AppUsers.Where(au => au.Id != ApiUser.ID &&
                                                    (au.FirstName.Contains(text) ||
                                                     au.LastName.Contains(text) ||
-                                                    au.Handle.Contains(text)));
+                                                    au.Handle.Contains(text)))
+                                            .OrderBy(r => userPopularityComparer);
 
                 var users = query.Skip(pageStart).Take(pageLimit).Select(au => new AppUser(au)).ToArray();
-
-                // Filter out results based on popularity/is a following of the apiuser/past searches
 
                 return Ok(users);
             }
