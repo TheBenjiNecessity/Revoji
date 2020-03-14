@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
+using Newtonsoft.Json;
 
 namespace RevojiWebApi.Controllers
 {
@@ -18,7 +19,7 @@ namespace RevojiWebApi.Controllers
                 DBReviewable dbReviewable = context.Get<DBReviewable>(id);
                 if (dbReviewable == null)
                 {
-                    return new NotFoundResult();
+                    return Ok();
                 }
 
                 var reviewable = new ReviewableDetail(dbReviewable);
@@ -29,7 +30,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}/content")]
-        public IActionResult SetContent(int id)
+        public IActionResult SetContent(int id, [FromBody]ReviewableContent reviewableContent)
         {
             using (var context = new RevojiDataContext())
             {
@@ -39,9 +40,10 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                var reviewable = new ReviewableDetail(dbReviewable);
+                dbReviewable.Content = JsonConvert.SerializeObject(reviewableContent);
+                context.Save();
 
-                return Ok(reviewable.Content);
+                return Ok();
             }
         }
 
@@ -54,12 +56,31 @@ namespace RevojiWebApi.Controllers
                 DBReviewable dbReviewable = context.Get<DBReviewable>(id);
                 if (dbReviewable == null)
                 {
-                    return new NotFoundResult();
+                    return Ok();
                 }
 
                 var reviewable = new ReviewableDetail(dbReviewable);
 
                 return Ok(reviewable.Info);
+            }
+        }
+
+        [Authorize]
+        [HttpPost("{id}/info")]
+        public IActionResult SetInfo(int id, [FromBody]ReviewableInfo reviewableInfo)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                DBReviewable dbReviewable = context.Get<DBReviewable>(id);
+                if (dbReviewable == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                dbReviewable.Content = JsonConvert.SerializeObject(reviewableInfo);
+                context.Save();
+
+                return Ok();
             }
         }
     }
