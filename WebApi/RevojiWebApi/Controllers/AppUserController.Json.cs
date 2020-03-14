@@ -17,9 +17,9 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Content))
+                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Content) || dbAppUser.Content == "{}")
                 {
-                    return new NotFoundResult();
+                    return Ok();
                 }
 
                 return Ok(JsonConvert.DeserializeObject<AppUserContent>(dbAppUser.Content));
@@ -33,9 +33,9 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Settings))
+                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Settings) || dbAppUser.Content == "{}")
                 {
-                    return new NotFoundResult();
+                    return Ok();
                 }
 
                 return Ok(JsonConvert.DeserializeObject<AppUserSettings>(dbAppUser.Settings));
@@ -51,9 +51,9 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBAppUser dbAppUser = context.Get<DBAppUser>(id);
-                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Preferences))
+                if (dbAppUser == null || string.IsNullOrEmpty(dbAppUser.Preferences) || dbAppUser.Content == "{}")
                 {
-                    return new NotFoundResult();
+                    return Ok();
                 }
 
                 return Ok(JsonConvert.DeserializeObject<AppUserPreferences>(dbAppUser.Preferences));
