@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using RevojiWebApi.DBTables.Comparers;
+using Microsoft.EntityFrameworkCore;
 
 namespace RevojiWebApi.Controllers
 {
@@ -148,6 +149,32 @@ namespace RevojiWebApi.Controllers
                 var users = query.Skip(pageStart).Take(pageLimit).Select(au => new AppUser(au)).ToArray();
 
                 return Ok(users);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("is-following/{id}")]
+        public IActionResult isFollowing(int id)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var user = context.AppUsers.Where(au => au.Id == id).FirstOrDefault();
+                var currentUser = context.AppUsers.Where(au => au.Id == ApiUser.ID).Include(a => a.Followings).FirstOrDefault();
+                var isFollowing = currentUser.Followings.Any(f => f.FollowingAppUserId == user.Id);
+                return Ok(isFollowing);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("is-blocking/{id}")]
+        public IActionResult isBlocking(int id)
+        {
+            using (var context = new RevojiDataContext())
+            {
+                var user = context.AppUsers.Where(au => au.Id == id).FirstOrDefault();
+                var currentUser = context.AppUsers.Where(au => au.Id == ApiUser.ID).Include(a => a.Blockings).FirstOrDefault();
+                var isBlocking = currentUser.Blockings.Any(f => f.BlockedAppUserId == user.Id);
+                return Ok(isBlocking);
             }
         }
 
