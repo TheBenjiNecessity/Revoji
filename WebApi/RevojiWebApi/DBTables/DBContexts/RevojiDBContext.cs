@@ -23,12 +23,12 @@ namespace RevojiWebApi.DBTables.DBContexts
             
             modelBuilder.Entity<DBFollowing>()
                         .HasOne(f => f.Follower)
-                        .WithMany(a => a.Followers)
+                        .WithMany(a => a.Followings)
                         .HasForeignKey(f => f.FollowerAppUserId);
             
             modelBuilder.Entity<DBFollowing>()
                         .HasOne(f => f.Following)
-                        .WithMany(a => a.Followings)
+                        .WithMany(a => a.Followers)
                         .HasForeignKey(f => f.FollowingAppUserId);
 
             modelBuilder.Entity<DBFollowing>()
@@ -92,12 +92,12 @@ namespace RevojiWebApi.DBTables.DBContexts
 
             modelBuilder.Entity<DBBlocking>()
                         .HasOne(b => b.Blocker)
-                        .WithMany(a => a.Blockers)
+                        .WithMany(a => a.Blockings)
                         .HasForeignKey(b => b.BlockerAppUserId);
 
             modelBuilder.Entity<DBBlocking>()
                         .HasOne(b => b.Blocked)
-                        .WithMany(a => a.Blockings)
+                        .WithMany(a => a.Blockers)
                         .HasForeignKey(b => b.BlockedAppUserId);
 
             modelBuilder.Entity<DBAppUser>().Property(a => a.Content).HasColumnType("json");

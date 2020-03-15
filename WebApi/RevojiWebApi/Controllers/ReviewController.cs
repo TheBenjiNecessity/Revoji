@@ -146,9 +146,9 @@ namespace RevojiWebApi.Controllers
             {
                 var appUser = context.AppUsers
                                      .Where(a => a.Id == id)
-                                     .Include(a => a.Followers)
+                                     .Include(a => a.Followings)
                                      .FirstOrDefault();
-                var followings = appUser.Followers
+                var followings = appUser.Followings
                                         .Select(f => f.FollowingAppUserId)
                                         .ToList();
 
