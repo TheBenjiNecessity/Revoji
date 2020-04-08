@@ -192,7 +192,7 @@ namespace RevojiWebApi.Controllers
 
                 if (!dbAppUser.isPasswordCorrect(oldPassword))
                 {
-                    return new BadRequestResult();
+                    return new UnprocessableEntityResult();
                 }
 
                 dbAppUser.SetPassword(newPassword);
