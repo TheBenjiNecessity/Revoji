@@ -9,3 +9,4 @@ obj/
 Debug/
 node_modules/
 *.rsa
+WebApi/RevojiWebApi/aws-logger-errors.txt
