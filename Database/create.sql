@@ -9,6 +9,11 @@
 \i tables/like.sql
 \i tables/reply.sql
 
+\i tables/bookmark.sql
+\i tables/notification.sql
+\i tables/top_picks_list.sql
+\i tables/top_picks_list_item.sql
+
 \i functions/follower_count.sql
 \i functions/following_count.sql
 \i functions/review_count.sql
