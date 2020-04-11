@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RevojiWebApi.DBTables
 {
     [Table("review_like")]
-    public class DBLike
+    public class DBLike : DBTable
     {
         public DBLike()
         {

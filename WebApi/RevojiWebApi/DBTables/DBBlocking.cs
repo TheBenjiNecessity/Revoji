@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RevojiWebApi.DBTables
 {
     [Table("blocking")]
-    public class DBBlocking
+    public class DBBlocking : DBTable
     {
         public DBBlocking() 
         {

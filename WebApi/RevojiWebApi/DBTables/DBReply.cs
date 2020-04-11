@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RevojiWebApi.DBTables
 {
     [Table("review_reply")]
-    public class DBReply
+    public class DBReply : DBTable
     {
         public DBReply()
         {
