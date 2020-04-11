@@ -15,6 +15,7 @@ namespace RevojiWebApi.DBTables
             DBReviewable = new DBReviewable();
             DBLikes = new List<DBLike>();
             DBReplies = new List<DBReply>();
+            DBBookmarks = new List<DBBookmark>();
         }
 
         [Column("title")]
@@ -43,5 +44,6 @@ namespace RevojiWebApi.DBTables
 
         public virtual ICollection<DBLike> DBLikes { get; set; }
         public virtual ICollection<DBReply> DBReplies { get; set; }
+        public virtual ICollection<DBBookmark> DBBookmarks { get; set; }
     }
 }

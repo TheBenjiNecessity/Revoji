@@ -13,6 +13,7 @@ namespace RevojiWebApi.DBTables.DBContexts
         public DbSet<DBFollowing> Followings { get; set; }
         public DbSet<DBReply> Replies { get; set; }
         public DbSet<DBBlocking> Blockings { get; set; }
+        public DbSet<DBBookmark> Bookmarks { get; set; }
 
         public RevojiDBContext(DbContextOptions<RevojiDBContext> options) : base(options) {}
 
@@ -99,6 +100,19 @@ namespace RevojiWebApi.DBTables.DBContexts
                         .HasOne(b => b.Blocked)
                         .WithMany(a => a.Blockers)
                         .HasForeignKey(b => b.BlockedAppUserId);
+
+            modelBuilder.Entity<DBBookmark>()
+                        .HasKey(l => new { l.ReviewId, l.AppUserId });
+
+            modelBuilder.Entity<DBBookmark>()
+                        .HasOne(l => l.DBReview)
+                        .WithMany(r => r.DBBookmarks)
+                        .HasForeignKey(l => l.ReviewId);
+
+            modelBuilder.Entity<DBBookmark>()
+                        .HasOne(l => l.DBAppUser)
+                        .WithMany(a => a.Bookmarks)
+                        .HasForeignKey(l => l.AppUserId);
 
             modelBuilder.Entity<DBAppUser>().Property(a => a.Content).HasColumnType("json");
             modelBuilder.Entity<DBAppUser>().Property(a => a.Settings).HasColumnType("json");
