@@ -14,6 +14,7 @@ namespace RevojiWebApi.DBTables.DBContexts
         public DbSet<DBReply> Replies { get; set; }
         public DbSet<DBBlocking> Blockings { get; set; }
         public DbSet<DBBookmark> Bookmarks { get; set; }
+        public DbSet<DBNotification> Notifications { get; set; }
 
         public RevojiDBContext(DbContextOptions<RevojiDBContext> options) : base(options) {}
 
@@ -112,6 +113,14 @@ namespace RevojiWebApi.DBTables.DBContexts
             modelBuilder.Entity<DBBookmark>()
                         .HasOne(l => l.DBAppUser)
                         .WithMany(a => a.Bookmarks)
+                        .HasForeignKey(l => l.AppUserId);
+
+            modelBuilder.Entity<DBNotification>()
+                        .HasKey(l => new { l.AppUserId });
+
+            modelBuilder.Entity<DBNotification>()
+                        .HasOne(l => l.DBAppUser)
+                        .WithMany(a => a.Notifications)
                         .HasForeignKey(l => l.AppUserId);
 
             modelBuilder.Entity<DBAppUser>().Property(a => a.Content).HasColumnType("json");

@@ -20,6 +20,7 @@ namespace RevojiWebApi.DBTables
             Likes = new List<DBLike>();
             Replies = new List<DBReply>();
             Bookmarks = new List<DBBookmark>();
+            Notifications = new List<DBNotification>();
         }
 
         [Required]
@@ -81,5 +82,6 @@ namespace RevojiWebApi.DBTables
         public virtual ICollection<DBLike> Likes { get; set; }// Liked many reviews
         public virtual ICollection<DBReply> Replies { get; set; }
         public virtual ICollection<DBBookmark> Bookmarks { get; set; }
+        public virtual ICollection<DBNotification> Notifications { get; set; }
     }
 }
