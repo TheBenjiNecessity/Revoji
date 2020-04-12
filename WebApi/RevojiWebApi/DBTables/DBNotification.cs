@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace RevojiWebApi.DBTables
 {
@@ -9,6 +11,17 @@ namespace RevojiWebApi.DBTables
         public DBNotification()
         {
             DBAppUser = new DBAppUser();
+        }
+
+        public DBNotification(JObject notification)
+        {
+            AppUserId = -1;
+            if (notification["appUserID"] != null)
+            {
+                AppUserId = (int)notification["appUserID"];
+            }
+
+            data = JsonConvert.SerializeObject(notification["data"]);
         }
 
         [Column("notification_data", TypeName = "jsonb")]

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -24,12 +25,17 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("notification")]
-        public IActionResult CreateNotification([FromBody]Notification notification)
+        public IActionResult CreateNotification([FromBody]JObject notification)
         {
             using (var context = new RevojiDataContext())
             {
-                DBNotification dBNotification = new DBNotification();
-                notification.UpdateDB(dBNotification);
+                DBNotification dBNotification = new DBNotification(notification);
+
+                if (dBNotification.AppUserId == -1)
+                {
+                    return BadRequest("app_user_id_required");
+                }
+
                 dBNotification.Created = DateTime.Now;
 
                 context.Add(dBNotification);
