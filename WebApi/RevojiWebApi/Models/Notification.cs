@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 
 namespace RevojiWebApi.Models
@@ -11,6 +12,8 @@ namespace RevojiWebApi.Models
 
         public DateTime? Created { get; set; }
 
+        public string Data { get; set; }
+
         public AppUser AppUser { get; set; }
 
         public Notification() { }
@@ -19,12 +22,14 @@ namespace RevojiWebApi.Models
         {
             Created = dBNotification.Created;
             AppUserId = dBNotification.AppUserId;
+            Data = dBNotification.data;
         }
 
         public void UpdateDB(DBNotification dBNotification)
         {
             dBNotification.Created = Created;
             dBNotification.AppUserId = AppUserId;
+            dBNotification.data = Data;
         }
     }
 }
