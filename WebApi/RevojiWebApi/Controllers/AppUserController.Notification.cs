@@ -18,7 +18,7 @@ namespace RevojiWebApi.Controllers
         {
             using (var context = new RevojiDataContext())
             {
-                var query = context.Notifications.Where(b => b.AppUserId != ApiUser.ID);
+                var query = context.Notifications.Where(b => b.AppUserId == ApiUser.ID);
                 return applyNotificationFilter(query, beforeId, afterId, limit);
             }
         }
