@@ -11,7 +11,7 @@ namespace RevojiWebApi.DBTables
             DBAppUser = new DBAppUser();
         }
 
-        [Column("notification_data")]
+        [Column("notification_data", TypeName = "jsonb")]
         public string data { get; set; }
 
         [Column("created")]
