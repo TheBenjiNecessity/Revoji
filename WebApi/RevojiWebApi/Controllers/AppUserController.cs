@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using RevojiWebApi.DBTables.Comparers;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 
-namespace RevojiWebApi.Controllers
+namespace RevojiWebApi.Controllers // TODO: delete this, this is unnecessary
 {
     [Route("service-api/[controller]")]
     public partial class AppUserController : UserController
@@ -51,42 +52,44 @@ namespace RevojiWebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]AppUserCreateModel userCreateModel)
+        public IActionResult Create([FromBody]JObject appUser)
         {
             using (var context = new RevojiDataContext())
             {
-                var appUser = userCreateModel.User;
-
-                if (context.AppUsers.Any(user => user.Handle == appUser.Handle))
+                try
                 {
-                    return BadRequest("duplicate_user_handle");
-                }
+                    DBAppUser dbAppUser = new DBAppUser(appUser);
+                    
+                    if (context.AppUsers.Any(user => user.Handle == dbAppUser.Handle))
+                    {
+                        return BadRequest("duplicate_user_handle");
+                    }
 
-                if (context.AppUsers.Any(user => user.Email == appUser.Email))
+                    if (context.AppUsers.Any(user => user.Email == dbAppUser.Email))
+                    {
+                        return BadRequest("duplicate_user_email");
+                    }
+
+                    if (string.IsNullOrEmpty(dbAppUser.Password))// TODO: handle things like #chars, capital/lower case, symbols?
+                    {
+                        return BadRequest("password_not_set");
+                    }
+
+                    context.Add(dbAppUser);
+                    context.Save();
+
+                    return Ok(new AppUserDetail(dbAppUser));
+                }
+                catch (DbUpdateException e)
                 {
-                    return BadRequest("duplicate_user_email");
+                    return BadRequest("invalid_error"); //TODO: should be an object
                 }
-
-                if (string.IsNullOrEmpty(userCreateModel.Password))// TODO: handle things like #chars, capital/lower case, symbols?
-                {
-                    return BadRequest("password_not_set");
-                }
-
-                DBAppUser dbAppUser = new DBAppUser();
-                appUser.UpdateDB(dbAppUser);
-
-                dbAppUser.SetPassword(userCreateModel.Password);
-
-                context.Add(dbAppUser);
-                context.Save();
-
-                return Ok(new AppUserDetail(dbAppUser));
             }
         }
 
         [Authorize]
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]AppUserDetail appUser)
+        public IActionResult Update(int id, [FromBody]JObject appUser)
         {
             using (var context = new RevojiDataContext())
             {
@@ -96,7 +99,7 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                appUser.UpdateDB(dbAppUser);
+                dbAppUser.update(appUser);
                 context.Save();
 
                 return Ok(new AppUserDetail(dbAppUser));

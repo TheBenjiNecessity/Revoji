@@ -19,7 +19,7 @@ namespace RevojiWebApi.Controllers
             using (var context = new RevojiDataContext())
             {
                 DBBlocking dBBlocking = new DBBlocking();
-                dBBlocking.BlockedAppUserId = blockedId;
+                dBBlocking.BlockedAppUserId = blockedId;//TODO: check if user actually exists
                 dBBlocking.BlockerAppUserId = ApiUser.ID;
 
                 context.Add(dBBlocking);

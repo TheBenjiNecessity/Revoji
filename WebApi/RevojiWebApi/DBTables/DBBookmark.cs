@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace RevojiWebApi.DBTables
 {
@@ -10,6 +12,15 @@ namespace RevojiWebApi.DBTables
         {
             DBAppUser = new DBAppUser();
             DBReview = new DBReview();
+        }
+
+        public DBBookmark(JObject bookmark) : this()
+        {
+            AppUserId = bookmark["app_user_id"] != null ? (int)bookmark["app_user_id"] : 0;
+            ReviewId = bookmark["review_id"] != null ? (int)bookmark["review_id"] : 0;
+            data = bookmark["data"] != null ? JsonConvert.SerializeObject(bookmark["data"]) : null;
+
+            Created = DateTime.Now;
         }
 
         [Column("bookmark_data")]

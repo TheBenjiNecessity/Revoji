@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 
@@ -12,15 +13,11 @@ namespace RevojiWebApi.Controllers
     {
         [Authorize]
         [HttpPost("reply")]
-        public IActionResult CreateReply([FromBody]Reply reply)
+        public IActionResult CreateReply([FromBody]JObject reply)
         {
             using (var context = new RevojiDataContext())
             {
-                DBReply dBReply = new DBReply();
-                reply.UpdateDB(dBReply);
-
-                dBReply.DBAppUser = null;
-                dBReply.DBReview = null;
+                DBReply dBReply = new DBReply(reply);
 
                 context.Add(dBReply);
                 context.Save();

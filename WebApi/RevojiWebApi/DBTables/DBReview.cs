@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables.DBContexts;
 
 namespace RevojiWebApi.DBTables
@@ -11,11 +12,23 @@ namespace RevojiWebApi.DBTables
     {
         public DBReview()
         {
-            DBAppUser = new DBAppUser();
-            DBReviewable = new DBReviewable();
             DBLikes = new List<DBLike>();
             DBReplies = new List<DBReply>();
             DBBookmarks = new List<DBBookmark>();
+        }
+
+        public DBReview(JObject review) : this()
+        {
+            AppUserId = review["app_user_id"] != null ? (int)review["app_user_id"] : 0;
+            ReviewableId = review["reviewable_id"] != null ? (int)review["reviewable_id"] : 0;
+            Title = (string)review["title"];
+            Comment = (string)review["comment"];
+            Emojis = (string)review["emojis"];
+
+            DBReviewable = new DBReviewable((JObject)review["reviewable"]);
+            DBAppUser = new DBAppUser((JObject)review["app_user"]);
+
+            Created = DateTime.Now;
         }
 
         [Column("title")]
@@ -45,5 +58,14 @@ namespace RevojiWebApi.DBTables
         public virtual ICollection<DBLike> DBLikes { get; set; }
         public virtual ICollection<DBReply> DBReplies { get; set; }
         public virtual ICollection<DBBookmark> DBBookmarks { get; set; }
+
+        public void update(JObject review)
+        {
+            AppUserId = (int)review["app_user_id"] == 0 ? AppUserId : (int)review["app_user_id"];
+            ReviewableId = (int)review["reviewable_id"] == 0 ? ReviewableId : (int)review["reviewable_id"];
+            Title = (string)review["title"] ?? Title;
+            Comment = (string)review["comment"] ?? Comment;
+            Emojis = (string)review["emojis"] ?? Emojis;
+        }
     }
 }

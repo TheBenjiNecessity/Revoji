@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
 
 namespace RevojiWebApi.Controllers
 {
-    public partial class AppUserController
+    public partial class AppUserController // TODO: delete this, this is unnecessary
     {
         [Authorize]
         [HttpGet("{id}/content")]
@@ -62,7 +63,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}/content")]
-        public IActionResult SetContent(int id, [FromBody]AppUserContent appUserContent)
+        public IActionResult SetContent(int id, [FromBody]JObject appUserContent)
         {
             using (var context = new RevojiDataContext())
             {
@@ -81,7 +82,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}/settings")]
-        public IActionResult SetSettings(int id, [FromBody]AppUserSettings appUserSettings)
+        public IActionResult SetSettings(int id, [FromBody]JObject appUserSettings)
         {
             using (var context = new RevojiDataContext())
             {
@@ -100,7 +101,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}/preferences")]
-        public IActionResult SetPreferences(int id, [FromBody]AppUserPreferences appUserPreferences)
+        public IActionResult SetPreferences(int id, [FromBody]JObject appUserPreferences)
         {
             using (var context = new RevojiDataContext())
             {

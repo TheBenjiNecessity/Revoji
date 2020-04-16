@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -24,12 +25,11 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("bookmark")]
-        public IActionResult CreateBookmark([FromBody]Bookmark bookmark)
+        public IActionResult CreateBookmark([FromBody]JObject bookmark)
         {
             using (var context = new RevojiDataContext())
             {
-                DBBookmark dBBookmark = new DBBookmark();
-                bookmark.UpdateDB(dBBookmark);
+                DBBookmark dBBookmark = new DBBookmark(bookmark);
                 dBBookmark.Created = DateTime.Now;
 
                 context.Add(dBBookmark);

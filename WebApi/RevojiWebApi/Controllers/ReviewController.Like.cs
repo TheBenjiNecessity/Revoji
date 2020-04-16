@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -12,13 +13,11 @@ namespace RevojiWebApi.Controllers
     {
         [Authorize]
         [HttpPost("like")]
-        public IActionResult CreateLike([FromBody]Like like)
+        public IActionResult CreateLike([FromBody]JObject like)
         {
             using (var context = new RevojiDataContext())
             {
-                DBLike dBLike = new DBLike();
-                like.UpdateDB(dBLike);
-                dBLike.Created = DateTime.Now;
+                DBLike dBLike = new DBLike(like);
 
                 context.Add(dBLike);
                 context.Save();

@@ -10,18 +10,15 @@ namespace RevojiWebApi.DBTables
     {
         public DBNotification()
         {
-            DBAppUser = new DBAppUser();
+
         }
 
-        public DBNotification(JObject notification)
+        public DBNotification(JObject notification) : this()
         {
-            AppUserId = -1;
-            if (notification["appUserID"] != null)
-            {
-                AppUserId = (int)notification["appUserID"];
-            }
+            AppUserId = notification["app_user_id"] != null ? (int)notification["app_user_id"] : 0;
+            data = notification["data"] != null ? JsonConvert.SerializeObject(notification["data"]) : null;
 
-            data = JsonConvert.SerializeObject(notification["data"]);
+            Created = DateTime.Now;
         }
 
         [Column("notification_data", TypeName = "jsonb")]

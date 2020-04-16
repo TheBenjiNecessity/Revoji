@@ -81,8 +81,6 @@ namespace RevojiWebApi.Controllers
                                         .Where(f => f.FollowerAppUserId == id)
                                         .Include(f => f.Following);
 
-
-
                 if (followings.Count() == 0)
                 {
                     return Ok(new AppUser[0]);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json.Linq;
 
 namespace RevojiWebApi.DBTables
 {
@@ -10,6 +11,15 @@ namespace RevojiWebApi.DBTables
         {
             DBAppUser = new DBAppUser();
             DBReview = new DBReview();
+        }
+
+        public DBLike(JObject like) : this()
+        {
+            AppUserId = like["app_user_id"] != null ? (int)like["app_user_id"] : 0;
+            ReviewId = like["review_id"] != null ? (int)like["review_id"] : 0;
+            agreeType = (string)like["type"];
+
+            Created = DateTime.Now;
         }
 
         [Column("type")]

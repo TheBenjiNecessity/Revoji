@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using RevojiWebApi.DBTables;
 using RevojiWebApi.DBTables.DBContexts;
 using RevojiWebApi.Models;
@@ -27,7 +28,7 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost("{id}")]
-        public IActionResult Update(int id, [FromBody]ReviewableDetail reviewable)
+        public IActionResult Update(int id, [FromBody]JObject reviewable)
         {
             using (var context = new RevojiDataContext())
             {
@@ -37,7 +38,7 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                reviewable.UpdateDB(dbReviewable);
+                dbReviewable.update(reviewable);
                 context.Save();
 
                 return Ok();

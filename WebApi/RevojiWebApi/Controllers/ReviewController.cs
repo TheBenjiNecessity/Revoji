@@ -40,27 +40,27 @@ namespace RevojiWebApi.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Create([FromBody]Review review)
+        public IActionResult Create([FromBody]JObject review)
         {
             using (var context = new RevojiDataContext())
             {
-                if (review.ReviewableID == null && review.Reviewable == null)
+                DBReview dbReview = new DBReview(review);
+
+                if (dbReview.DBReviewable == null)
                 {
                     return BadRequest(new { ErrorMessage = "Reviewable not populated." });
                 }
 
-                DBReview dbReview = new DBReview();
-                review.UpdateDB(dbReview);
-
                 // If there is no reviewable in the db that the review refers to then create one
-                if (review.ReviewableID == null && !context.Reviewables.Any(r => r.TpId == review.Reviewable.TpId))
+                if (dbReview.ReviewableId == 0 &&
+                    dbReview.DBReviewable.TpId != null &&
+                    !context.Reviewables.Any(r => r.TpId == dbReview.DBReviewable.TpId))
                 {
-                    DBReviewable dBReviewable = new DBReviewable();
-                    review.Reviewable.UpdateDB(dBReviewable);
-                    context.Add(dBReviewable);
+                    //DBReviewable dBReviewable = new DBReviewable(reviewable);
+                    context.Add(dbReview.DBReviewable);
                     context.Save();
 
-                    dbReview.ReviewableId = dBReviewable.Id;
+                    dbReview.ReviewableId = dbReview.DBReviewable.Id;
                 }
 
                 dbReview.DBAppUser = null;
@@ -70,16 +70,13 @@ namespace RevojiWebApi.Controllers
                 context.Save();
 
                 var result = new Review(dbReview);
-                result.AppUser = review.AppUser;
-                result.Reviewable = review.Reviewable;
-
                 return Ok(result);
             }
         }
 
         [Authorize]
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]Review review)
+        public IActionResult Update(int id, [FromBody]JObject review)
         {
             using (var context = new RevojiDataContext())
             {
@@ -89,7 +86,7 @@ namespace RevojiWebApi.Controllers
                     return new NotFoundResult();
                 }
 
-                review.UpdateDB(dbReview);
+                dbReview.update(review);
                 context.Save();
 
                 return Ok(new Review(dbReview));
