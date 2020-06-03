@@ -25,8 +25,15 @@ namespace RevojiWebApi.DBTables
             Comment = (string)review["comment"];
             Emojis = (string)review["emojis"];
 
-            DBReviewable = new DBReviewable((JObject)review["reviewable"]);
-            DBAppUser = new DBAppUser((JObject)review["app_user"]);
+            if (review["reviewable"] != null)
+            {
+                DBReviewable = new DBReviewable((JObject)review["reviewable"]);
+            }
+
+            if (review["app_user"] != null)
+            {
+                DBAppUser = new DBAppUser((JObject)review["app_user"]);
+            }
 
             Created = DateTime.Now;
         }
