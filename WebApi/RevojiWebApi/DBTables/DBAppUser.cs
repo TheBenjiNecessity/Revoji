@@ -44,9 +44,9 @@ namespace RevojiWebApi.DBTables
 
             Joined = DateTime.Now;
 
-            if (appUser["review_id"] != null)
+            if (appUser["dob"] != null)
             {
-                DateOfBirth = DateTime.Parse((string)appUser["review_id"]);
+                DateOfBirth = DateTime.Parse((string)appUser["dob"]);
             }
 
             Followers = new List<DBFollowing>();
